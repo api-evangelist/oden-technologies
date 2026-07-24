@@ -1,0 +1,640 @@
+openapi: 3.0.0
+info:
+  version: 2.0.0
+  title: Oden Dashboards Quality Test API
+  contact:
+    name: Oden Support
+    email: support@oden.io
+    url: https://oden.io/contact/
+  description: "The Oden Private Partner API exposes RESTful API endpoints for clients to get, create and update data on the Oden Platform.\n\nThe API is based on the OpenAPI 3.0 specification.\n### Current Version\nThe URL, and host, for the current version is [https://api.oden.app/v2](https://api.oden.app/v2).\n\n### Oden's Data Model\n- **Organization**: This represents the Organization registered as an Oden customer. An organization has an associated collection of users, factories, lines, etc. This is the entity a specific authentication token is associated with.\n- **Asset** or **Machinegroup**: Assets, or machinegroups, are collections of machines, which may either be a **Factory** or a **Line**:\n  - **Factory**: Factories are collections of lines, representing a particular manufacturing location.\n    - **Line**: Lines are collections of machines, often representing a particular production line. Lines may also have **Products** mapped to them, indicating what is currently being manufactured by the specific line.\n      - **Machine**: Machines are the physical machines that make up a line\n- **Product**: Products capture what entities a manufacturer produces\n- **Interval**: An interval is a period of time that takes place on a manufacturing line and expresses some business concern. It's Oden's way of making metrics aggregatable, traceable, and relatable to a manufacturer.\n  - **Run**: A run is a production interval that labels a period of production as being work on some single product\n  - **Batch**: A batch is a production interval that represents a portion of a particular run\n  - **State**: A state is an interval that tracks the availability or utilization of a line\n    - **State Category**: A state category describes what state a line is in - such as ex. uptime, downtime, scrapping, etc.\n    - **State Reason**: A state reason describes why a line is in a particular state - such as \"maintenance\" being a reason for the category \"downtime\".\n  - **Custom**: A custom interval can track any other type of interval-based data a manufacturer might want to analyze. These are created on a per-factory basis.\n- **Target**: Targets specify values and upper/lower thresholds for metrics when specific products are running on specific lines\n- **Scrap/Yield**: Scrap/yield output specifies amount of produced product on a line during either a run or batch interval. Oden will categorize all output as either scrap or yield - as specified by the Scrap Yield Schema for a given factory. If you have other categories, like rework/blocked/off-grade, you must choose between categorizing those amounts as either good or bad production by specifying as scrap or yield. Clients may also add scrap codes (i.e., reasons) to a given Scrap Yield Data entry.\n  - **Scrap Code**: A scrap code is a code that explains the reason for a scrap/yield raw data input - such as \"Rework\"\n- **Quality Test**: Quality Tests are results of quality assurance tests done on site, and uploaded to Oden. They may be attached to a single Batch or Run.\n- **Metric**: Known in factories as \"tags\", metrics are the raw data that is collected by Oden from the machines and devices on the factory floor.\n- **Metric Group**: Metric groups are metrics that represent the same thing across different lines. They provide common display names for tags and allow labeling groups of tags as measuring key types of data like performance or production.\n- **Maintenance Work Order**: A maintenance work order can be used to track work orders maintained in MaintainX and associate them with an Oden line. \n\n### Best Practices\nUnder the current implementation, the Oden API does not rate limit requests from clients.\n\nHowever, rate limiting will be introduced in the near future and it is recommended that users design their API\nclients to not exceed a request rate of **one per second**.\n\n### Schema\nAll v2 API access is over HTTPS and accessed from https://api.oden.app/v2\nAll data is sent and received as JSON.\n\nAPI requests with duplicate keys will process only the data for the first key detected and ignore the rest, so it's not recommended. Batching multiple messages in this way is currently not possible.\n  - Example of duplicate key in JSON: {\"raw_data\":{\"scrap\":\"10\",\"scrap\":\"100\"}}\n\nAll timestamps are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format:\n\n  `YYYY-MM-DDTHH:MM:SSZ`\n\nAll durations are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format with the largest unit of time being the hour:\n\n   `PT[n]H[n]M[n]S`\n\nAll timestamps sent to the API in POST requests should be in ISO 8601 format.\n### HTTP Verbs\nThe ONLY HTTP call type (sometimes called *verb* or *method*) used within Oden's API is **POST**.\nThere are three actions supported via a **POST**; call, search, set, and delete, together supporting CRUD operations;\n  - **search** requests are used to search for and *read* objects in the Oden Platform\n      - All Oden Objects may be uniquely identified by some combination of, or a single, parameter.\n        - Ex a `line` my be identified by either:\n          - `id`\n          - `name` AND `factory`\n  - **set** requests are used to *create* or *update* objects\n  - **delete** requests are used to *delete* objects. If a delete endpoint is not yet implemented for a given object, users may choose to update the values of a specific entity to null or 0 values.\n\n### URI Components\nAll endpoints may be accessed with the URI pattern:\n`https://api.oden.app/v2/{object}/{action}`\n\nWhere:\n  - `object` is the name of the object being requested:\n       - `factory`, `quality_test`, `interval`, `line`, etc...\n  - `action` is the name of the action being requested\n    - `search` , `set` , `delete`\n\ne.g. `https://api.oden.app/v2/factory/search`\n\n# Authentication\nClients can authenticate through the v2 API using a Token provided by Oden. Tokens are opaque strings similar to\n[Bearer](https://swagger.io/docs/specification/authentication/bearer-authentication/) tokens that the client must\npass in the [HTTP Authorization request header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) in every request.\nThe syntax is as follows:\n\n`Authorization: <type> <credentials>`\n\nWhere \\<type\\> is \"Token\" and \\<credentials\\> is the Token string. For example:\n\n`Authorization: Token tokenStringProvidedByOden`\n\nAuthenticating with an invalid Token will return `401 Unauthorized Error`.\n\nAuthenticating with a Token that is not authorized to read requested data will return `403 Forbidden Error`.\n\nSome endpoints may require requests to be broken out by machinegroup (i.e., line or factory) and the number of\nrequests would scale accordingly. This multiplicity should be taken into consideration when deciding on the\nfrequency the API client makes requests to the Oden endpoints.\n\nTo authenticate in this [UI](https://api.oden.app/v2/ui/), click the Lock icon, and copy/paste the token into the Authorize box.\n"
+servers:
+- url: https://api.oden.app
+  description: Oden API server
+security:
+- APIKeyAuth: []
+tags:
+- name: Quality Test
+paths:
+  /v2/quality_test/set:
+    post:
+      operationId: set_quality_test
+      summary: Create or update a quality test result
+      tags:
+      - Quality Test
+      description: 'Create or update a Quality Test record:
+
+        - To update `id` must be supplied. Only the supplied fields will be updated, the rest will remain unchanged.
+
+        - If `id` is not supplied, a new `quality_test_record` will be created.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityTest'
+            examples:
+              Create quality test record:
+                summary: Create quality test record.
+                value:
+                  interval:
+                    id: 178a61c0f00
+                    line:
+                      factory:
+                        id: e32d004e-ce8b-40bf-bbc1-14fd907d2f47
+                      name: Line 01
+                    type:
+                      id: e07da9a8-f2fd-480c-a315-d4c84fcac08c
+                      name: BATCH
+                  quality_schema:
+                    id: '66'
+                  raw_data:
+                    fdr: test string 3
+                    impedance: 6.789
+                    test_length: 10
+                    test_rl: test string
+                  timestamp: '2022-02-18T16:28:04Z'
+      responses:
+        '200':
+          description: Successful response
+        '409':
+          $ref: '#/components/responses/NotUniqueError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '501':
+          $ref: '#/components/responses/UnimplementedError'
+        '400':
+          $ref: '#/components/responses/ParameterError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /v2/quality_test/search:
+    post:
+      operationId: search_quality_tests
+      summary: Search quality tests
+      tags:
+      - Quality Test
+      description: 'Searches for Quality Test[s] by:
+
+
+        - `id`
+
+
+        OR
+
+
+        - `interval` (of type `RUN` or `BATCH`)
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityTest'
+            examples:
+              Search quality test by id:
+                summary: Use test ID to identify quality test.
+                value:
+                  id: 16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb
+                  match: unique
+              Search quality test by interval:
+                summary: Use BATCH interval to identify quality tests.
+                value:
+                  interval:
+                    name: example-batch-interval
+                    line:
+                      name: Line 01
+                      factory:
+                        name: Factory A
+                    type:
+                      name: BATCH
+                  match: all
+      responses:
+        '200':
+          description: Successful response
+        '409':
+          $ref: '#/components/responses/NotUniqueError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '501':
+          $ref: '#/components/responses/UnimplementedError'
+        '400':
+          $ref: '#/components/responses/ParameterError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /v2/quality_test/delete:
+    post:
+      operationId: delete_quality_test
+      summary: Delete a quality test
+      tags:
+      - Quality Test
+      description: 'Searches for uniqueQuality Test by:
+
+
+        - `id`
+
+
+        OR
+
+
+        - `interval` (of type `RUN` or `BATCH`)*
+
+
+        *This only work if there is a single quality test record for the interval.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityTest'
+            examples:
+              Delete quality test by id:
+                summary: Use test ID to identify quality test.
+                value:
+                  id: 16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb
+                  match: unique
+      responses:
+        '200':
+          description: Successful response
+        '409':
+          $ref: '#/components/responses/NotUniqueError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '501':
+          $ref: '#/components/responses/UnimplementedError'
+        '400':
+          $ref: '#/components/responses/ParameterError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /v2/quality_tests/delete:
+    post:
+      operationId: bulk_delete_quality_tests
+      summary: Delete multiple quality tests
+      tags:
+      - Quality Test
+      description: 'Bulk deletes quality tests, either:
+
+        - All quality tests on a given `line` whose `timsetamp` is between `start_time` and `end_time`
+
+        OR
+
+        - All quality tests whose `id` is supplied
+
+
+        It will do one or the other, with a bias for `id`''s if both are supplied.
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ids:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                line:
+                  $ref: '#/components/schemas/Line'
+                start_time:
+                  type: string
+                  format: date-time
+                end_time:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: Successful response
+        '409':
+          $ref: '#/components/responses/NotUniqueError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '501':
+          $ref: '#/components/responses/UnimplementedError'
+        '400':
+          $ref: '#/components/responses/ParameterError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+  /v2/quality_schema/search:
+    post:
+      operationId: search_quality_schemas
+      summary: Search quality schemas for a factory
+      tags:
+      - Quality Test
+      description: 'Searches for Quality Schema[s] by:
+
+
+        - `factory`
+
+        '
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualitySchema'
+            examples:
+              Get all quality schemas for Factory A:
+                summary: Get all quality schemas for Factory A.
+                value:
+                  factory:
+                    name: Factory A
+      responses:
+        '200':
+          description: Successful response
+        '409':
+          $ref: '#/components/responses/NotUniqueError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalError'
+        '501':
+          $ref: '#/components/responses/UnimplementedError'
+        '400':
+          $ref: '#/components/responses/ParameterError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+components:
+  schemas:
+    MetricGroup:
+      type: object
+      description: An object representing a metric group; a grouping of like metrics across lines, factories.
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+          format: uuid
+        unit_kind_of_quantity:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    QualityTest:
+      type: object
+      description: 'An object representing a QA test for a line for a particular run or batch interval.
+
+        '
+      properties:
+        id:
+          type: string
+          format: uuid
+        raw_data:
+          type: object
+        timestamp:
+          type: string
+          format: date-time
+        interval:
+          $ref: '#/components/schemas/Interval'
+        quality_schema:
+          $ref: '#/components/schemas/QualitySchema'
+        match:
+          $ref: '#/components/schemas/Match'
+    RunMetadata:
+      type: object
+      description: Metadata associated with a run interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - run
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        product:
+          $ref: '#/components/schemas/Product'
+        target:
+          $ref: '#/components/schemas/Target'
+      additionalProperties: true
+    Match:
+      type: string
+      enum:
+      - first
+      - last
+      - unique
+      - all
+      default: unique
+      description: 'Describes which item(s) to match when searching for an entity:
+
+        - `unique` (default): will return an error if the search object matches multiple entities
+
+        - `all`: will return every item that matches search entity
+
+        - `last`: will return the most recent object, where applicable
+
+        - `first`: will return the least recent object, where applicable
+
+        '
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
+    CustomMetadata:
+      type: object
+      description: Metadata associated with a custom interval type
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - custom
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+      additionalProperties: true
+    StateCategory:
+      type: object
+      description: An entity representing a state category. During search, ID will take precedence over name.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    StateMetadata:
+      type: object
+      description: Metadata associated with a state interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - state
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        reason:
+          $ref: '#/components/schemas/StateReason'
+        comment:
+          type: string
+        category:
+          $ref: '#/components/schemas/StateCategory'
+      additionalProperties: true
+    Target:
+      type: object
+      description: An object representing a performance target for a line, product, and metric group.
+      properties:
+        metric_group:
+          $ref: '#/components/schemas/MetricGroup'
+        product:
+          $ref: '#/components/schemas/Product'
+        line:
+          $ref: '#/components/schemas/Line'
+        target_value:
+          type: number
+          format: double
+        lsl:
+          type: number
+          format: double
+        usl:
+          type: number
+          format: double
+        match:
+          $ref: '#/components/schemas/Match'
+    Product:
+      type: object
+      description: An entity representing a product
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    Interval:
+      type: object
+      description: An object representing an interval of time on a line and associated metadata.
+      required:
+      - type
+      - line
+      properties:
+        id:
+          type: string
+        type:
+          $ref: '#/components/schemas/IntervalType'
+        name:
+          type: string
+        line:
+          $ref: '#/components/schemas/Line'
+        start_time:
+          type: string
+          format: date-time
+        end_time:
+          type: string
+          format: date-time
+        metadata:
+          description: 'Metadata about this interval, such as the associated run or the state category. Will differ based on the type of interval.
+
+            '
+          oneOf:
+          - $ref: '#/components/schemas/BatchMetadata'
+          - $ref: '#/components/schemas/RunMetadata'
+          - $ref: '#/components/schemas/StateMetadata'
+          - $ref: '#/components/schemas/CustomMetadata'
+          discriminator:
+            propertyName: metadata_type
+            mapping:
+              batch: '#/components/schemas/BatchMetadata'
+              run: '#/components/schemas/RunMetadata'
+              state: '#/components/schemas/StateMetadata'
+              custom: '#/components/schemas/CustomMetadata'
+        match:
+          $ref: '#/components/schemas/Match'
+    BatchMetadata:
+      type: object
+      description: Metadata associated with a batch interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - batch
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        run:
+          $ref: '#/components/schemas/Interval'
+      additionalProperties: true
+    StateReason:
+      type: object
+      description: An entity representing a state reason. During search, ID will take precedence over name.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    IntervalType:
+      type: object
+      description: An object representing a interval type.
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    Line:
+      type: object
+      description: An entity representing a single line of production.
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        secondary_name:
+          type: string
+        factory:
+          $ref: '#/components/schemas/Factory'
+        match:
+          $ref: '#/components/schemas/Match'
+    Factory:
+      type: object
+      description: An entity representing a factory.
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        secondary_name:
+          type: string
+          nullable: true
+        timezone:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    QualitySchema:
+      type: object
+      description: 'A schema for quality tests. Note: the id is currently implemented as a string, but that string should be a stringified integer.
+
+        '
+      properties:
+        id:
+          type: string
+          example: '23'
+        factory:
+          $ref: '#/components/schemas/Factory'
+        schema:
+          type: string
+          format: json
+        description:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+  responses:
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    InternalError:
+      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - retryable
+            - id
+            properties:
+              error:
+                type: string
+              retryable:
+                type: boolean
+              id:
+                type: string
+                format: uuid
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ParameterError:
+      description: An error occurred regarding one of the input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - name
+            - retryable
+            properties:
+              error:
+                type: string
+              name:
+                type: string
+              retryable:
+                type: boolean
+    NotUniqueError:
+      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - entity_name
+            - num_matches
+            - error
+            - retryable
+            properties:
+              entity_name:
+                type: string
+              num_matches:
+                type: integer
+              error:
+                type: string
+              retryable:
+                type: boolean
+  securitySchemes:
+    APIKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Prefix the value with \"Token\" to indicate the custom authorization type

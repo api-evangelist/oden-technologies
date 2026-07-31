@@ -1,0 +1,104 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/oden-technologies-openapi-original.yml
+description: >-
+  Entity-relationship graph for the Oden Private Partner API v2, derived from the
+  OpenAPI component schemas and their id-reference fields. The manufacturing data
+  model is a hierarchy of Organization -> Factory -> Line -> Machine, with
+  production Intervals (Run/Batch/State), Products, Targets, Scrap/Yield, Quality
+  Tests, Metrics and Maintenance Work Orders hanging off Lines and Factories.
+entities:
+  - name: Organization
+    description: The Oden customer that a given API token is associated with.
+  - name: Factory
+    description: A manufacturing location; a collection of lines.
+  - name: Line
+    description: A production line within a factory; a collection of machines.
+  - name: Machine
+    description: A physical machine that makes up a line.
+  - name: Product
+    description: What a manufacturer produces.
+  - name: ProductMapping
+    description: Maps a product to a line (what is currently being manufactured).
+  - name: ProductAttribute
+    description: An attribute of a product.
+  - name: Interval
+    description: A time period on a line (Run, Batch, State, or Custom).
+  - name: IntervalType
+    description: A custom interval type definition.
+  - name: Target
+    description: Metric values/thresholds for a product running on a line.
+  - name: ScrapYieldData
+    description: Amount of good/bad production output on a line during an interval.
+  - name: ScrapYieldSchema
+    description: Per-factory schema categorizing output as scrap or yield.
+  - name: QualityTest
+    description: Quality-assurance test result attached to a batch or run.
+  - name: QualitySchema
+    description: Per-factory quality test schema.
+  - name: MetricGroup
+    description: Metrics (tags) that represent the same thing across lines.
+  - name: MaintenanceWorkOrder
+    description: A work order (e.g. MaintainX) associated with a line.
+relationships:
+  - from: Line
+    type: belongs_to
+    to: Factory
+    via: factory
+  - from: ProductMapping
+    type: belongs_to
+    to: Product
+    via: product
+  - from: ProductMapping
+    type: belongs_to
+    to: Line
+    via: line
+  - from: ProductAttribute
+    type: belongs_to
+    to: Product
+    via: product
+  - from: Target
+    type: belongs_to
+    to: Product
+    via: product
+  - from: Target
+    type: belongs_to
+    to: Line
+    via: line
+  - from: Interval
+    type: belongs_to
+    to: Line
+    via: line
+  - from: BatchMetadata
+    type: belongs_to
+    to: Interval
+    via: run
+  - from: RunMetadata
+    type: belongs_to
+    to: Product
+    via: product
+  - from: ScrapYieldSchema
+    type: belongs_to
+    to: Factory
+    via: factory
+  - from: QualityTest
+    type: belongs_to
+    to: Interval
+    via: interval
+  - from: QualitySchema
+    type: belongs_to
+    to: Factory
+    via: factory
+  - from: MaintenanceWorkOrder
+    type: belongs_to
+    to: Line
+    via: line
+  - from: Factory
+    type: has_many
+    to: Line
+  - from: Line
+    type: has_many
+    to: Machine
+  - from: Line
+    type: has_many
+    to: Interval

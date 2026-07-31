@@ -1,0 +1,40 @@
+# Oden Technologies
+
+> Oden Technologies provides AI-powered software for manufacturing optimization,
+> delivering real-time, AI-driven recommendations to front-line operators to
+> increase output, improve quality, decrease costs, and reduce downtime. The
+> Oden Private Partner API (v2) is a RESTful API for reading, creating, and
+> updating factory data on the Oden Platform: factories, lines, products,
+> production intervals (runs/batches/states), scrap/yield, quality tests,
+> metrics, targets, dashboards, and the Oden Query Language (OQL).
+
+## APIs
+
+- [Oden API v2 reference (Swagger UI)](https://api.oden.app/v2/ui/#/): Interactive reference for the 35-operation Private Partner API.
+- [Oden API base URL](https://api.oden.app/v2): All access over HTTPS; JSON in/out; auth via `Authorization: Token <key>`.
+
+## Specs
+
+- [OpenAPI 3.0 spec (nexa.yaml)](https://api.oden.app/v2/idl/nexa.yaml): Source OpenAPI document.
+- [Local OpenAPI copy](openapi/oden-technologies-openapi-original.yml)
+
+## Docs
+
+- [Documentation hub](https://docs.oden.io/)
+- [Oden Query Language (OQL)](https://docs.oden.io/oql/): SQL-like language for querying factory data.
+- [Knowledge Hub / Blog](https://oden.io/knowledge-hub/)
+- [Legal (Terms of Service, Terms of Use, DPA, Privacy)](https://oden.io/legal/)
+- [Privacy Policy](https://oden.io/privacy-policy/)
+- [Contact / Request a demo](https://oden.io/contact/)
+- [Login](https://login.oden.app/)
+- [GitHub organization (OdenTech)](https://github.com/OdenTech)
+
+## Derived artifacts (API Evangelist)
+
+- [Authentication profile](authentication/oden-technologies-authentication.yml)
+- [API conventions](conventions/oden-technologies-conventions.yml)
+- [Error catalog](errors/oden-technologies-problem-types.yml)
+- [Lifecycle](lifecycle/oden-technologies-lifecycle.yml)
+- [Data model / ERD](data-model/oden-technologies-data-model.yml)
+- [Conformance](conformance/oden-technologies-conformance.yml)
+- [Agent skills](skills/_index.yml)

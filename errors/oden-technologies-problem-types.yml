@@ -1,0 +1,50 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/oden-technologies-openapi-original.yml
+format: generic-error
+description: >-
+  Oden API v2 returns errors as a JSON object (schema GenericError) with an
+  `error` string message and a `retryable` boolean, NOT RFC 9457
+  application/problem+json. The status codes below are the 4xx/5xx responses
+  declared across the 35 operations of the Oden Private Partner API.
+envelope:
+  media_type: application/json
+  schema: GenericError
+  fields:
+    - name: error
+      type: string
+      required: true
+      description: Human-readable error message
+    - name: retryable
+      type: boolean
+      required: true
+      description: Whether the client may safely retry the request
+problems:
+  - status: 400
+    title: Bad Request
+    meaning: The request body or query object was malformed or failed validation.
+  - status: 401
+    title: Unauthorized
+    meaning: Missing or invalid API token (Authorization header not accepted).
+  - status: 403
+    title: Forbidden
+    meaning: The token's organization is not permitted to access the resource.
+  - status: 404
+    title: Not Found
+    meaning: The requested entity does not exist for this organization.
+  - status: 409
+    title: Conflict
+    meaning: >-
+      The search matched multiple entities where a unique match was required,
+      or a set/create operation conflicts with existing data.
+  - status: 429
+    title: Too Many Requests
+    meaning: >-
+      Rate limiting (docs recommend clients stay under one request per second;
+      rate limiting is planned for the near future).
+  - status: 500
+    title: Internal Server Error
+    meaning: Unexpected server-side error; may be retryable per the retryable flag.
+  - status: 501
+    title: Not Implemented
+    meaning: The requested capability is not implemented.

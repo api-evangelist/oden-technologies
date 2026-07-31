@@ -1,27 +1,245 @@
 aid: oden-technologies
 name: Oden Technologies
-description: 'Oden Technologies is a company surfaced as a portfolio company of eqt-ventures and added
-  to the API Evangelist network as a stub for enrichment. Sector: manufacturing. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  Oden Technologies provides AI-powered software for manufacturing optimization,
+  delivering real-time, AI-driven recommendations to front-line factory operators
+  to increase output, improve quality, decrease costs, and reduce downtime. Its
+  platform spans Forge AI agents, Process AI, Factory Analytics, and a Data
+  Engine. The Oden Private Partner API (v2) is a RESTful, JSON-over-HTTPS API for
+  reading, creating, and updating factory data on the Oden Platform: factories,
+  lines, products, production intervals (runs, batches, states), scrap/yield,
+  quality tests, metric groups, targets, dashboards, and the Oden Query Language
+  (OQL). Oden is headquartered in New York with an office in Altrincham, UK, and
+  is backed by EQT Ventures.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://oden.io/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/oden-technologies/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - eqt-ventures
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: openapi-found
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
 - Manufacturing
-apis: []
+- Industrial IoT
+- Analytics
+- Artificial Intelligence
+- Factory
+- Manufacturing Analytics
+- API
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- aid: oden-technologies:oden-technologies-dashboards-api
+  name: Oden Technologies Dashboards API
+  description: The Dashboards API from Oden Technologies — 1 operation(s) for dashboards.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Dashboards
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-dashboards-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-intervals-api
+  name: Oden Technologies Intervals API
+  description: The Intervals API from Oden Technologies — 10 operation(s) for intervals.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Intervals
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-intervals-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-machine-groups-api
+  name: Oden Technologies Machine Groups API
+  description: The Machine Groups API from Oden Technologies — 2 operation(s) for machine groups.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Machine Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-machine-groups-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-maintenance-work-orders-api
+  name: Oden Technologies Maintenance Work Orders API
+  description: >-
+    The Maintenance Work Orders API from Oden Technologies — 3 operation(s) for maintenance work orders.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Maintenance Work Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-maintenance-work-orders-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-metric-groups-api
+  name: Oden Technologies Metric Groups API
+  description: The Metric Groups API from Oden Technologies — 1 operation(s) for metric groups.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Metric Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-metric-groups-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-oql-api
+  name: Oden Technologies OQL API
+  description: The OQL API from Oden Technologies — 1 operation(s) for oql.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - OQL
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-oql-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-product-attributes-api
+  name: Oden Technologies Product Attributes API
+  description: >-
+    The Product Attributes API from Oden Technologies — 2 operation(s) for product attributes.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Product Attributes
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-product-attributes-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-product-mappings-api
+  name: Oden Technologies Product Mappings API
+  description: The Product Mappings API from Oden Technologies — 2 operation(s) for product mappings.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Product Mappings
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-product-mappings-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-products-api
+  name: Oden Technologies Products API
+  description: The Products API from Oden Technologies — 3 operation(s) for products.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Products
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-products-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-quality-test-api
+  name: Oden Technologies Quality Test API
+  description: The Quality Test API from Oden Technologies — 5 operation(s) for quality test.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Quality Test
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-quality-test-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-scrap-yield-data-api
+  name: Oden Technologies Scrap/Yield Data API
+  description: The Scrap/Yield Data API from Oden Technologies — 3 operation(s) for scrap/yield data.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Scrap/Yield Data
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-scrap-yield-data-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
+- aid: oden-technologies:oden-technologies-targets-api
+  name: Oden Technologies Targets API
+  description: The Targets API from Oden Technologies — 2 operation(s) for targets.
+  humanURL: https://api.oden.app/v2/ui/#/
+  baseURL: https://api.oden.app/v2
+  tags:
+  - Targets
+  properties:
+  - type: OpenAPI
+    url: openapi/oden-technologies-targets-api-openapi.yml
+  - type: APIReference
+    url: https://api.oden.app/v2/ui/#/
 common:
 - type: Website
   url: https://oden.io/
+- type: DeveloperPortal
+  url: https://docs.oden.io/
+- type: Documentation
+  url: https://docs.oden.io/
+- type: APIReference
+  url: https://api.oden.app/v2/ui/#/
+- type: Blog
+  url: https://oden.io/knowledge-hub/
+- type: BlogRSS
+  url: https://oden.io/feed/
+- type: GitHubOrganization
+  url: https://github.com/OdenTech
+- type: Login
+  url: https://login.oden.app/
+- type: Support
+  url: https://oden.io/contact/
+- type: TermsOfService
+  url: https://oden.io/legal/
+- type: PrivacyPolicy
+  url: https://oden.io/privacy-policy/
+- type: Authentication
+  url: authentication/oden-technologies-authentication.yml
+- type: Conventions
+  url: conventions/oden-technologies-conventions.yml
+- type: ErrorCatalog
+  url: errors/oden-technologies-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/oden-technologies-lifecycle.yml
+- type: Conformance
+  url: conformance/oden-technologies-conformance.yml
+- type: DataModel
+  url: data-model/oden-technologies-data-model.yml
+- type: LLMsTxt
+  url: llms/oden-technologies-llms.txt
+- type: AgenticAccess
+  url: agentic-access/oden-technologies-agentic-access.yml
+- type: DomainSecurity
+  url: security/oden-technologies-domain-security.yml
+- type: AgentSkill
+  url: skills/_index.yml
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 13
+  pass: local-v1

@@ -1,0 +1,22 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Oden API
+  version: 1.0.0
+extends: openapi/oden-technologies-openapi-original.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-provider: oden-technologies
+      x-apievangelist-auth: api-key (Authorization Token prefix)
+      x-apievangelist-error-envelope: GenericError (error + retryable), not RFC 9457
+      x-apievangelist-versioning: uri-path v2
+      x-apievangelist-rate-limit: none enforced; recommend <= 1 req/sec
+  - target: $
+    update:
+      x-apievangelist-artifacts:
+        authentication: authentication/oden-technologies-authentication.yml
+        conventions: conventions/oden-technologies-conventions.yml
+        errors: errors/oden-technologies-problem-types.yml
+        lifecycle: lifecycle/oden-technologies-lifecycle.yml
+        data-model: data-model/oden-technologies-data-model.yml
+        conformance: conformance/oden-technologies-conformance.yml

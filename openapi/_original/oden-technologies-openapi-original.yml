@@ -1,0 +1,2662 @@
+# vim: set ts=4 sw=4:
+
+openapi: 3.0.0
+
+servers:
+  - url: https://api.oden.app
+    description: Oden API server
+
+info:
+  version: 2.0.0
+  title: "Oden API"
+  contact:
+    name: Oden Support
+    email: support@oden.io
+    url: https://oden.io/contact/
+  description: |
+    The Oden Private Partner API exposes RESTful API endpoints for clients to get, create and update data on the Oden Platform.
+
+    The API is based on the OpenAPI 3.0 specification.
+    ### Current Version
+    The URL, and host, for the current version is [https://api.oden.app/v2](https://api.oden.app/v2).
+
+    ### Oden's Data Model
+    - **Organization**: This represents the Organization registered as an Oden customer. An organization has an associated collection of users, factories, lines, etc. This is the entity a specific authentication token is associated with.
+    - **Asset** or **Machinegroup**: Assets, or machinegroups, are collections of machines, which may either be a **Factory** or a **Line**:
+      - **Factory**: Factories are collections of lines, representing a particular manufacturing location.
+        - **Line**: Lines are collections of machines, often representing a particular production line. Lines may also have **Products** mapped to them, indicating what is currently being manufactured by the specific line.
+          - **Machine**: Machines are the physical machines that make up a line
+    - **Product**: Products capture what entities a manufacturer produces
+    - **Interval**: An interval is a period of time that takes place on a manufacturing line and expresses some business concern. It's Oden's way of making metrics aggregatable, traceable, and relatable to a manufacturer.
+      - **Run**: A run is a production interval that labels a period of production as being work on some single product
+      - **Batch**: A batch is a production interval that represents a portion of a particular run
+      - **State**: A state is an interval that tracks the availability or utilization of a line
+        - **State Category**: A state category describes what state a line is in - such as ex. uptime, downtime, scrapping, etc.
+        - **State Reason**: A state reason describes why a line is in a particular state - such as "maintenance" being a reason for the category "downtime".
+      - **Custom**: A custom interval can track any other type of interval-based data a manufacturer might want to analyze. These are created on a per-factory basis.
+    - **Target**: Targets specify values and upper/lower thresholds for metrics when specific products are running on specific lines
+    - **Scrap/Yield**: Scrap/yield output specifies amount of produced product on a line during either a run or batch interval. Oden will categorize all output as either scrap or yield - as specified by the Scrap Yield Schema for a given factory. If you have other categories, like rework/blocked/off-grade, you must choose between categorizing those amounts as either good or bad production by specifying as scrap or yield. Clients may also add scrap codes (i.e., reasons) to a given Scrap Yield Data entry.
+      - **Scrap Code**: A scrap code is a code that explains the reason for a scrap/yield raw data input - such as "Rework"
+    - **Quality Test**: Quality Tests are results of quality assurance tests done on site, and uploaded to Oden. They may be attached to a single Batch or Run.
+    - **Metric**: Known in factories as "tags", metrics are the raw data that is collected by Oden from the machines and devices on the factory floor.
+    - **Metric Group**: Metric groups are metrics that represent the same thing across different lines. They provide common display names for tags and allow labeling groups of tags as measuring key types of data like performance or production.
+    - **Maintenance Work Order**: A maintenance work order can be used to track work orders maintained in MaintainX and associate them with an Oden line. 
+
+    ### Best Practices
+    Under the current implementation, the Oden API does not rate limit requests from clients.
+
+    However, rate limiting will be introduced in the near future and it is recommended that users design their API
+    clients to not exceed a request rate of **one per second**.
+
+    ### Schema
+    All v2 API access is over HTTPS and accessed from https://api.oden.app/v2
+    All data is sent and received as JSON.
+
+    API requests with duplicate keys will process only the data for the first key detected and ignore the rest, so it's not recommended. Batching multiple messages in this way is currently not possible.
+      - Example of duplicate key in JSON: {"raw_data":{"scrap":"10","scrap":"100"}}
+
+    All timestamps are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format:
+
+      `YYYY-MM-DDTHH:MM:SSZ`
+
+    All durations are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format with the largest unit of time being the hour:
+
+       `PT[n]H[n]M[n]S`
+
+    All timestamps sent to the API in POST requests should be in ISO 8601 format.
+    ### HTTP Verbs
+    The ONLY HTTP call type (sometimes called *verb* or *method*) used within Oden's API is **POST**.
+    There are three actions supported via a **POST**; call, search, set, and delete, together supporting CRUD operations;
+      - **search** requests are used to search for and *read* objects in the Oden Platform
+          - All Oden Objects may be uniquely identified by some combination of, or a single, parameter.
+            - Ex a `line` my be identified by either:
+              - `id`
+              - `name` AND `factory`
+      - **set** requests are used to *create* or *update* objects
+      - **delete** requests are used to *delete* objects. If a delete endpoint is not yet implemented for a given object, users may choose to update the values of a specific entity to null or 0 values.
+
+    ### URI Components
+    All endpoints may be accessed with the URI pattern:
+    `https://api.oden.app/v2/{object}/{action}`
+
+    Where:
+      - `object` is the name of the object being requested:
+           - `factory`, `quality_test`, `interval`, `line`, etc...
+      - `action` is the name of the action being requested
+        - `search` , `set` , `delete`
+
+    e.g. `https://api.oden.app/v2/factory/search`
+
+    # Authentication
+    Clients can authenticate through the v2 API using a Token provided by Oden. Tokens are opaque strings similar to
+    [Bearer](https://swagger.io/docs/specification/authentication/bearer-authentication/) tokens that the client must
+    pass in the [HTTP Authorization request header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) in every request.
+    The syntax is as follows:
+
+    `Authorization: <type> <credentials>`
+
+    Where \<type\> is "Token" and \<credentials\> is the Token string. For example:
+
+    `Authorization: Token tokenStringProvidedByOden`
+
+    Authenticating with an invalid Token will return `401 Unauthorized Error`.
+
+    Authenticating with a Token that is not authorized to read requested data will return `403 Forbidden Error`.
+
+    Some endpoints may require requests to be broken out by machinegroup (i.e., line or factory) and the number of
+    requests would scale accordingly. This multiplicity should be taken into consideration when deciding on the
+    frequency the API client makes requests to the Oden endpoints.
+
+    To authenticate in this [UI](https://api.oden.app/v2/ui/), click the Lock icon, and copy/paste the token into the Authorize box.
+
+security:
+  - APIKeyAuth: []
+
+paths:
+  /v2/line/search:
+    post:
+      operationId: search_lines
+      summary: Search production lines
+      tags: ["Machine Groups"]
+      description: |
+        Search for specific Line by any Line identifier. Either:
+        - `id`
+        - `match: unique` or omit
+
+        OR
+        - `factory`
+          - `name` or `id`
+        - line `name`
+        - `match: unique` or omit
+
+        Search for all Lines for a given Factory:
+        - `factory`
+          - `name` or `id`
+        - `match: all`
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Line" }
+            examples:
+              Search for all lines of a factory:
+                summary: Search for all lines of a factory
+                value:
+                  match: all
+                  factory:
+                    name: Factory A
+              Search for line by name at a factory:
+                summary: Search for line by name at a specific factory
+                value:
+                  match: unique
+                  name: Line 01
+                  factory:
+                    name: Factory A
+              Search for line by secondary name:
+                summary: Search for line by secondary name
+                value:
+                  match: unique
+                  secondary_name: Line 01 Secondary
+                  factory:
+                    name: Factory A
+
+      responses:
+        "200":
+          description: A list of lines.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Line" }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/factory/search:
+    post:
+      operationId: search_factories
+      summary: Search factories
+      tags: ["Machine Groups"]
+      description: |
+        Search for a specific Factory by a unique indentifier:
+        - `name`
+        - `match: unique` or omit
+
+        OR
+
+        - `id`
+        - `match: unique` or omit
+
+        Search for all factories:
+        - `match: all`
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Factory" }
+            examples:
+              Search factory by name:
+                summary: Search for factory by name
+                value:
+                  name: Factory A
+              Search factory by secondary name:
+                summary: Search for factory by secondary name
+                value:
+                  secondary_name: Factory A Secondary
+                  match: unique
+              Search for all factories:
+                summary: Search for all factories
+                value:
+                  match: all
+
+      responses:
+        "200":
+          description: A list of factories.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Factory" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/metric_group/search:
+    post:
+      operationId: search_metric_groups
+      summary: Search metric groups
+      tags: ["Metric Groups"]
+      description: |
+        Search for a specific Metric Group:
+
+        - `name`
+        - `match: unique` or omit
+
+        OR
+
+        - `id`
+        - `match: unique` or omit
+
+        Search for all Metric Groups:
+        - `match: all`
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MetricGroup" }
+            examples:
+              Search for all metric groups:
+                summary: Search for all metric groups
+                value:
+                  match: all
+
+      responses:
+        "200":
+          description: A list of metric groups.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/MetricGroup" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/product/search:
+    post:
+      operationId: search_products
+      summary: Search products
+      tags: ["Products"]
+      description: |
+        Search for specific Product:
+        - `name`
+        - `match: unique` or omit
+
+        OR
+
+        - `id`
+        - `match: unique` or omit
+
+        May be used to confirm a Product exists or to get a Product `id` if `name` is known, or `name` if `id` is known.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Product" }
+
+      responses:
+        "200":
+          description: A list of products.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Product" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+
+  /v2/product/set:
+    post:
+      operationId: set_product
+      summary: Create or update a product
+      tags: ["Products"]
+      description: |
+        To **create** a new Product, include `name`, and omit `id` field.
+
+        To **update** an existing Product, include the `id` of the existing product the updated `name`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Product" }
+            examples:
+              create:
+                summary: Create a product.
+                value:
+                  name: product name
+              update:
+                summary: Update existing product by providing the product ID.
+                value:
+                  name: updated product name
+                  id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+
+  /v2/product/delete:
+    post:
+      operationId: delete_product
+      summary: Delete a product
+      tags: ["Products"]
+      description: |
+        Delete a Product by unique identifier:
+        - `name`
+        - `match: unique` or omit
+
+        OR
+
+        - `id`
+        - `match: unique` or omit
+
+        A deleted Product will not show up in Product searches or dropdowns, but associated Intervals will still exist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Product" }
+            examples:
+              delete by product id:
+                summary: Delete product by product id.
+                value:
+                  id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+              delete by product name:
+                summary: Delete product by product name.
+                value:
+                  name: EX0PRODNAME
+
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/product_mapping/search:
+    post:
+      operationId: search_product_mappings
+      summary: Search product-to-line mappings
+      tags: ["Product Mappings"]
+      description: |
+        Searches for Product Mappings.
+
+        May be used to confirm a Product Mapping exists.
+
+        Much like `product/search`, may be used to get `name`s of line or product from `id`s,
+        or `id`s from `name`s.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProductMapping" }
+
+            examples:
+              match by product ID and line ID:
+                summary: Match product mapping with given product and line ID.
+                value:
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  product:
+                    id: b5da7b1f-3c16-5084-a5da-95b2eba5a4db
+
+              match by product name and line name+factory:
+                summary: Match product mapping with given product and line name  - alternative example.
+                value:
+                  line:
+                    name: Line 01
+                    factory:
+                      id: e32d004e-ce8b-40bf-bbc1-14fd907d2f47
+                  product:
+                    name: 2AFBCA5E
+
+              match all by line:
+                summary: Match all product mappings for a given line
+                value:
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  match: all
+
+      responses:
+        "200":
+          description: A list of product mappings.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ProductMapping" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+
+  /v2/product_mapping/set:
+    post:
+      operationId: set_product_mapping
+      summary: Map a product to a line
+      tags: ["Product Mappings"]
+      description: |
+        Map a Product to a Line - implying this Line can produce, or is producing this Product.
+
+        If the supplied Product doesn't exist, it will be created.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProductMapping" }
+            examples:
+              set by product ID and line ID:
+                summary: Set product mapping with given product and line ID.
+                value:
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  product:
+                    id: b5da7b1f-3c16-5084-a5da-95b2eba5a4db
+
+              set by product name and line name+factory:
+                summary: Set product mapping with given product and line name  - alternative example.
+                value:
+                  line:
+                    name: Line 01
+                    factory:
+                      id: e32d004e-ce8b-40bf-bbc1-14fd907d2f47
+                  product:
+                    name: 2AFBCA5E
+
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/product_attribute/search:
+    post:
+      operationId: search_product_attributes
+      summary: Search product attributes
+      tags: ["Product Attributes"]
+      description: |
+        Searches for Product Attributes
+
+        Product attributes may be searched by ID, product, or, display_name - in that order.
+
+        If an ID is supplied, it will be used to search for a Product Attribute, and display_name, product will be ignored.
+
+        If a product is supplied (and no ID), it will be used to search for a Product Attribute, and display_name will be ignored.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProductAttribute" }
+
+            examples:
+              match by product:
+                summary: Match product mapping with given product.
+                value:
+                  product:
+                    id: b5da7b1f-3c16-5084-a5da-95b2eba5a4db
+              match by attribute display_name:
+                summary: Match product mapping with given product attribute display_name.
+                value:
+                  display_name: Cable Color
+
+      responses:
+        "200":
+          description: A list of product attributes - potentially with products and values.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ProductAttribute" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+
+  /v2/product_attribute/set:
+    post:
+      operationId: set_product_attribute
+      summary: Create or update a product attribute
+      tags: ["Product Attributes"]
+      description: |
+        Set a Product Attribute for a Product.
+
+        If the supplied Product Attribute doesn't exist, it will be created.
+
+        If the supplied Product Attribute Value doesn't exist, it will be created.
+
+        If the supplied Product Attribute Value is already set for the Product, it will be updated.
+
+        If the supplied Product Attribute Value is not set for the Product, it will be added.
+
+        Supplied Product must exist already.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ProductAttribute" }
+            examples:
+              set by product ID, attribute name and attribute display_name:
+                summary: Set product attribute with given product and attribute display_name.
+                value:
+                  product:
+                    id: b5da7b1f-3c16-5084-a5da-95b2eba5a4db
+                  display_name: Cable Color
+                  name: cable_color
+                  value: Red
+
+              set by product name, attribute name and attribute display_name:
+                summary: Set product attribute with given product and attribute display_name.
+                value:
+                  product:
+                    name: 2AFBCA5E
+                  display_name: Cable Color
+                  name: cable_color
+                  value: Red
+
+      responses:
+        "200":
+          description: A list of product attributes - potentially with products and values.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ProductAttribute" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+
+  /v2/target/search:
+    post:
+      operationId: search_targets
+      summary: Search metric targets
+      tags: ["Targets"]
+      description: |
+        Search for a Target by `line`, `metric_group`, and `product`. For each of these inputs, any of
+        their unique indentifiers (as described in their `search` endpoint) may be used. See examples.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Target" }
+            examples:
+              Search by for target product, line, and metric group:
+                summary: Search for target by metric group, line, product
+                value:
+                  line:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+                  metric_group:
+                    name: metric group name
+                  product:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+
+      responses:
+        "200":
+          description: A list of targets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Target" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/target/set:
+    post:
+      operationId: set_target
+      summary: Create or update a metric target
+      tags: ["Targets"]
+      description: |
+        Create or update a Target.
+
+        First the endpoint will search for a Target by `metric_group`, `product`, and `line`:
+        - If the target does not exist a new target is created.
+        - If the product or its mapping to the given line does not exist, they will be created.
+        - If a target exists but with different parameters, it will be updated.
+        - If the target exists with all the same parameters nothing is done.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Target" }
+            examples:
+              set by product, line, and metric group:
+                summary: Set target by metric group, line, product - each must be a valid search params.
+                value:
+                  line:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+                  metric_group:
+                    name: metric group name
+                  product:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+                  lsl: 100.00
+                  target_value: 200
+                  usl: 300.55
+
+              set by product, line, and metric group II:
+                summary: Set target by metric group, line, product - alternative example.
+                value:
+                  line:
+                    name: line name (name only also requires factory)
+                    factory:
+                      id: 0012ab4d-1234-123a-8c76-6ea9904be6df
+                  metric_group:
+                    id: 0012ab4d-1234-123a-8c76-6ea9904be6df
+                  product:
+                    name: product name
+                  lsl: 1
+                  target_value: 2
+                  usl: 3
+
+      responses:
+        "200":
+          description: Updated target.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Target" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/interval/search:
+    post:
+      operationId: search_intervals
+      summary: Search intervals on a line
+      tags: ["Intervals"]
+      description: |
+        Searches for intervals by `type`, `line` and other optional parameters:
+
+        - `id` (for a specific Interval)
+        - `match: unique` or omit
+
+        OR
+
+        - `match : last` for the most recent Interval of the given type on the given line
+
+        OR
+
+        - `start_time` and `end_time` (for a range of Intervals over a period of time)
+        - `match: all` for more than one result
+
+        OR
+
+        - match all intervals for all lines in a given factory
+
+        AND/OR
+
+        - `name` (only for Intervals with a matching name)
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Interval" }
+            examples:
+              Search for states on a line over a time period:
+                summary: Search for states on a line over a time period
+                value:
+                  type:
+                    name: STATE
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  start_time: "2021-04-04T08:00:04Z"
+                  end_time: "2021-04-10T08:00:04Z"
+                  match: all
+              Search for an custom interval type interval:
+                summary: Search for an operator id type interval
+                value:
+                  id: 1809d88adf0
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  type:
+                    name: operator id
+              Search for states on all lines in a given factory:
+                summary: Search for states on all lines in a given factory
+                value:
+                  type:
+                    name: STATE
+                  line:
+                    factory:
+                      name: Factory A
+                    match: all
+                  start_time: "2021-04-04T08:00:04Z"
+                  end_time: "2021-04-10T08:00:04Z"
+                  match: all
+
+      responses:
+        "200":
+          description: A list of intervals.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Interval" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/interval/set:
+    post:
+      operationId: set_interval
+      summary: Create or update an interval
+      tags: ["Intervals"]
+      description: |
+        Create or update an Interval.
+
+        Must include `line` and `type`. `match` must be omitted, `unique` or `last`
+
+         - If `id` is not supplied, a new Interval will be created.
+
+         - If `id` is supplied, existing Interval will be updated. This interval's start time can be modified using `start_time` field.
+
+        To update a specific interval supply the `id` of that interval.
+
+        If the interval exists with all the same parameters nothing is done.
+
+        To update the most recent Interval of a given `type` on a `line` one may use `match: last` and omit `id`
+
+        For `RUN` type: if `product` and/or `product_mapping` does not exist a new one will be created. Further a `target`
+        may be set by adding a `target` to the metadata field. The `line` and `product` for this target will be the same as the interval.
+
+        Please see examples for more specific information.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Interval" }
+            examples:
+              Create a Run, full schema:
+                summary: Create a Run
+                value:
+                  type:
+                    name: RUN
+                  name: example_run
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                    name: Line 01
+                    factory:
+                      id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                      name: Factory A
+                  start_time: "2021-04-04T08:00:04Z"
+                  metadata:
+                    product:
+                      name: Example Product
+              Create a Run, full schema, with target:
+                summary: Create a Run with a target
+                value:
+                  type:
+                    name: RUN
+                  name: example_run
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                    name: Line 01
+                    factory:
+                      id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                      name: Factory A
+                  start_time: "2021-04-04T08:00:04Z"
+                  metadata:
+                    product:
+                      name: Example Product
+                    target:
+                      lsl: 1
+                      target_value: 2
+                      usl: 3
+                      metric_group:
+                        name: metric group name
+              Create a Run, UUIDs only:
+                summary: Create a Run - uuids only
+                value:
+                  type:
+                    name: RUN
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  metadata:
+                    product:
+                      id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  start_time: "2021-04-04T08:00:04Z"
+              Create a Run, names only:
+                summary: Create a Run - names only
+                value:
+                  type:
+                    name: RUN
+                  line:
+                    name: Line 01
+                    factory:
+                      name: Factory A
+                  metadata:
+                    product:
+                      name: Example Product
+                  start_time: "2021-04-04T08:00:04Z"
+              Create a Batch:
+                summary: Create a Batch
+                value:
+                  type:
+                    name: BATCH
+                  name: example_batch
+                  line:
+                    name: Line 01
+                    factory:
+                      name: Factory A
+                  start_time: "2021-04-04T08:00:04Z"
+              Update a custom interval type interval:
+                summary: Update an operator id type interval
+                value:
+                  id: 1809d88adf0
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  name: updated_operator_id
+                  type:
+                    name: operator id
+              Create a Run with a corresponding deletion example:
+                summary: Create a Run with a corresponding deletion example
+                value:
+                  type:
+                    name: RUN
+                  name: deletable_run
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  start_time: "2021-04-04T08:00:04Z"
+                  metadata:
+                    product:
+                      name: Example Product
+              Create a State with a corresponding deletion example:
+                summary: Create a State with a corresponding delete example
+                value:
+                  type:
+                    name: STATE
+                  name: deletable_state
+                  line:
+                    id: 4787d6fb-f01e-405b-a38d-db23e32fa0d1
+                  start_time: "2021-04-04T08:00:04Z"
+                  metadata:
+                    category:
+                      name: Planned Downtime
+                    reason:
+                      name: Preventive Maintenance
+              Create a Batch with a corresponding deletion example:
+                summary: Create a Batch with a corresponding deletion example
+                value:
+                  type:
+                    name: BATCH
+                  name: deletable_batch
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  start_time: "2021-04-04T08:00:04Z"
+
+      responses:
+        "200":
+          description: Updated interval.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interval"
+
+              examples:
+                Set interval:
+                  value:
+                    - type:
+                        id: 6f996655-4a3e-4b55-8121-724a4d14ca08
+                      line:
+                        id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                      name: example_interval
+                      start_time: 2022-06-01T08:20:04Z
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+
+  /v2/interval/update:
+    post:
+      operationId: update_interval
+      summary: Update an interval
+      tags: ["Intervals"]
+      description: |
+        Update an existing Interval. This endpoint only updates intervals and will not create new ones.
+
+        Must include `line`, `type`, and `id`. The `id` must reference an existing interval.
+
+        This interval's properties can be modified using the following fields:
+        - `name`: Update the interval name
+        - `start_time`: Modify the start time
+        - `end_time`: Modify the end time
+        - `metadata`: Update metadata (product, target, category, reason, etc.)
+
+        If the interval does not exist, a 404 error will be returned.
+
+        **Note:** The `id` must be obtained from either:
+        - The response when creating an interval via `/v2/interval/set`
+        - Searching for intervals via `/v2/interval/search`
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Interval" }
+            examples:
+              Update a Run interval's product:
+                summary: Update a Run interval with a new product
+                value:
+                  id: 178b9a1ec20
+                  type:
+                    name: RUN
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  metadata:
+                    product:
+                      name: Updated Product
+              Update a Run interval with target:
+                summary: Update a Run interval with a new target
+                value:
+                  id: 178b9a1ec20
+                  type:
+                    name: RUN
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  metadata:
+                    product:
+                      name: Example Product
+                    target:
+                      lsl: 1
+                      target_value: 2
+                      usl: 3
+                      metric_group:
+                        name: metric group name
+              Update a custom interval:
+                summary: Update a custom interval type's name and time
+                value:
+                  id: 1809d88adf0
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  name: updated_operator_id
+                  type:
+                    name: operator id
+                  start_time: "2021-04-04T09:00:04Z"
+              Update a State interval:
+                summary: Update a State interval's category and reason
+                value:
+                  id: 178a61c0f00
+                  type:
+                    name: STATE
+                  line:
+                    id: 4787d6fb-f01e-405b-a38d-db23e32fa0d1
+                  metadata:
+                    category:
+                      name: Unplanned Downtime
+                    reason:
+                      name: Equipment Failure
+              Update a Batch interval:
+                summary: Update a Batch interval's name
+                value:
+                  id: 178b9a1ec20
+                  type:
+                    name: BATCH
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  name: updated_batch_name
+
+      responses:
+        "200":
+          description: Updated interval.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Interval"
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/interval/delete:
+    post:
+      operationId: delete_interval
+      summary: Delete an interval
+      tags: ["Intervals"]
+      description: |
+        Delete an interval by `type`, `line`, and `id`
+
+        **Note:** The `id` must be obtained from either:
+        - The response when creating an interval via `/v2/interval/set`
+        - Searching for intervals via `/v2/interval/search`
+
+        The examples below use placeholder IDs - replace with actual IDs from your system.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Interval" }
+
+            examples:
+              Delete a Run interval by ID:
+                summary: Delete a Run interval by ID (replace with actual ID)
+                value:
+                  id: <REPLACE_WITH_ACTUAL_RUN_UUID>
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  type:
+                    name: RUN
+              Delete a State interval by ID:
+                summary: Delete a State type interval by ID (replace with actual ID)
+                value:
+                  id: <REPLACE_WITH_ACTUAL_STATE_ID>
+                  line:
+                    id: 4787d6fb-f01e-405b-a38d-db23e32fa0d1
+                  type:
+                    name: STATE
+              Delete a Batch interval by ID:
+                summary: Delete a Batch type interval by ID (replace with actual ID)
+                value:
+                  id: <REPLACE_WITH_ACTUAL_BATCH_UUID>
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  type:
+                    name: BATCH
+              Delete a custom interval:
+                summary: Delete an "operator id" type interval
+                value:
+                  id: 1809d88adf0
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  type:
+                    name: operator id
+
+      responses:
+        "200":
+          description: A list containing the deleted interval.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/Interval" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/intervals/set:
+    post:
+      operationId: bulk_set_intervals
+      summary: Create a set of intervals
+      tags: ["Intervals"]
+      description: |
+        Create (Does not update) a group of custom intervals, for the same `type` and `line`.
+        Line and type do not need to be included in each individual interval, just once at the top level.
+
+        Limitations:
+        - Cannot excees 2500 intervals per request.
+        - Will not write over other intervals
+        - Does not support "batch", "run", or "state" interval types.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IntervalBulkCreate" }
+            examples:
+              Create a set of intervals:
+                summary: Create a set of intervals
+                value:
+                  type:
+                    name: operator id
+                  line:
+                    name: Line 01
+                    factory:
+                      name: Factory A
+                  intervals:
+                    - start_time: "2021-04-04T08:00:04Z"
+                      end_time: "2021-04-04T08:30:04Z"
+                      name: Example Value
+                    - start_time: "2021-04-04T09:00:04Z"
+                      end_time: "2021-04-04T09:30:04Z"
+                      name: Example Value 2
+
+      responses:
+        "200":
+          description: A list of created interval IDs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { type: string }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/intervals/update:
+    post:
+      operationId: bulk_update_intervals
+      summary: Update a set of intervals
+      tags: ["Intervals"]
+      description: |
+        Update multiple existing intervals. This endpoint only updates intervals and will not create new ones.
+
+        Each interval in the `intervals` array must include an `id` that references an existing interval.
+
+        Updatable fields for each interval:
+        - `name`: Update the interval name
+        - `start_time`: Modify the start time
+        - `end_time`: Modify the end time
+        - `metadata`: Update metadata (product, target, category, reason, etc.)
+
+        The endpoint will attempt to update all intervals and return information about successes and failures:
+        - Successfully updated intervals are returned in the response
+        - Failed intervals are listed with their IDs and error reasons
+
+        Limitations:
+        - Cannot exceed 2500 intervals per request
+        - All intervals must be of the same `type` and on the same `line`
+
+        **Note:** Interval IDs must be obtained from either:
+        - The response when creating intervals via `/v2/interval/set` or `/v2/intervals/set`
+        - Searching for intervals via `/v2/interval/search`
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IntervalBulkUpdate" }
+            examples:
+              Update multiple custom intervals:
+                summary: Update a set of custom intervals
+                value:
+                  type:
+                    name: operator id
+                  line:
+                    id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  intervals:
+                    - id: 1809d88adf0
+                      name: updated_operator_1
+                      start_time: "2021-04-04T08:00:04Z"
+                      end_time: "2021-04-04T08:30:04Z"
+                    - id: 1809d88adf1
+                      name: updated_operator_2
+                      start_time: "2021-04-04T09:00:04Z"
+                      end_time: "2021-04-04T09:30:04Z"
+              Update multiple State intervals:
+                summary: Update multiple State intervals with new categories
+                value:
+                  type:
+                    name: STATE
+                  line:
+                    name: Line 01
+                    factory:
+                      name: Factory A
+                  intervals:
+                    - id: 178a61c0f00
+                      metadata:
+                        category:
+                          name: Unplanned Downtime
+                        reason:
+                          name: Equipment Failure
+                    - id: 178a61c0f01
+                      metadata:
+                        category:
+                          name: Planned Downtime
+                        reason:
+                          name: Preventive Maintenance
+
+      responses:
+        "200":
+          description: Response containing successfully updated intervals and any failures that occurred.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  num_updated: { type: integer }
+                  updated_intervals:
+                    {
+                      type: array,
+                      items: { $ref: "#/components/schemas/Interval" },
+                    }
+                  num_failed: { type: integer }
+                  failed_intervals:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id: { type: string }
+                        error: { type: string }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/intervals/delete:
+    post:
+      operationId: bulk_delete_intervals
+      summary: Delete intervals in a time range
+      tags: ["Intervals"]
+      description: |
+        Delete a group of intervals by a single `type` and a single `line`, between `start_time` and `end_time`. Returns a list of intervals that were not deleted, and the number of intervals deleted.
+
+        Limitations:
+        - Cannot exceed 15,000 intervals per request, or 30 days worth of data.
+        - Currently does not support "batch" or "run" interval types.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IntervalBulkDelete" }
+            examples:
+              Delete a set of intervals:
+                summary: Delete a set of intervals in range
+                value:
+                  line:
+                    name: Line 01
+                    factory:
+                      name: Factory A
+                  type:
+                    name: operator id
+                  start_time: "2021-04-04T08:00:04Z"
+                  end_time: "2021-04-10T08:00:04Z"
+
+      responses:
+        "200":
+          description: A list containing any intervals found but not deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  num_deleted: { type: integer }
+                  failed_intervals: { type: array, items: { type: string } }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/interval_type/search:
+    post:
+      operationId: search_interval_types
+      summary: Search interval types
+      tags: ["Intervals"]
+      description: |
+        Search for Interval Types by `name`, `id`, or just `match: all` to return all Interval Types associated with the your organization.
+        Basic Interval Types -- `RUN`, `BATCH`, and `STATE` -- are dedicated interval types that come out-of-the-box with Oden.
+        Custom Interval Types may be created by users.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IntervalType" }
+            examples:
+              Search for all interval types:
+                summary: Search for all interval types.
+                value:
+                  match: all
+              Search for interval type by name:
+                summary: Search for all interval types.
+                value:
+                  name: operator id
+                  match: unique
+
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/IntervalType" }
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  # Custom Interval Types (v2, org-scoped). `/set` creates when `id` is absent
+  # and updates when `id` is present. Built-in types (RUN, BATCH, STATE) cannot
+  # be created, set, or deleted.
+  /v2/interval_type/set:
+    post:
+      operationId: set_interval_type
+      summary: Create or update a custom interval type
+      tags: ["Intervals"]
+      description: |
+        **Create** (no `id` in the body): send `name` (required) and optional `metadata_schema` / `tags`.
+
+        **Update** (with `id`): send the interval type’s `id` and optional `metadata_schema` / `tags` only. Do not send `name` for updates; including `name` returns 400. Renames are not supported.
+
+        **Patch (update only)**: `metadata_schema` — if the key is missing, the existing value is kept; if present, it replaces. `tags` — if the key is missing, tags are unchanged; `null` leaves tags unchanged; `[]` clears tags; a non-empty array replaces.
+
+        **Built-in types (RUN, BATCH, STATE) cannot be created, set, or deleted.**
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IntervalTypeSet" }
+            examples:
+              create:
+                summary: Create a custom interval type
+                value:
+                  name: operator id
+              update by id (metadata and tags only):
+                summary: Update an existing type by id
+                value:
+                  id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+                  metadata_schema: '{"type":"object"}'
+                  tags: [ "a" ]
+
+      responses:
+        "200":
+          description: The interval type after set.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IntervalType" }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/interval_type/delete:
+    post:
+      operationId: delete_interval_type
+      summary: Delete a custom interval type
+      tags: ["Intervals"]
+      description: |
+        Delete an existing custom Interval Type. `id` is required. Built-in types (RUN, BATCH, STATE) cannot be deleted.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/IntervalType" }
+            examples:
+              Delete a custom interval type by id:
+                summary: Delete a custom interval type by id
+                value:
+                  id: 2fc8b5e5-fb88-48a7-9c35-4a763206608c
+
+      responses:
+        "200":
+          description: The deleted interval type.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/IntervalType" }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/scrap_yield/search:
+    post:
+      operationId: search_scrap_yield
+      summary: Search scrap/yield records
+      tags: ["Scrap/Yield Data"]
+      description: |
+        Searches for scrap/yield records for a given Interval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [interval]
+              properties:
+                data: { $ref: "#/components/schemas/ScrapYieldData" }
+                interval: { $ref: "#/components/schemas/Interval" }
+            examples:
+              Search for scrap yield data by interval:
+                summary: Search for scrap yield data by interval.
+                value:
+                  interval:
+                    id: 178b9a1ec20
+                    line:
+                      name: Line 01
+                      factory:
+                        name: Factory A
+                    type:
+                      name: BATCH
+                  data:
+                    match: ALL
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/scrap_yield/set:
+    post:
+      operationId: set_scrap_yield
+      summary: Create or update a scrap/yield record
+      tags: ["Scrap/Yield Data"]
+      description: |
+        Uploads scrap or yield raw data.
+
+        Notes:
+
+        - If `id` is provided the existing Scrap/Yield record will be updated.
+
+        - If `id` is omitted a new Scrap/Yield record will be created.
+
+        - The scrap yield for an interval is an aggregate of all scrap yield raw data records associated with that interval
+            - Therefore, multiple scrap yield records can exist for a single interval, each contributing to the "aggregate" (i.e. sum total) scrap/yield of that interval
+
+        - Changing an aggregate can be done by either adding another record with an offset, or updating an existing record.
+            - Example: If you have 3 scrap records in an interval: 50 50 50 = 150 and want to make the aggregate 100 for a given interval, either update one of the existing scrap records from 50 -> 0, or add a new one with value -50
+
+        - Duplicate keys should be avoided, see Schema docs above for details.
+      parameters:
+        - $ref: "#/components/parameters/PatternParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [data, interval]
+              properties:
+                data: { $ref: "#/components/schemas/ScrapYieldData" }
+                interval: { $ref: "#/components/schemas/Interval" }
+            examples:
+              Create new scrap/yield record:
+                summary: Create new scrap/yield record.
+                value:
+                  data:
+                    raw_data:
+                      scrap: 100
+                      yield: 50
+                    timestamp: "2022-06-15T08:00:00Z"
+                  interval:
+                    id: 178b9a1ec20
+                    line:
+                      name: Line 01
+                      factory:
+                        name: Factory A
+                    type:
+                      name: BATCH
+              Update existing scrap/yield record:
+                summary: Update scrap/yield record.
+                value:
+                  data:
+                    id: a4356a39-212b-4846-aa1d-08f4a5d3c296
+                    raw_data:
+                      scrap: 100
+                      yield: 50
+                    timestamp: "2022-06-15T08:00:00Z"
+                  interval:
+                    id: 178b9a1ec20
+                    line:
+                      name: Line 01
+                      factory:
+                        name: Factory A
+                    type:
+                      name: BATCH
+
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/scrap_yield/delete:
+    post:
+      operationId: delete_scrap_yield
+      summary: Delete a scrap/yield record
+      tags: ["Scrap/Yield Data"]
+      description: |
+        Deletes Scrap Yield record by ID and line
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [interval]
+              properties:
+                data: { $ref: "#/components/schemas/ScrapYieldData" }
+                interval: { $ref: "#/components/schemas/Interval" }
+            examples:
+              Delete scrap yield record by id and line:
+                summary: Delete scrap yield record.
+                value:
+                  data:
+                    id: 16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb
+                  interval:
+                    line:
+                      name: Line 01
+                      factory:
+                        name: Factory A
+
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/quality_test/set:
+    post:
+      operationId: set_quality_test
+      summary: Create or update a quality test result
+      tags: ["Quality Test"]
+      description: |
+        Create or update a Quality Test record:
+        - To update `id` must be supplied. Only the supplied fields will be updated, the rest will remain unchanged.
+        - If `id` is not supplied, a new `quality_test_record` will be created.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/QualityTest" }
+            examples:
+              Create quality test record:
+                summary: Create quality test record.
+                value:
+                  interval:
+                    id: 178a61c0f00
+                    line:
+                      factory:
+                        id: e32d004e-ce8b-40bf-bbc1-14fd907d2f47
+                      name: Line 01
+                    type:
+                      id: e07da9a8-f2fd-480c-a315-d4c84fcac08c
+                      name: BATCH
+                  quality_schema:
+                    id: "66"
+                  raw_data:
+                    fdr: test string 3
+                    impedance: 6.789
+                    test_length: 10
+                    test_rl: test string
+                  timestamp: "2022-02-18T16:28:04Z"
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/quality_test/search:
+    post:
+      operationId: search_quality_tests
+      summary: Search quality tests
+      tags: ["Quality Test"]
+      description: |
+        Searches for Quality Test[s] by:
+
+        - `id`
+
+        OR
+
+        - `interval` (of type `RUN` or `BATCH`)
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/QualityTest" }
+            examples:
+              Search quality test by id:
+                summary: Use test ID to identify quality test.
+                value:
+                  id: 16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb
+                  match: unique
+              Search quality test by interval:
+                summary: Use BATCH interval to identify quality tests.
+                value:
+                  interval:
+                    name: example-batch-interval
+                    line:
+                      name: Line 01
+                      factory:
+                        name: Factory A
+                    type:
+                      name: BATCH
+                  match: all
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/quality_test/delete:
+    post:
+      operationId: delete_quality_test
+      summary: Delete a quality test
+      tags: ["Quality Test"]
+      description: |
+        Searches for uniqueQuality Test by:
+
+        - `id`
+
+        OR
+
+        - `interval` (of type `RUN` or `BATCH`)*
+
+        *This only work if there is a single quality test record for the interval.
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/QualityTest" }
+            examples:
+              Delete quality test by id:
+                summary: Use test ID to identify quality test.
+                value:
+                  id: 16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb
+                  match: unique
+
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/quality_tests/delete:
+    post:
+      operationId: bulk_delete_quality_tests
+      summary: Delete multiple quality tests
+      tags: ["Quality Test"]
+      description: |
+        Bulk deletes quality tests, either:
+        - All quality tests on a given `line` whose `timsetamp` is between `start_time` and `end_time`
+        OR
+        - All quality tests whose `id` is supplied
+
+        It will do one or the other, with a bias for `id`'s if both are supplied.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ids: { type: array, items: { type: string, format: uuid } }
+                line: { $ref: "#/components/schemas/Line" }
+                start_time: { type: string, format: date-time }
+                end_time: { type: string, format: date-time }
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/quality_schema/search:
+    post:
+      operationId: search_quality_schemas
+      summary: Search quality schemas for a factory
+      tags: ["Quality Test"]
+      description: |
+        Searches for Quality Schema[s] by:
+
+        - `factory`
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/QualitySchema" }
+            examples:
+              Get all quality schemas for Factory A:
+                summary: Get all quality schemas for Factory A.
+                value:
+                  factory:
+                    name: Factory A
+
+      responses:
+        "200":
+          description: Successful response
+
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+
+  /v2/oql/query:
+    post:
+      operationId: run_oql_query
+      summary: Run an OQL query
+      tags: ["OQL"]
+      description: |
+        Run an OQL (Oden Query Language) query.
+
+        For reference on writing OQL queries, see:
+
+        [https://platform.oden.app/knowledge/how-do-i-write-queries-in-oden-query-language-oql](https://platform.oden.app/knowledge/how-do-i-write-queries-in-oden-query-language-oql)
+
+      parameters:
+        - $ref: "#/components/parameters/FormatParam"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/OQLQuery" }
+
+      responses:
+        "200":
+          description: Successful response
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "429": { $ref: "#/components/responses/TooManyRequestsError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/dashboard/execute:
+    post:
+      operationId: execute_dashboard
+      summary: Execute a dashboard
+      tags: ["Dashboards"]
+      description: |
+        Execute every module in a dashboard with shared time-range and filter
+        overrides, returning the columns and rows produced by each module.
+
+        Modules execute in parallel and are reported in the dashboard's stored
+        module order. Per-module failures (parse, dispatch) land in the
+        `error` field of that module's result; siblings continue to run.
+
+        Known v1 limitations:
+        - Template variables (`{var_name}` in stored OQL) are not substituted
+          server-side. Modules containing unsubstituted placeholders will
+          fail at parse time.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DashboardExecuteRequest" }
+
+      responses:
+        "200":
+          description: >
+            Dashboard loaded and each module executed. Individual modules may
+            still report `error` in their result; this is not a 200/non-200
+            distinction.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  { $ref: "#/components/schemas/DashboardExecuteResult" }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "429": { $ref: "#/components/responses/TooManyRequestsError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/maintenance_work_order/search:
+    post:
+      operationId: search_maintenance_work_orders
+      summary: Search maintenance work orders
+      tags: ["Maintenance Work Orders"]
+      description: |
+        Search for Maintenance Work Orders by:
+        - `id`
+        - `external_id`
+        - `line_id` with required `start_time` and `end_time` filters
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id: { type: string, format: uuid }
+                external_id: { type: string }
+                line: { $ref: "#/components/schemas/Line" }
+                start_time: { type: string, format: date-time }
+                end_time: { type: string, format: date-time }
+                match: { $ref: "#/components/schemas/Match" }
+            examples:
+              Search by ID:
+                summary: Search for maintenance work order by ID
+                value:
+                  id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+              Search by external ID:
+                summary: Search for maintenance work order by external ID
+                value:
+                  external_id: MWO-12345
+                  line:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+              Search by line with time range:
+                summary: Search for maintenance work orders on a line within a time range
+                value:
+                  line:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+                  start_time: "2021-04-04T08:00:04Z"
+                  end_time: "2021-04-10T08:00:04Z"
+                  match: all
+
+      responses:
+        "200":
+          description: A list of maintenance work orders.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/MaintenanceWorkOrder" }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/maintenance_work_order/set:
+    post:
+      operationId: set_maintenance_work_order
+      summary: Create or update a maintenance work order
+      tags: ["Maintenance Work Orders"]
+      description: |
+        Create or update a Maintenance Work Order.
+
+        To **create** a new Maintenance Work Order:
+        - Include `name` and `line`, `external_id`, `started_at` (required)
+        - Omit `id` field
+        - include `completed_at`, `description`, `metadata`
+
+        To **update** an existing Maintenance Work Order:
+        - Include the `id` of the existing work order
+        - Include any fields to update
+
+        NOTE: Any fields not included in an update request will be left unchanged.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MaintenanceWorkOrder" }
+            examples:
+              Create a maintenance work order:
+                summary: Create a new maintenance work order
+                value:
+                  name: Scheduled Maintenance Q1
+                  line:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+                  description: Quarterly scheduled maintenance
+                  external_id: MWO-2024-001
+                  started_at: "2024-01-15T08:00:00Z"
+                  completed_at: "2024-01-15T17:00:00Z"
+                  metadata: '{"technician": "John Doe", "priority": "high"}'
+              Update an existing maintenance work order:
+                summary: Update an existing maintenance work order
+                value:
+                  id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+                  completed_at: "2024-01-15T18:30:00Z"
+                  metadata: {"technician": "John Doe", "priority": "high", "notes": "Completed late due to parts delay"}
+
+      responses:
+        "200":
+          description: A list containing the created or updated maintenance work order.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MaintenanceWorkOrder" }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+  /v2/maintenance_work_order/delete:
+    post:
+      operationId: delete_maintenance_work_order
+      summary: Delete a maintenance work order
+      tags: ["Maintenance Work Orders"]
+      description: |
+        Delete a Maintenance Work Order by unique identifier:
+        - `id` OR `external_id`
+        - `match: unique` or omit (only unique is supported)
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MaintenanceWorkOrder" }
+            examples:
+              Delete by ID:
+                summary: Delete maintenance work order by ID
+                value:
+                  id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+              Delete by external ID:
+                summary: Delete maintenance work order by external ID
+                value:
+                  external_id: MWO-12345
+                  line:
+                    id: 0012ab4d-1234-123a-8c76-6ea2344be6df
+                  match: unique
+
+      responses:
+        "200":
+          description: A list containing the deleted maintenance work order.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/MaintenanceWorkOrder" }
+
+        "400": { $ref: "#/components/responses/ParameterError" }
+        "401": { $ref: "#/components/responses/UnauthorizedError" }
+        "403": { $ref: "#/components/responses/ForbiddenError" }
+        "404": { $ref: "#/components/responses/NotFoundError" }
+        "409": { $ref: "#/components/responses/NotUniqueError" }
+        "500": { $ref: "#/components/responses/InternalError" }
+        "501": { $ref: "#/components/responses/UnimplementedError" }
+
+components:
+  parameters:
+    FormatParam:
+      in: query
+      name: format
+      required: false
+      schema:
+        type: string
+        enum:
+          - json
+          - jsonextended
+          - csv
+        default: json
+      description: |
+        Format of the response. Can be `json`, `jsonextended` or `csv`. If unspecified, defaults to `jsonextended`.
+
+    PatternParam:
+      in: query
+      name: pattern
+      required: false
+      schema:
+        type: string
+        enum:
+          - exact
+          - contains
+          - regex
+        default: exact
+      description: |
+        Optional pattern type to use for matching:
+        - `exact` for exact match
+        - `contains` for the string to be contained in the query
+        - `regex` to match based on a regular expression
+
+  schemas:
+    Match:
+      type: string
+      enum: [first, last, unique, all]
+      default: unique
+      description: |
+        Describes which item(s) to match when searching for an entity:
+        - `unique` (default): will return an error if the search object matches multiple entities
+        - `all`: will return every item that matches search entity
+        - `last`: will return the most recent object, where applicable
+        - `first`: will return the least recent object, where applicable
+
+    Factory:
+      type: object
+      description: An entity representing a factory.
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        secondary_name: { type: string, nullable: true }
+        timezone: { type: string }
+        match: { $ref: "#/components/schemas/Match" }
+
+    Line:
+      type: object
+      description: An entity representing a single line of production.
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        secondary_name: { type: string }
+        factory: { $ref: "#/components/schemas/Factory" }
+        match: { $ref: "#/components/schemas/Match" }
+
+    Product:
+      type: object
+      description: An entity representing a product
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        match: { $ref: "#/components/schemas/Match" }
+
+    ProductMapping:
+      type: object
+      description: >
+        An entity representing a product/line mapping. Mappings are simple 1:1 relationships, and
+        as such cannot be modified, only created.
+      properties:
+        product: { $ref: "#/components/schemas/Product" }
+        line: { $ref: "#/components/schemas/Line" }
+        match: { $ref: "#/components/schemas/Match" }
+
+    ProductAttribute:
+      type: object
+      description: >
+        An entity representing an attribute of a product such as a color or material
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        display_name: { type: string }
+        value: { type: string }
+        product: { $ref: "#/components/schemas/Product" }
+        rule_based: { type: boolean }
+        match: { $ref: "#/components/schemas/Match" }
+
+    StateCategory:
+      type: object
+      description: An entity representing a state category. During search, ID will take precedence over name.
+      properties:
+        id: { type: integer }
+        name: { type: string }
+
+    StateReason:
+      type: object
+      description: An entity representing a state reason. During search, ID will take precedence over name.
+      properties:
+        id: { type: integer }
+        name: { type: string }
+
+    Target:
+      type: object
+      description: An object representing a performance target for a line, product, and metric group.
+      properties:
+        metric_group: { $ref: "#/components/schemas/MetricGroup" }
+        product: { $ref: "#/components/schemas/Product" }
+        line: { $ref: "#/components/schemas/Line" }
+        target_value: { type: number, format: double }
+        lsl: { type: number, format: double }
+        usl: { type: number, format: double }
+        match: { $ref: "#/components/schemas/Match" }
+
+    Interval:
+      type: object
+      description: An object representing an interval of time on a line and associated metadata.
+      required: [type, line]
+      properties:
+        id: { type: string }
+        type: { $ref: "#/components/schemas/IntervalType" }
+        name: { type: string }
+        line: { $ref: "#/components/schemas/Line" }
+        start_time: { type: string, format: date-time }
+        end_time: { type: string, format: date-time }
+        metadata:
+          description: >
+            Metadata about this interval, such as the associated run or the state category.
+            Will differ based on the type of interval.
+          oneOf:
+            - $ref: "#/components/schemas/BatchMetadata"
+            - $ref: "#/components/schemas/RunMetadata"
+            - $ref: "#/components/schemas/StateMetadata"
+            - $ref: "#/components/schemas/CustomMetadata"
+          discriminator:
+            propertyName: metadata_type
+            mapping:
+              batch: "#/components/schemas/BatchMetadata"
+              run: "#/components/schemas/RunMetadata"
+              state: "#/components/schemas/StateMetadata"
+              custom: "#/components/schemas/CustomMetadata"
+        match: { $ref: "#/components/schemas/Match" }
+
+    IntervalType:
+      type: object
+      description: An object representing a interval type.
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        match: { $ref: "#/components/schemas/Match" }
+
+    IntervalTypeSet:
+      type: object
+      description: |
+        Create or update a custom interval type. Omit `id` to create (requires `name`);
+        include `id` to update. On update, `name` (if present) is ignored. Use `null` for `tags` to leave tags unchanged; `[]` clears tags.
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        metadata_schema: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+          nullable: true
+
+    IntervalBulkCreate:
+      type: object
+      description: A set of intervals to create
+      properties:
+        type: { $ref: "#/components/schemas/IntervalType" }
+        line: { $ref: "#/components/schemas/Line" }
+        intervals:
+          { type: array, items: { $ref: "#/components/schemas/Interval" } }
+
+    IntervalBulkUpdate:
+      type: object
+      description: A set of intervals to update
+      properties:
+        type: { $ref: "#/components/schemas/IntervalType" }
+        line: { $ref: "#/components/schemas/Line" }
+        intervals:
+          { type: array, items: { $ref: "#/components/schemas/Interval" } }
+
+    IntervalBulkDelete:
+      type: object
+      description: A range of intervals to delete
+      properties:
+        type: { $ref: "#/components/schemas/IntervalType" }
+        line: { $ref: "#/components/schemas/Line" }
+        start_time: { type: string, format: date-time }
+        end_time: { type: string, format: date-time }
+        hard_delete: { type: boolean, default: true }
+
+    BatchMetadata:
+      type: object
+      description: Metadata associated with a batch interval
+      properties:
+        metadata_type:
+          type: string
+          enum: [batch]
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        run: { $ref: "#/components/schemas/Interval" }
+      additionalProperties: true
+
+    RunMetadata:
+      type: object
+      description: Metadata associated with a run interval
+      properties:
+        metadata_type:
+          type: string
+          enum: [run]
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        product: { $ref: "#/components/schemas/Product" }
+        target: { $ref: "#/components/schemas/Target" }
+      additionalProperties: true
+
+    StateMetadata:
+      type: object
+      description: Metadata associated with a state interval
+      properties:
+        metadata_type:
+          type: string
+          enum: [state]
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        reason: { $ref: "#/components/schemas/StateReason" }
+        comment: { type: string }
+        category: { $ref: "#/components/schemas/StateCategory" }
+      additionalProperties: true
+
+    CustomMetadata:
+      type: object
+      description: Metadata associated with a custom interval type
+      properties:
+        metadata_type:
+          type: string
+          enum: [custom]
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+      additionalProperties: true
+
+    Unit:
+      type: object
+      description: >
+        A Unit describes a unit of measurement.
+
+      properties:
+        id: { type: integer }
+        symbol: { type: string }
+        name: { type: string }
+        kind_of_quantity: { type: string }
+
+    ScrapYieldSchema:
+      type: object
+      description: >
+        Scrap yield schema represents a factory's scrap/yield data ingestion configuration.
+
+      properties:
+        id: { type: string, format: uuid }
+        factory: { $ref: "#/components/schemas/Factory" }
+        scrap_conversion_factor: { type: number, format: double }
+        scrap_unit: { $ref: "#/components/schemas/Unit" }
+        yield_conversion_factor: { type: number, format: double }
+        yield_unit: { $ref: "#/components/schemas/Unit" }
+
+    ScrapYieldData:
+      type: object
+      description: >
+        An object representing scrap and yield data for a line for a particular
+        run or batch interval. Data can be sent unstructured in the `raw_data`
+        field as long as we have a scrap/yield schema for the factory.
+      properties:
+        raw_data: { type: string, format: json }
+        id: { type: string, format: uuid }
+        schema: { $ref: "#/components/schemas/ScrapYieldSchema" }
+        timestamp: { type: string, format: date-time, nullable: true }
+        match: { $ref: "#/components/schemas/Match" }
+
+    QualityTest:
+      type: object
+      description: >
+        An object representing a QA test for a line for a particular run or batch
+        interval.
+      properties:
+        id: { type: string, format: uuid }
+        raw_data: { type: object }
+        timestamp: { type: string, format: date-time }
+        interval: { $ref: "#/components/schemas/Interval" }
+        quality_schema: { $ref: "#/components/schemas/QualitySchema" }
+        match: { $ref: "#/components/schemas/Match" }
+
+    QualitySchema:
+      type: object
+      description: >
+        A schema for quality tests.
+        Note: the id is currently implemented as a string, but that string should be a stringified integer.
+
+      properties:
+        id: { type: string, example: "23" }
+        factory: { $ref: "#/components/schemas/Factory" }
+        schema: { type: string, format: json }
+        description: { type: string }
+        match: { $ref: "#/components/schemas/Match" }
+
+    MetricGroup:
+      type: object
+      description: An object representing a metric group; a grouping of like metrics across lines, factories.
+      properties:
+        name: { type: string }
+        description: { type: string }
+        id: { type: string, format: uuid }
+        unit_kind_of_quantity: { type: string }
+        match: { $ref: "#/components/schemas/Match" }
+
+    OQLQuery:
+      type: object
+      description: An object representing an OQL query.
+      required: [query]
+      properties:
+        query: { type: string }
+
+    DashboardExecuteRequest:
+      type: object
+      description: >
+        Request envelope for executing every module in a dashboard.
+      required: [dashboard]
+      properties:
+        dashboard:
+          type: object
+          required: [id]
+          properties:
+            id: { type: string, format: uuid }
+        range: { $ref: "#/components/schemas/DashboardExecuteRange" }
+        filters: { $ref: "#/components/schemas/DashboardExecuteFilters" }
+
+    DashboardExecuteRange:
+      type: object
+      description: >
+        Time window applied to every module. Either supply an absolute
+        window (`start` and `end`) OR a relative window (`anchor` and
+        `offset`, optionally with `timezone`), not both.
+      properties:
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        anchor:
+          type: string
+          description: Anchor expression for a relative range, e.g. `now`.
+        offset:
+          type: string
+          description: Offset expression for a relative range, e.g. `-7D`.
+        timezone:
+          type: string
+          description: IANA timezone identifier (defaults to UTC).
+
+    DashboardExecuteFilters:
+      type: object
+      description: >
+        Optional filter overrides applied to every module. Every field is
+        optional; omitting one means "no override on that dimension".
+      properties:
+        lines:
+          type: array
+          description: >
+            Lines to restrict to. Each entry must supply `id`, `name`, or
+            both; entries that supply neither are rejected. Other Line
+            fields (factory, secondary_name, match) are not used here and
+            are intentionally omitted so generated clients don't suggest
+            them as inputs.
+          items:
+            type: object
+            anyOf:
+              - required: [id]
+              - required: [name]
+            properties:
+              id: { type: string, format: uuid }
+              name: { type: string }
+        shifts:
+          type: array
+          items: { type: integer, format: int32 }
+        product_ids:
+          type: array
+          items: { type: string, format: uuid }
+        product_attribute_value_ids:
+          type: array
+          items: { type: string, format: uuid }
+        scrap_categories:
+          type: array
+          items: { type: string, format: uuid }
+        states:
+          type: object
+          properties:
+            state_types:
+              type: array
+              items: { type: string }
+            state_category_and_reasons:
+              type: array
+              items:
+                type: object
+                required: [state_category]
+                properties:
+                  state_category: { type: integer, format: int32 }
+                  state_reason: { type: string }
+        custom_intervals:
+          type: array
+          items:
+            type: object
+            required: [type, value_contains]
+            properties:
+              type: { type: string }
+              value_contains: { type: string }
+
+    DashboardExecuteResult:
+      type: object
+      description: Executed output of a single dashboard module.
+      required: [module_id, module_name, module_type]
+      properties:
+        module_id: { type: string, format: uuid }
+        module_name: { type: string }
+        module_type:
+          type: string
+          description: >
+            The module's stored visualization (e.g. `table`, `line_chart`,
+            `bar_chart`). Type label only — does not change the response
+            shape.
+        range:
+          type: object
+          description: >
+            Resolved absolute time window the executed query actually
+            covers. For relative requests this is the concrete window the
+            anchor/offset resolved to.
+          properties:
+            start: { type: string, format: date-time }
+            end: { type: string, format: date-time }
+        filters_applied:
+          type: object
+          description: >
+            Echo of the filter dimensions that were applied, resolved to
+            human-readable values where possible (e.g. line names instead
+            of IDs).
+          additionalProperties: true
+        columns:
+          type: array
+          nullable: true
+          description: >
+            Column metadata. `type` is derived from the first non-null cell
+            in the column. Null when the module errored.
+          items: { $ref: "#/components/schemas/DashboardColumnSpec" }
+        rows:
+          type: array
+          nullable: true
+          description: >
+            Row data as objects keyed by column name (not positional
+            arrays). Values are typed JSON natively. Null when the module
+            errored.
+          items:
+            type: object
+            additionalProperties: true
+        error:
+          type: string
+          nullable: true
+          description: >
+            Set to a short message when the module failed to parse or
+            execute. Null on success.
+
+    DashboardColumnSpec:
+      type: object
+      required: [name, type]
+      properties:
+        name: { type: string }
+        type:
+          type: string
+          enum: [string, number, boolean, datetime]
+
+    MaintenanceWorkOrder:
+      type: object
+      description: An object representing a maintenance work order on a line.
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        description: { type: string }
+        external_id: { type: string }
+        line: { $ref: "#/components/schemas/Line" }
+        started_at: { type: string, format: date-time }
+        completed_at: { type: string, format: date-time }
+        metadata: { type: object, additionalProperties: true }
+        match: { $ref: "#/components/schemas/Match" }
+
+    GenericError:
+      type: object
+      required: [error, retryable]
+      properties:
+        error: { type: string }
+        retryable: { type: boolean }
+
+  responses:
+    NotUniqueError:
+      description: >
+        A {match: "unique"} was requested, but multiple entities matched the
+        search parameters.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [entity_name, num_matches, error, retryable]
+            properties:
+              entity_name: { type: string }
+              num_matches: { type: integer }
+              error: { type: string }
+              retryable: { type: boolean }
+
+    InternalError:
+      description: >
+        An internal server error has occurred. If reporting the error to Oden, include the
+        ID returned in this response to aid in debugging.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error, retryable, id]
+            properties:
+              error: { type: string }
+              retryable: { type: boolean }
+              id: { type: string, format: uuid }
+
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/GenericError" }
+
+    ForbiddenError:
+      description: >
+        User has provided valid credentials but is not authorized to access the entity
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/GenericError" }
+
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/GenericError" }
+
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/GenericError" }
+
+    TooManyRequestsError:
+      description: Too many requests
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/GenericError" }
+
+    ParameterError:
+      description: An error occurred regarding one of the input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [error, name, retryable]
+            properties:
+              error: { type: string }
+              name: { type: string }
+              retryable: { type: boolean }
+
+  securitySchemes:
+    APIKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Prefix the value with \"Token\" to indicate the custom authorization type'

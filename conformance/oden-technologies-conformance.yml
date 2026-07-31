@@ -1,0 +1,32 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/oden-technologies-openapi-original.yml
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: Published OpenAPI 3.0.0 document at https://api.oden.app/v2/idl/nexa.yaml
+  - id: api-key-auth
+    conforms: true
+    evidence: secureSchemes APIKeyAuth (apiKey in header, Authorization Token prefix)
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 security scheme declared
+  - id: oidc
+    conforms: false
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use a custom GenericError JSON object, not application/problem+json
+  - id: json-api
+    conforms: false
+  - id: pagination
+    conforms: false
+    evidence: No cursor/offset pagination documented
+  - id: idempotency
+    conforms: false
+    evidence: No Idempotency-Key contract documented
+  - id: iso-8601-timestamps
+    conforms: true
+    evidence: All timestamps returned in ISO 8601 (YYYY-MM-DDTHH:MM:SSZ)
+  - id: https-only
+    conforms: true
+    evidence: All v2 API access is over HTTPS

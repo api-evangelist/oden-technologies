@@ -1,0 +1,65 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/oden-technologies-openapi-original.yml
+docs: https://api.oden.app/v2/ui/#/
+description: >-
+  Cross-cutting request/response semantics for the Oden Private Partner API v2,
+  derived from the published OpenAPI 3.0 spec and the API reference notes.
+authentication:
+  style: api-key
+  location: header
+  header: Authorization
+  format: "Token <api-key>"
+  note: The value must be prefixed with the literal word "Token".
+transport:
+  scheme: https-only
+  base_url: https://api.oden.app/v2
+  media_type: application/json
+  data_format: JSON
+  timestamps: ISO 8601 (YYYY-MM-DDTHH:MM:SSZ), UTC
+request_shape:
+  style: rpc-over-http
+  note: >-
+    Every endpoint is a POST to a resource/verb path (e.g. /line/search,
+    /product/set, /interval/delete). Reads use a `search` object; writes use a
+    `set` object. There are no path/query parameters or GET endpoints.
+  duplicate_keys: >-
+    Requests with duplicate JSON keys process only the first occurrence and
+    ignore the rest; batching via duplicate keys is not supported.
+search_semantics:
+  match_field: match
+  values: [unique, all, last, first]
+  default: unique
+  note: >-
+    Search bodies carry a `match` selector: `unique` (default) errors if the
+    query matches multiple entities; `all` returns every match; `last`/`first`
+    return the most/least recent.
+idempotency:
+  supported: false
+  note: >-
+    No Idempotency-Key header or idempotency contract is documented. `set`
+    operations are effectively upserts keyed on the entity's natural identifiers,
+    which provides create-or-update semantics but is not a formal idempotency key.
+pagination:
+  supported: false
+  note: Search endpoints return matching sets directly; no cursor/offset paging is documented.
+versioning:
+  scheme: uri-path
+  current: v2
+  note: The current version and host is https://api.oden.app/v2.
+rate_limiting:
+  enforced: false
+  recommended_client_rate: 1 request per second
+  note: >-
+    The API does not currently rate limit, but documents that rate limiting will
+    be introduced and clients should stay under one request per second. A 429
+    response is declared.
+errors:
+  envelope: GenericError
+  see: errors/oden-technologies-problem-types.yml
+  fields: [error, retryable]
+cross_reference:
+  authentication: authentication/oden-technologies-authentication.yml
+  errors: errors/oden-technologies-problem-types.yml
+  lifecycle: lifecycle/oden-technologies-lifecycle.yml
+  data_model: data-model/oden-technologies-data-model.yml

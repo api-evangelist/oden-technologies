@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/oden-technologies-openapi-original.yml
+skills:
+  - file: oden-technologies-explore-hierarchy.md
+    name: Explore the Oden factory hierarchy
+    api: openapi/oden-technologies-openapi-original.yml
+    operations: [search_factories, search_lines, search_metric_groups, search_products]
+  - file: oden-technologies-record-production.md
+    name: Record production intervals and scrap/yield
+    api: openapi/oden-technologies-openapi-original.yml
+    operations: [set_interval, bulk_set_intervals, search_intervals, set_scrap_yield, search_scrap_yield]
+  - file: oden-technologies-query-analytics.md
+    name: Query factory analytics with OQL and dashboards
+    api: openapi/oden-technologies-openapi-original.yml
+    operations: [run_oql_query, execute_dashboard, search_quality_tests, search_targets]

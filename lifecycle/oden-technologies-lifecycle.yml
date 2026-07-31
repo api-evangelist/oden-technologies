@@ -1,0 +1,25 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/oden-technologies-openapi-original.yml
+versioning:
+  scheme: uri-path
+  current: v2
+  docs: https://api.oden.app/v2/ui/#/
+  note: The Oden API is versioned in the URL path; the current version is v2 (info.version 2.0.0).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation policy or RFC 8594 Sunset/Deprecation header support was found.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+status_page_note: >-
+  No public status page was found (status.oden.io and status.oden.app did not
+  resolve as of the probe date).
+rate_limiting:
+  enforced: false
+  planned: true
+  recommended_client_rate: 1 request per second
+deprecated_operations: []
+deprecated_operations_note: "No operations in the OpenAPI are flagged deprecated: true."

@@ -1,0 +1,36 @@
+{
+  "provider": "oden-technologies",
+  "sources": [
+    "oden-technologies-dashboards-api-openapi.yml",
+    "oden-technologies-intervals-api-openapi.yml",
+    "oden-technologies-machine-groups-api-openapi.yml",
+    "oden-technologies-maintenance-work-orders-api-openapi.yml",
+    "oden-technologies-metric-groups-api-openapi.yml",
+    "oden-technologies-oql-api-openapi.yml",
+    "oden-technologies-product-attributes-api-openapi.yml",
+    "oden-technologies-product-mappings-api-openapi.yml",
+    "oden-technologies-products-api-openapi.yml",
+    "oden-technologies-quality-test-api-openapi.yml",
+    "oden-technologies-scrap-yield-data-api-openapi.yml",
+    "oden-technologies-targets-api-openapi.yml"
+  ],
+  "outputs": [
+    "oden-technologies-dashboards-api-openapi.yml",
+    "oden-technologies-intervals-api-openapi.yml",
+    "oden-technologies-machine-groups-api-openapi.yml",
+    "oden-technologies-maintenance-work-orders-api-openapi.yml",
+    "oden-technologies-metric-groups-api-openapi.yml",
+    "oden-technologies-oql-api-openapi.yml",
+    "oden-technologies-product-attributes-api-openapi.yml",
+    "oden-technologies-product-mappings-api-openapi.yml",
+    "oden-technologies-products-api-openapi.yml",
+    "oden-technologies-quality-test-api-openapi.yml",
+    "oden-technologies-scrap-yield-data-api-openapi.yml",
+    "oden-technologies-targets-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

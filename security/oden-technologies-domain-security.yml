@@ -1,0 +1,38 @@
+generated: '2026-07-20'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: oden.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 10 01:59:20 2026 GMT
+  hsts: false
+- host: api.oden.app
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 26 14:53:39 2026 GMT
+  hsts: null
+domains:
+- domain: oden.io
+  dnssec: false
+  caa:
+  - 0 issue "comodoca.com"
+  - 0 issuewild "pki.goog"
+  - 0 issuewild "letsencrypt.org"
+  - 0 issuewild "comodoca.com"
+  - 0 issuewild "certificatemanager.goog"
+  - 0 issue "letsencrypt.org"
+  spf: true
+  dmarc: true
+  dmarc_policy: reject
+- domain: oden.app
+  dnssec: false
+  caa:
+  - 0 issue "certificatemanager.goog"
+  - 0 issuewild "pki.goog"
+  - 0 issue "pki.goog"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "digicert.com"
+  - 0 issue "comodoca.com"
+  spf: false
+  dmarc: false

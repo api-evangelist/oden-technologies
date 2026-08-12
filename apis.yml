@@ -196,6 +196,10 @@ apis:
   - type: APIReference
     url: https://api.oden.app/v2/ui/#/
 common:
+- type: MCPServer
+  url: mcp/oden-technologies-mcp.yml
+- type: Overlay
+  url: overlays/oden-technologies-nexa-overlay.yaml
 - type: Website
   url: https://oden.io/
 - type: DeveloperPortal

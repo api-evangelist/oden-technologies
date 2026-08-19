@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Products API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search products",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/product/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for specific Product:\n- `name`\n- `match: unique` or omit\n\nOR\n\n- `id`\n- `match: unique` or omit\n\nMay be used to confirm a Product exists or to get a Product `id` if `name` is known, or `name` if `id` is known.\n"
+        },
+        {
+          "info": {
+            "name": "Create or update a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/product/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "To **create** a new Product, include `name`, and omit `id` field.\n\nTo **update** an existing Product, include the `id` of the existing product the updated `name`.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/product/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a Product by unique identifier:\n- `name`\n- `match: unique` or omit\n\nOR\n\n- `id`\n- `match: unique` or omit\n\nA deleted Product will not show up in Product searches or dropdowns, but associated Intervals will still exist.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

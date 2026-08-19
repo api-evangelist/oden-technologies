@@ -1,0 +1,79 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Scrap/Yield Data API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scrap/Yield Data",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search scrap/yield records",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/scrap_yield/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for scrap/yield records for a given Interval\n"
+        },
+        {
+          "info": {
+            "name": "Create or update a scrap/yield record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/scrap_yield/set",
+            "params": [
+              {
+                "name": "pattern",
+                "value": "",
+                "type": "query",
+                "description": "Optional pattern type to use for matching:\n- `exact` for exact match\n- `contains` for the string to be contained in the query\n- `regex` to match based on a regular expression\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Uploads scrap or yield raw data.\n\nNotes:\n\n- If `id` is provided the existing Scrap/Yield record will be updated.\n\n- If `id` is omitted a new Scrap/Yield record will be created.\n\n- The scrap yield for an interval is an aggregate of all scrap yield raw data records associated with that interval\n    - Therefore, multiple scrap yield records can exist for a single interval, each contributing to the \"aggregate\" (i.e. sum total) scrap/yield of that interval\n\n- Changing an aggregate can be done by eith"
+        },
+        {
+          "info": {
+            "name": "Delete a scrap/yield record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/scrap_yield/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Deletes Scrap Yield record by ID and line\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

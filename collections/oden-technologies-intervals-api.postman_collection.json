@@ -1,0 +1,4471 @@
+{
+  "item": [
+    {
+      "id": "5997c320-d4a9-4ee1-8eec-c70caa2591ff",
+      "name": "Intervals",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1c86bb8a-5310-445a-9a5a-c44528d8b39d",
+          "name": "Search intervals on a line",
+          "request": {
+            "name": "Search intervals on a line",
+            "description": {
+              "content": "Searches for intervals by `type`, `line` and other optional parameters:\n\n- `id` (for a specific Interval)\n- `match: unique` or omit\n\nOR\n\n- `match : last` for the most recent Interval of the given type on the given line\n\nOR\n\n- `start_time` and `end_time` (for a range of Intervals over a period of time)\n- `match: all` for more than one result\n\nOR\n\n- match all intervals for all lines in a given factory\n\nAND/OR\n\n- `name` (only for Intervals with a matching name)\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "interval",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  \"line\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secondary_name\": \"<string>\",\n    \"factory\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"match\": \"unique\"\n  },\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"start_time\": \"<dateTime>\",\n  \"end_time\": \"<dateTime>\",\n  \"metadata\": {\n    \"run\": {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"secondary_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timezone\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"match\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"value\": \"<Circular reference to #/components/schemas/BatchMetadata detected>\"\n      },\n      \"match\": \"unique\"\n    },\n    \"key_0\": \"string\"\n  },\n  \"match\": \"unique\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ad58722f-de38-4c9d-b950-934139995f08",
+              "name": "A list of intervals.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"metadata_type\": \"batch\",\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      }\n    },\n    \"match\": \"unique\"\n  },\n  {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"metadata_type\": \"batch\",\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      },\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"match\": \"unique\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59aaad8b-9de3-48d8-b45c-afc203caad06",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "efaa1b1e-6404-4f37-83e9-29b6bdb50383",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43995256-b1c1-49be-b891-0c2d1df70be5",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9f9f16c3-993c-426e-a1e5-7fd8ac10f38f",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f3f0c81-6fcf-4004-bcd2-5c8cb3360e58",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "520a7ec8-a219-409d-9bf5-7560503c52ea",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a30c887-8a5e-4d57-b964-73e7ca3f0ee3",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"STATE\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\",\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9611e62a-e976-4282-bb0e-ae737d0f02e9",
+          "name": "Create or update an interval",
+          "request": {
+            "name": "Create or update an interval",
+            "description": {
+              "content": "Create or update an Interval.\n\nMust include `line` and `type`. `match` must be omitted, `unique` or `last`\n\n - If `id` is not supplied, a new Interval will be created.\n\n - If `id` is supplied, existing Interval will be updated. This interval's start time can be modified using `start_time` field.\n\nTo update a specific interval supply the `id` of that interval.\n\nIf the interval exists with all the same parameters nothing is done.\n\nTo update the most recent Interval of a given `type` on a `line` one may use `match: last` and omit `id`\n\nFor `RUN` type: if `product` and/or `product_mapping` does not exist a new one will be created. Further a `target`\nmay be set by adding a `target` to the metadata field. The `line` and `product` for this target will be the same as the interval.\n\nPlease see examples for more specific information.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "interval",
+                "set"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  \"line\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secondary_name\": \"<string>\",\n    \"factory\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"match\": \"unique\"\n  },\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"start_time\": \"<dateTime>\",\n  \"end_time\": \"<dateTime>\",\n  \"metadata\": {\n    \"run\": {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"secondary_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timezone\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"match\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"value\": \"<Circular reference to #/components/schemas/BatchMetadata detected>\"\n      },\n      \"match\": \"unique\"\n    },\n    \"key_0\": \"string\"\n  },\n  \"match\": \"unique\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ed94df49-7596-4c07-9685-f3d45acb03f8",
+              "name": "Updated interval.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"name\": \"example_run\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n      \"name\": \"Factory A\"\n    }\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Example Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"type\": {\n      \"id\": \"6f996655-4a3e-4b55-8121-724a4d14ca08\"\n    },\n    \"line\": {\n      \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n    },\n    \"name\": \"example_interval\",\n    \"start_time\": \"2022-06-01 08:20:04+00:00\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ebe1826f-f370-4179-93a7-8e1398cf098a",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"name\": \"example_run\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n      \"name\": \"Factory A\"\n    }\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Example Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfe743a2-e68f-4f4d-8a10-9029d9807715",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"name\": \"example_run\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n      \"name\": \"Factory A\"\n    }\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Example Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc09ff2f-ee0f-454d-bb6f-eb8ada444632",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"name\": \"example_run\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n      \"name\": \"Factory A\"\n    }\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Example Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d41acf47-b86d-4a2f-bf30-fe5a933dc3cc",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"name\": \"example_run\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n      \"name\": \"Factory A\"\n    }\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Example Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ac48573-6079-4691-980c-0a7a43f3e558",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"name\": \"example_run\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\",\n      \"name\": \"Factory A\"\n    }\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Example Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "47fdb500-d3b0-4627-9765-3d32d798d897",
+          "name": "Update an interval",
+          "request": {
+            "name": "Update an interval",
+            "description": {
+              "content": "Update an existing Interval. This endpoint only updates intervals and will not create new ones.\n\nMust include `line`, `type`, and `id`. The `id` must reference an existing interval.\n\nThis interval's properties can be modified using the following fields:\n- `name`: Update the interval name\n- `start_time`: Modify the start time\n- `end_time`: Modify the end time\n- `metadata`: Update metadata (product, target, category, reason, etc.)\n\nIf the interval does not exist, a 404 error will be returned.\n\n**Note:** The `id` must be obtained from either:\n- The response when creating an interval via `/v2/interval/set`\n- Searching for intervals via `/v2/interval/search`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "interval",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  \"line\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secondary_name\": \"<string>\",\n    \"factory\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"match\": \"unique\"\n  },\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"start_time\": \"<dateTime>\",\n  \"end_time\": \"<dateTime>\",\n  \"metadata\": {\n    \"run\": {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"secondary_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timezone\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"match\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"value\": \"<Circular reference to #/components/schemas/BatchMetadata detected>\"\n      },\n      \"match\": \"unique\"\n    },\n    \"key_0\": \"string\"\n  },\n  \"match\": \"unique\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "87e7a93b-b41e-49d1-bbdf-e6f665ef9364",
+              "name": "Updated interval.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"metadata_type\": \"batch\",\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      }\n    },\n    \"match\": \"unique\"\n  },\n  {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"metadata_type\": \"batch\",\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      },\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"match\": \"unique\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4824383-a8ee-46e6-903b-cad7fd5b724d",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb308afc-a02a-4772-82c9-31f86311c092",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f2340fb0-9d46-4975-a277-0ea97a974b8c",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64f5e6ca-97d6-401c-ade7-6b58e8b0143d",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b02f6a3-bab5-4dce-b9dc-f21c0c8d9bd9",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55cbbebf-5b17-429a-9e67-80eb4ea8f263",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7252a5e-3629-48e3-a058-3b9232900729",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"178b9a1ec20\",\n  \"type\": {\n    \"name\": \"RUN\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"metadata\": {\n    \"product\": {\n      \"name\": \"Updated Product\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb05268e-21f5-48e7-bfb8-2135b653599d",
+          "name": "Delete an interval",
+          "request": {
+            "name": "Delete an interval",
+            "description": {
+              "content": "Delete an interval by `type`, `line`, and `id`\n\n**Note:** The `id` must be obtained from either:\n- The response when creating an interval via `/v2/interval/set`\n- Searching for intervals via `/v2/interval/search`\n\nThe examples below use placeholder IDs - replace with actual IDs from your system.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "interval",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  \"line\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secondary_name\": \"<string>\",\n    \"factory\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"match\": \"unique\"\n  },\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"start_time\": \"<dateTime>\",\n  \"end_time\": \"<dateTime>\",\n  \"metadata\": {\n    \"run\": {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"secondary_name\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"timezone\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          },\n          \"match\": {\n            \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n          }\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"value\": \"<Circular reference to #/components/schemas/BatchMetadata detected>\"\n      },\n      \"match\": \"unique\"\n    },\n    \"key_0\": \"string\"\n  },\n  \"match\": \"unique\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c119c8a3-16e7-4305-98d1-78f216bb4c39",
+              "name": "A list containing the deleted interval.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"metadata_type\": \"batch\",\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      }\n    },\n    \"match\": \"unique\"\n  },\n  {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"metadata_type\": \"batch\",\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      },\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    },\n    \"match\": \"unique\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4f66a84a-9951-4d5e-a25d-43181494c0a2",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c33ec11d-5254-40b8-8630-3b48aefa9371",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "45d5f167-372c-44e2-9c1a-967648fc751d",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41cfd0b2-622d-4785-8dd4-d9526f5a4c1a",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d09fcbdf-286a-4530-bdbc-7db547c7787e",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "060fa52e-dcde-4481-adea-7da642fe1a48",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af5c6999-bf3c-4255-93b7-dd65749a0e97",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<REPLACE_WITH_ACTUAL_RUN_UUID>\",\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"type\": {\n    \"name\": \"RUN\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "895bac2c-f3e0-4c6e-a429-edab723139fd",
+          "name": "Create a set of intervals",
+          "request": {
+            "name": "Create a set of intervals",
+            "description": {
+              "content": "Create (Does not update) a group of custom intervals, for the same `type` and `line`.\nLine and type do not need to be included in each individual interval, just once at the top level.\n\nLimitations:\n- Cannot excees 2500 intervals per request.\n- Will not write over other intervals\n- Does not support \"batch\", \"run\", or \"state\" interval types.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "intervals",
+                "set"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  \"line\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secondary_name\": \"<string>\",\n    \"factory\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"match\": \"unique\"\n  },\n  \"intervals\": [\n    {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"secondary_name\": \"<string>\",\n          \"timezone\": \"<string>\",\n          \"match\": \"unique\"\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"run\": {\n          \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n        },\n        \"key_0\": 2206.8760939336184\n      },\n      \"match\": \"unique\"\n    },\n    {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"secondary_name\": \"<string>\",\n          \"timezone\": \"<string>\",\n          \"match\": \"unique\"\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"run\": {\n          \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n        }\n      },\n      \"match\": \"unique\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c2393251-4301-4541-b874-b6499dda2a91",
+              "name": "A list of created interval IDs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"string\",\n  \"string\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "835f288d-5ca7-480f-bfb0-f338aac59a5b",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95425c1b-7362-47f2-b78a-56f04931c520",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bbc1afa7-460e-43dd-9d8d-17486b47dd6c",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a19e698-b132-4ce1-b447-dfb37ecc1ca3",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a09eef99-9eb4-451a-b2bb-272fd91f31e6",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4944c31e-9479-4308-bed3-0e327fc416fa",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a886701f-da6b-47de-b5cd-2fb3e1e08bdc",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"intervals\": [\n    {\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\",\n      \"name\": \"Example Value\"\n    },\n    {\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\",\n      \"name\": \"Example Value 2\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9bd47d78-6229-4502-8c5a-0bbce745bd28",
+          "name": "Update a set of intervals",
+          "request": {
+            "name": "Update a set of intervals",
+            "description": {
+              "content": "Update multiple existing intervals. This endpoint only updates intervals and will not create new ones.\n\nEach interval in the `intervals` array must include an `id` that references an existing interval.\n\nUpdatable fields for each interval:\n- `name`: Update the interval name\n- `start_time`: Modify the start time\n- `end_time`: Modify the end time\n- `metadata`: Update metadata (product, target, category, reason, etc.)\n\nThe endpoint will attempt to update all intervals and return information about successes and failures:\n- Successfully updated intervals are returned in the response\n- Failed intervals are listed with their IDs and error reasons\n\nLimitations:\n- Cannot exceed 2500 intervals per request\n- All intervals must be of the same `type` and on the same `line`\n\n**Note:** Interval IDs must be obtained from either:\n- The response when creating intervals via `/v2/interval/set` or `/v2/intervals/set`\n- Searching for intervals via `/v2/interval/search`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "intervals",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  \"line\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secondary_name\": \"<string>\",\n    \"factory\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"match\": \"unique\"\n  },\n  \"intervals\": [\n    {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"secondary_name\": \"<string>\",\n          \"timezone\": \"<string>\",\n          \"match\": \"unique\"\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"run\": {\n          \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n        },\n        \"key_0\": false\n      },\n      \"match\": \"unique\"\n    },\n    {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"secondary_name\": \"<string>\",\n          \"timezone\": \"<string>\",\n          \"match\": \"unique\"\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"run\": {\n          \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n        },\n        \"key_0\": 6506\n      },\n      \"match\": \"unique\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9c60dbcc-9a2c-4022-89da-5402c9a5cc14",
+              "name": "Response containing successfully updated intervals and any failures that occurred.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"intervals\": [\n    {\n      \"id\": \"1809d88adf0\",\n      \"name\": \"updated_operator_1\",\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\"\n    },\n    {\n      \"id\": \"1809d88adf1\",\n      \"name\": \"updated_operator_2\",\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"num_updated\": 5920,\n  \"updated_intervals\": [\n    {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"secondary_name\": \"<string>\",\n          \"timezone\": \"<string>\",\n          \"match\": \"unique\"\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"metadata_type\": \"batch\",\n        \"run\": {\n          \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n        },\n        \"key_0\": true,\n        \"key_1\": 5450.730614889886,\n        \"key_2\": false,\n        \"key_3\": true\n      },\n      \"match\": \"unique\"\n    },\n    {\n      \"type\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"line\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"factory\": {\n          \"id\": \"<uuid>\",\n          \"name\": \"<string>\",\n          \"secondary_name\": \"<string>\",\n          \"timezone\": \"<string>\",\n          \"match\": \"unique\"\n        },\n        \"match\": \"unique\"\n      },\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"start_time\": \"<dateTime>\",\n      \"end_time\": \"<dateTime>\",\n      \"metadata\": {\n        \"metadata_type\": \"batch\",\n        \"run\": {\n          \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n        }\n      },\n      \"match\": \"unique\"\n    }\n  ],\n  \"num_failed\": 5932,\n  \"failed_intervals\": [\n    {\n      \"id\": \"string\",\n      \"error\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"error\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36c29f84-c99b-47cd-a0da-69073f755ce2",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"intervals\": [\n    {\n      \"id\": \"1809d88adf0\",\n      \"name\": \"updated_operator_1\",\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\"\n    },\n    {\n      \"id\": \"1809d88adf1\",\n      \"name\": \"updated_operator_2\",\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65864c55-cb4c-43be-8541-c2b38b257aa9",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"intervals\": [\n    {\n      \"id\": \"1809d88adf0\",\n      \"name\": \"updated_operator_1\",\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\"\n    },\n    {\n      \"id\": \"1809d88adf1\",\n      \"name\": \"updated_operator_2\",\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f62911f8-5367-4058-80b1-dd996fdcb3ae",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"intervals\": [\n    {\n      \"id\": \"1809d88adf0\",\n      \"name\": \"updated_operator_1\",\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\"\n    },\n    {\n      \"id\": \"1809d88adf1\",\n      \"name\": \"updated_operator_2\",\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3302635e-c6b5-49d3-9fe5-0a7716e8f5c0",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"intervals\": [\n    {\n      \"id\": \"1809d88adf0\",\n      \"name\": \"updated_operator_1\",\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\"\n    },\n    {\n      \"id\": \"1809d88adf1\",\n      \"name\": \"updated_operator_2\",\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a34ee245-5ede-4077-84f4-2c0fd67fe73b",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"intervals\": [\n    {\n      \"id\": \"1809d88adf0\",\n      \"name\": \"updated_operator_1\",\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\"\n    },\n    {\n      \"id\": \"1809d88adf1\",\n      \"name\": \"updated_operator_2\",\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "325c5ac4-0a2a-4865-96f6-6f8dc10c999d",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"line\": {\n    \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n  },\n  \"intervals\": [\n    {\n      \"id\": \"1809d88adf0\",\n      \"name\": \"updated_operator_1\",\n      \"start_time\": \"2021-04-04T08:00:04Z\",\n      \"end_time\": \"2021-04-04T08:30:04Z\"\n    },\n    {\n      \"id\": \"1809d88adf1\",\n      \"name\": \"updated_operator_2\",\n      \"start_time\": \"2021-04-04T09:00:04Z\",\n      \"end_time\": \"2021-04-04T09:30:04Z\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f48ff2ab-4e18-426e-ae8f-8d2e35c3e204",
+          "name": "Delete intervals in a time range",
+          "request": {
+            "name": "Delete intervals in a time range",
+            "description": {
+              "content": "Delete a group of intervals by a single `type` and a single `line`, between `start_time` and `end_time`. Returns a list of intervals that were not deleted, and the number of intervals deleted.\n\nLimitations:\n- Cannot exceed 15,000 intervals per request, or 30 days worth of data.\n- Currently does not support \"batch\" or \"run\" interval types.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "intervals",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  \"line\": {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"secondary_name\": \"<string>\",\n    \"factory\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"match\": \"unique\"\n  },\n  \"start_time\": \"<dateTime>\",\n  \"end_time\": \"<dateTime>\",\n  \"hard_delete\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9c79f0cd-93d7-4bb8-b586-890ad48265ad",
+              "name": "A list containing any intervals found but not deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"num_deleted\": 2506,\n  \"failed_intervals\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57aafe46-9d07-4da0-aef7-f7c92a262b4f",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "26bf22c8-8d90-4e87-ae3f-a969d8232da8",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ad02733-5248-4724-a4a1-d8cd10fa3a05",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a981d31-b3e3-4fcc-ac44-2e5ba59c44b8",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd953131-860d-4e6d-9050-ab850af37d64",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba03b562-0b21-4938-89c4-440cc2549092",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "551ea166-0a0c-4314-bcf9-7d224144428f",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "intervals",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"line\": {\n    \"name\": \"Line 01\",\n    \"factory\": {\n      \"name\": \"Factory A\"\n    }\n  },\n  \"type\": {\n    \"name\": \"operator id\"\n  },\n  \"start_time\": \"2021-04-04T08:00:04Z\",\n  \"end_time\": \"2021-04-10T08:00:04Z\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ea232c7c-d73a-4d4f-89c4-86b9c1497f13",
+          "name": "Search interval types",
+          "request": {
+            "name": "Search interval types",
+            "description": {
+              "content": "Search for Interval Types by `name`, `id`, or just `match: all` to return all Interval Types associated with the your organization.\nBasic Interval Types -- `RUN`, `BATCH`, and `STATE` -- are dedicated interval types that come out-of-the-box with Oden.\nCustom Interval Types may be created by users.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "interval_type",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"match\": \"unique\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9cc977eb-fbed-4c8d-beb9-79d10a1ffc3a",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"name\": \"<string>\",\n    \"match\": \"unique\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e32c90b3-1da9-48a8-8a75-4efd7ad17b87",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5e96572f-e639-470e-a8a5-7076b776a371",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3113c2be-b149-45db-9c5b-411c9de7d3a9",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a92fd3b-eb9c-4c09-a966-926e6e101cc4",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 773,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa4b9258-f41c-4419-9fe7-310a415f86f9",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a09cfa83-1692-4246-8b24-97f2e3fc5736",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b83ba058-7f21-4308-9153-000ef483f957",
+          "name": "Create or update a custom interval type",
+          "request": {
+            "name": "Create or update a custom interval type",
+            "description": {
+              "content": "**Create** (no `id` in the body): send `name` (required) and optional `metadata_schema` / `tags`.\n\n**Update** (with `id`): send the interval type’s `id` and optional `metadata_schema` / `tags` only. Do not send `name` for updates; including `name` returns 400. Renames are not supported.\n\n**Patch (update only)**: `metadata_schema` — if the key is missing, the existing value is kept; if present, it replaces. `tags` — if the key is missing, tags are unchanged; `null` leaves tags unchanged; `[]` clears tags; a non-empty array replaces.\n\n**Built-in types (RUN, BATCH, STATE) cannot be created, set, or deleted.**\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "interval_type",
+                "set"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"metadata_schema\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4d615ad8-530f-401d-9020-d9b60cfab167",
+              "name": "The interval type after set.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"operator id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"match\": \"unique\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5325dff8-014c-462f-b3a2-a16e68109aa9",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"operator id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3576aa3d-b673-4383-b3ad-a63ea728fede",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"operator id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52cc96b8-6dc7-431a-9651-c9a90737e00a",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"operator id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "87839ca4-a315-4718-85f2-6ab40f423303",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"operator id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5072bc10-1e56-4c83-8d6b-efdd8c478109",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"operator id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "84952d0a-16c6-4a41-a9a1-9cd7f66834d7",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"operator id\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "167b00e3-79bc-4ec0-b2e9-f03d4378cdbe",
+          "name": "Delete a custom interval type",
+          "request": {
+            "name": "Delete a custom interval type",
+            "description": {
+              "content": "Delete an existing custom Interval Type. `id` is required. Built-in types (RUN, BATCH, STATE) cannot be deleted.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "interval_type",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"match\": \"unique\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "15203c36-810c-4423-85c5-0e99169ac589",
+              "name": "The deleted interval type.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"<uuid>\",\n  \"name\": \"<string>\",\n  \"match\": \"unique\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d98c86ae-7b40-421c-a136-cc66d0b81bc5",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "05d6699a-f613-496d-9723-a94045d6676d",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7eb05233-3d74-4194-b8b4-f3754f415575",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37fda96d-a390-4f5e-a1fa-b7009baf7cbc",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41ba63e4-b296-4fde-8dcf-05ca23d23e84",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"64f4b6ec-924b-9a97-7730-b69e99d1fcf0\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd2c6bf0-ac38-4a7f-8651-3536afc540de",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "interval_type",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"2fc8b5e5-fb88-48a7-9c35-4a763206608c\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.oden.app",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b22c6bb3-c675-4e4c-bcb4-13b7065b1dc8",
+    "name": "Oden Dashboards Intervals API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Oden Private Partner API exposes RESTful API endpoints for clients to get, create and update data on the Oden Platform.\n\nThe API is based on the OpenAPI 3.0 specification.\n### Current Version\nThe URL, and host, for the current version is [https://api.oden.app/v2](https://api.oden.app/v2).\n\n### Oden's Data Model\n- **Organization**: This represents the Organization registered as an Oden customer. An organization has an associated collection of users, factories, lines, etc. This is the entity a specific authentication token is associated with.\n- **Asset** or **Machinegroup**: Assets, or machinegroups, are collections of machines, which may either be a **Factory** or a **Line**:\n  - **Factory**: Factories are collections of lines, representing a particular manufacturing location.\n    - **Line**: Lines are collections of machines, often representing a particular production line. Lines may also have **Products** mapped to them, indicating what is currently being manufactured by the specific line.\n      - **Machine**: Machines are the physical machines that make up a line\n- **Product**: Products capture what entities a manufacturer produces\n- **Interval**: An interval is a period of time that takes place on a manufacturing line and expresses some business concern. It's Oden's way of making metrics aggregatable, traceable, and relatable to a manufacturer.\n  - **Run**: A run is a production interval that labels a period of production as being work on some single product\n  - **Batch**: A batch is a production interval that represents a portion of a particular run\n  - **State**: A state is an interval that tracks the availability or utilization of a line\n    - **State Category**: A state category describes what state a line is in - such as ex. uptime, downtime, scrapping, etc.\n    - **State Reason**: A state reason describes why a line is in a particular state - such as \"maintenance\" being a reason for the category \"downtime\".\n  - **Custom**: A custom interval can track any other type of interval-based data a manufacturer might want to analyze. These are created on a per-factory basis.\n- **Target**: Targets specify values and upper/lower thresholds for metrics when specific products are running on specific lines\n- **Scrap/Yield**: Scrap/yield output specifies amount of produced product on a line during either a run or batch interval. Oden will categorize all output as either scrap or yield - as specified by the Scrap Yield Schema for a given factory. If you have other categories, like rework/blocked/off-grade, you must choose between categorizing those amounts as either good or bad production by specifying as scrap or yield. Clients may also add scrap codes (i.e., reasons) to a given Scrap Yield Data entry.\n  - **Scrap Code**: A scrap code is a code that explains the reason for a scrap/yield raw data input - such as \"Rework\"\n- **Quality Test**: Quality Tests are results of quality assurance tests done on site, and uploaded to Oden. They may be attached to a single Batch or Run.\n- **Metric**: Known in factories as \"tags\", metrics are the raw data that is collected by Oden from the machines and devices on the factory floor.\n- **Metric Group**: Metric groups are metrics that represent the same thing across different lines. They provide common display names for tags and allow labeling groups of tags as measuring key types of data like performance or production.\n- **Maintenance Work Order**: A maintenance work order can be used to track work orders maintained in MaintainX and associate them with an Oden line. \n\n### Best Practices\nUnder the current implementation, the Oden API does not rate limit requests from clients.\n\nHowever, rate limiting will be introduced in the near future and it is recommended that users design their API\nclients to not exceed a request rate of **one per second**.\n\n### Schema\nAll v2 API access is over HTTPS and accessed from https://api.oden.app/v2\nAll data is sent and received as JSON.\n\nAPI requests with duplicate keys will process only the data for the first key detected and ignore the rest, so it's not recommended. Batching multiple messages in this way is currently not possible.\n  - Example of duplicate key in JSON: {\"raw_data\":{\"scrap\":\"10\",\"scrap\":\"100\"}}\n\nAll timestamps are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format:\n\n  `YYYY-MM-DDTHH:MM:SSZ`\n\nAll durations are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format with the largest unit of time being the hour:\n\n   `PT[n]H[n]M[n]S`\n\nAll timestamps sent to the API in POST requests should be in ISO 8601 format.\n### HTTP Verbs\nThe ONLY HTTP call type (sometimes called *verb* or *method*) used within Oden's API is **POST**.\nThere are three actions supported via a **POST**; call, search, set, and delete, together supporting CRUD operations;\n  - **search** requests are used to search for and *read* objects in the Oden Platform\n      - All Oden Objects may be uniquely identified by some combination of, or a single, parameter.\n        - Ex a `line` my be identified by either:\n          - `id`\n          - `name` AND `factory`\n  - **set** requests are used to *create* or *update* objects\n  - **delete** requests are used to *delete* objects. If a delete endpoint is not yet implemented for a given object, users may choose to update the values of a specific entity to null or 0 values.\n\n### URI Components\nAll endpoints may be accessed with the URI pattern:\n`https://api.oden.app/v2/{object}/{action}`\n\nWhere:\n  - `object` is the name of the object being requested:\n       - `factory`, `quality_test`, `interval`, `line`, etc...\n  - `action` is the name of the action being requested\n    - `search` , `set` , `delete`\n\ne.g. `https://api.oden.app/v2/factory/search`\n\n# Authentication\nClients can authenticate through the v2 API using a Token provided by Oden. Tokens are opaque strings similar to\n[Bearer](https://swagger.io/docs/specification/authentication/bearer-authentication/) tokens that the client must\npass in the [HTTP Authorization request header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) in every request.\nThe syntax is as follows:\n\n`Authorization: <type> <credentials>`\n\nWhere \\<type\\> is \"Token\" and \\<credentials\\> is the Token string. For example:\n\n`Authorization: Token tokenStringProvidedByOden`\n\nAuthenticating with an invalid Token will return `401 Unauthorized Error`.\n\nAuthenticating with a Token that is not authorized to read requested data will return `403 Forbidden Error`.\n\nSome endpoints may require requests to be broken out by machinegroup (i.e., line or factory) and the number of\nrequests would scale accordingly. This multiplicity should be taken into consideration when deciding on the\nfrequency the API client makes requests to the Oden endpoints.\n\nTo authenticate in this [UI](https://api.oden.app/v2/ui/), click the Lock icon, and copy/paste the token into the Authorize box.\n\n\nContact Support:\n Name: Oden Support\n Email: support@oden.io",
+      "type": "text/plain"
+    }
+  }
+}

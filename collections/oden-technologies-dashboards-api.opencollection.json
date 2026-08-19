@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Dashboards",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a dashboard",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/dashboard/execute",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Execute every module in a dashboard with shared time-range and filter\noverrides, returning the columns and rows produced by each module.\n\nModules execute in parallel and are reported in the dashboard's stored\nmodule order. Per-module failures (parse, dispatch) land in the\n`error` field of that module's result; siblings continue to run.\n\nKnown v1 limitations:\n- Template variables (`{var_name}` in stored OQL) are not substituted\n  server-side. Modules containing unsubstituted placeholders will\n  f"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

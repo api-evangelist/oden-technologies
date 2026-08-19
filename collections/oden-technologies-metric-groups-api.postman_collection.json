@@ -1,0 +1,523 @@
+{
+  "item": [
+    {
+      "id": "6fd35606-8a1f-4fe0-9aec-9541f0269649",
+      "name": "Metric Groups",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "f483d588-9e29-4d81-8f0e-39b019483955",
+          "name": "Search metric groups",
+          "request": {
+            "name": "Search metric groups",
+            "description": {
+              "content": "Search for a specific Metric Group:\n\n- `name`\n- `match: unique` or omit\n\nOR\n\n- `id`\n- `match: unique` or omit\n\nSearch for all Metric Groups:\n- `match: all`\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "metric_group",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"id\": \"<uuid>\",\n  \"unit_kind_of_quantity\": \"<string>\",\n  \"match\": \"unique\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8576ec40-103f-44c8-adea-b933c6a30366",
+              "name": "A list of metric groups.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"unit_kind_of_quantity\": \"<string>\",\n    \"match\": \"unique\"\n  },\n  {\n    \"name\": \"<string>\",\n    \"description\": \"<string>\",\n    \"id\": \"<uuid>\",\n    \"unit_kind_of_quantity\": \"<string>\",\n    \"match\": \"unique\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f098d42-42d4-4d3d-9852-6e1342efc9b7",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e5e6cb44-5982-4a3c-8f3d-360cbcb44012",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8fec32eb-2546-4ce8-aa24-ed6c15c9685b",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dbfb1865-75be-442e-b180-4eb83ca4042d",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "585df3d7-e643-4cf6-a838-d910fc309e3f",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 2446,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d671a15d-601a-4445-9d54-ac592df3d9b0",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": true,\n  \"id\": \"e84b5cab-a726-69fe-1164-f19676cf5377\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6ceaa5aa-af51-495c-972a-c510c72ae0cc",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "metric_group",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"match\": \"all\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.oden.app",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "450ee3db-cef7-4349-a2a2-d1ab0b4ca57c",
+    "name": "Oden Dashboards Metric Groups API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Oden Private Partner API exposes RESTful API endpoints for clients to get, create and update data on the Oden Platform.\n\nThe API is based on the OpenAPI 3.0 specification.\n### Current Version\nThe URL, and host, for the current version is [https://api.oden.app/v2](https://api.oden.app/v2).\n\n### Oden's Data Model\n- **Organization**: This represents the Organization registered as an Oden customer. An organization has an associated collection of users, factories, lines, etc. This is the entity a specific authentication token is associated with.\n- **Asset** or **Machinegroup**: Assets, or machinegroups, are collections of machines, which may either be a **Factory** or a **Line**:\n  - **Factory**: Factories are collections of lines, representing a particular manufacturing location.\n    - **Line**: Lines are collections of machines, often representing a particular production line. Lines may also have **Products** mapped to them, indicating what is currently being manufactured by the specific line.\n      - **Machine**: Machines are the physical machines that make up a line\n- **Product**: Products capture what entities a manufacturer produces\n- **Interval**: An interval is a period of time that takes place on a manufacturing line and expresses some business concern. It's Oden's way of making metrics aggregatable, traceable, and relatable to a manufacturer.\n  - **Run**: A run is a production interval that labels a period of production as being work on some single product\n  - **Batch**: A batch is a production interval that represents a portion of a particular run\n  - **State**: A state is an interval that tracks the availability or utilization of a line\n    - **State Category**: A state category describes what state a line is in - such as ex. uptime, downtime, scrapping, etc.\n    - **State Reason**: A state reason describes why a line is in a particular state - such as \"maintenance\" being a reason for the category \"downtime\".\n  - **Custom**: A custom interval can track any other type of interval-based data a manufacturer might want to analyze. These are created on a per-factory basis.\n- **Target**: Targets specify values and upper/lower thresholds for metrics when specific products are running on specific lines\n- **Scrap/Yield**: Scrap/yield output specifies amount of produced product on a line during either a run or batch interval. Oden will categorize all output as either scrap or yield - as specified by the Scrap Yield Schema for a given factory. If you have other categories, like rework/blocked/off-grade, you must choose between categorizing those amounts as either good or bad production by specifying as scrap or yield. Clients may also add scrap codes (i.e., reasons) to a given Scrap Yield Data entry.\n  - **Scrap Code**: A scrap code is a code that explains the reason for a scrap/yield raw data input - such as \"Rework\"\n- **Quality Test**: Quality Tests are results of quality assurance tests done on site, and uploaded to Oden. They may be attached to a single Batch or Run.\n- **Metric**: Known in factories as \"tags\", metrics are the raw data that is collected by Oden from the machines and devices on the factory floor.\n- **Metric Group**: Metric groups are metrics that represent the same thing across different lines. They provide common display names for tags and allow labeling groups of tags as measuring key types of data like performance or production.\n- **Maintenance Work Order**: A maintenance work order can be used to track work orders maintained in MaintainX and associate them with an Oden line. \n\n### Best Practices\nUnder the current implementation, the Oden API does not rate limit requests from clients.\n\nHowever, rate limiting will be introduced in the near future and it is recommended that users design their API\nclients to not exceed a request rate of **one per second**.\n\n### Schema\nAll v2 API access is over HTTPS and accessed from https://api.oden.app/v2\nAll data is sent and received as JSON.\n\nAPI requests with duplicate keys will process only the data for the first key detected and ignore the rest, so it's not recommended. Batching multiple messages in this way is currently not possible.\n  - Example of duplicate key in JSON: {\"raw_data\":{\"scrap\":\"10\",\"scrap\":\"100\"}}\n\nAll timestamps are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format:\n\n  `YYYY-MM-DDTHH:MM:SSZ`\n\nAll durations are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format with the largest unit of time being the hour:\n\n   `PT[n]H[n]M[n]S`\n\nAll timestamps sent to the API in POST requests should be in ISO 8601 format.\n### HTTP Verbs\nThe ONLY HTTP call type (sometimes called *verb* or *method*) used within Oden's API is **POST**.\nThere are three actions supported via a **POST**; call, search, set, and delete, together supporting CRUD operations;\n  - **search** requests are used to search for and *read* objects in the Oden Platform\n      - All Oden Objects may be uniquely identified by some combination of, or a single, parameter.\n        - Ex a `line` my be identified by either:\n          - `id`\n          - `name` AND `factory`\n  - **set** requests are used to *create* or *update* objects\n  - **delete** requests are used to *delete* objects. If a delete endpoint is not yet implemented for a given object, users may choose to update the values of a specific entity to null or 0 values.\n\n### URI Components\nAll endpoints may be accessed with the URI pattern:\n`https://api.oden.app/v2/{object}/{action}`\n\nWhere:\n  - `object` is the name of the object being requested:\n       - `factory`, `quality_test`, `interval`, `line`, etc...\n  - `action` is the name of the action being requested\n    - `search` , `set` , `delete`\n\ne.g. `https://api.oden.app/v2/factory/search`\n\n# Authentication\nClients can authenticate through the v2 API using a Token provided by Oden. Tokens are opaque strings similar to\n[Bearer](https://swagger.io/docs/specification/authentication/bearer-authentication/) tokens that the client must\npass in the [HTTP Authorization request header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) in every request.\nThe syntax is as follows:\n\n`Authorization: <type> <credentials>`\n\nWhere \\<type\\> is \"Token\" and \\<credentials\\> is the Token string. For example:\n\n`Authorization: Token tokenStringProvidedByOden`\n\nAuthenticating with an invalid Token will return `401 Unauthorized Error`.\n\nAuthenticating with a Token that is not authorized to read requested data will return `403 Forbidden Error`.\n\nSome endpoints may require requests to be broken out by machinegroup (i.e., line or factory) and the number of\nrequests would scale accordingly. This multiplicity should be taken into consideration when deciding on the\nfrequency the API client makes requests to the Oden endpoints.\n\nTo authenticate in this [UI](https://api.oden.app/v2/ui/), click the Lock icon, and copy/paste the token into the Authorize box.\n\n\nContact Support:\n Name: Oden Support\n Email: support@oden.io",
+      "type": "text/plain"
+    }
+  }
+}

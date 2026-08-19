@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Quality Test API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Quality Test",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create or update a quality test result",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/quality_test/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a Quality Test record:\n- To update `id` must be supplied. Only the supplied fields will be updated, the rest will remain unchanged.\n- If `id` is not supplied, a new `quality_test_record` will be created.\n"
+        },
+        {
+          "info": {
+            "name": "Search quality tests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/quality_test/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for Quality Test[s] by:\n\n- `id`\n\nOR\n\n- `interval` (of type `RUN` or `BATCH`)\n"
+        },
+        {
+          "info": {
+            "name": "Delete a quality test",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/quality_test/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for uniqueQuality Test by:\n\n- `id`\n\nOR\n\n- `interval` (of type `RUN` or `BATCH`)*\n\n*This only work if there is a single quality test record for the interval.\n"
+        },
+        {
+          "info": {
+            "name": "Delete multiple quality tests",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/quality_tests/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Bulk deletes quality tests, either:\n- All quality tests on a given `line` whose `timsetamp` is between `start_time` and `end_time`\nOR\n- All quality tests whose `id` is supplied\n\nIt will do one or the other, with a bias for `id`'s if both are supplied.\n"
+        },
+        {
+          "info": {
+            "name": "Search quality schemas for a factory",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/quality_schema/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for Quality Schema[s] by:\n\n- `factory`\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

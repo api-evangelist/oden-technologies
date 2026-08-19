@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards OQL API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "OQL",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run an OQL query",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/oql/query",
+            "params": [
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Format of the response. Can be `json`, `jsonextended` or `csv`. If unspecified, defaults to `jsonextended`.\n"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run an OQL (Oden Query Language) query.\n\nFor reference on writing OQL queries, see:\n\n[https://platform.oden.app/knowledge/how-do-i-write-queries-in-oden-query-language-oql](https://platform.oden.app/knowledge/how-do-i-write-queries-in-oden-query-language-oql)\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Targets API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Targets",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search metric targets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/target/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for a Target by `line`, `metric_group`, and `product`. For each of these inputs, any of\ntheir unique indentifiers (as described in their `search` endpoint) may be used. See examples.\n"
+        },
+        {
+          "info": {
+            "name": "Create or update a metric target",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/target/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a Target.\n\nFirst the endpoint will search for a Target by `metric_group`, `product`, and `line`:\n- If the target does not exist a new target is created.\n- If the product or its mapping to the given line does not exist, they will be created.\n- If a target exists but with different parameters, it will be updated.\n- If the target exists with all the same parameters nothing is done.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

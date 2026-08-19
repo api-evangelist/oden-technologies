@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Maintenance Work Orders API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Maintenance Work Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search maintenance work orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/maintenance_work_order/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for Maintenance Work Orders by:\n- `id`\n- `external_id`\n- `line_id` with required `start_time` and `end_time` filters\n"
+        },
+        {
+          "info": {
+            "name": "Create or update a maintenance work order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/maintenance_work_order/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update a Maintenance Work Order.\n\nTo **create** a new Maintenance Work Order:\n- Include `name` and `line`, `external_id`, `started_at` (required)\n- Omit `id` field\n- include `completed_at`, `description`, `metadata`\n\nTo **update** an existing Maintenance Work Order:\n- Include the `id` of the existing work order\n- Include any fields to update\n\nNOTE: Any fields not included in an update request will be left unchanged.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a maintenance work order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/maintenance_work_order/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a Maintenance Work Order by unique identifier:\n- `id` OR `external_id`\n- `match: unique` or omit (only unique is supported)\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

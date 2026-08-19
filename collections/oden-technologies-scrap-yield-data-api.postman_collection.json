@@ -1,0 +1,1506 @@
+{
+  "item": [
+    {
+      "id": "6fddd229-2992-453a-b81f-fb86e3ad2044",
+      "name": "Scrap/Yield Data",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d7a3453b-d6ee-40a6-878e-16beef715f63",
+          "name": "Search scrap/yield records",
+          "request": {
+            "name": "Search scrap/yield records",
+            "description": {
+              "content": "Searches for scrap/yield records for a given Interval\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "scrap_yield",
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"interval\": {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      },\n      \"key_0\": \"string\",\n      \"key_1\": 4122\n    },\n    \"match\": \"unique\"\n  },\n  \"data\": {\n    \"raw_data\": \"<json>\",\n    \"id\": \"<uuid>\",\n    \"schema\": {\n      \"id\": \"<uuid>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"scrap_conversion_factor\": \"<double>\",\n      \"scrap_unit\": {\n        \"id\": \"<integer>\",\n        \"symbol\": \"<string>\",\n        \"name\": \"<string>\",\n        \"kind_of_quantity\": \"<string>\"\n      },\n      \"yield_conversion_factor\": \"<double>\",\n      \"yield_unit\": {\n        \"id\": \"<integer>\",\n        \"symbol\": \"<string>\",\n        \"name\": \"<string>\",\n        \"kind_of_quantity\": \"<string>\"\n      }\n    },\n    \"timestamp\": \"<dateTime>\",\n    \"match\": \"unique\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6afd3c3f-84f6-48fd-99df-23340a967b24",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "56988a1e-6ff1-4139-bed1-de9f0ba8df49",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "277674f0-6603-40b6-ab84-4548d6083b97",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b7a59a1-8401-4fe1-a9db-933bf827dc97",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2031d148-605c-4eee-a92c-72d677d1154d",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c26fce25-49d4-446b-bb7a-9fc413538da9",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 1648,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c20b9f4b-8d45-4a63-9189-fd75f32a279f",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"c91590ad-b009-67f8-33eb-94dcf8a29937\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "836c1583-f307-40b4-b952-a9a8de134cfb",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  },\n  \"data\": {\n    \"match\": \"ALL\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "27347c58-d5c9-4294-a4f8-f30afa0834a2",
+          "name": "Create or update a scrap/yield record",
+          "request": {
+            "name": "Create or update a scrap/yield record",
+            "description": {
+              "content": "Uploads scrap or yield raw data.\n\nNotes:\n\n- If `id` is provided the existing Scrap/Yield record will be updated.\n\n- If `id` is omitted a new Scrap/Yield record will be created.\n\n- The scrap yield for an interval is an aggregate of all scrap yield raw data records associated with that interval\n    - Therefore, multiple scrap yield records can exist for a single interval, each contributing to the \"aggregate\" (i.e. sum total) scrap/yield of that interval\n\n- Changing an aggregate can be done by either adding another record with an offset, or updating an existing record.\n    - Example: If you have 3 scrap records in an interval: 50 50 50 = 150 and want to make the aggregate 100 for a given interval, either update one of the existing scrap records from 50 -> 0, or add a new one with value -50\n\n- Duplicate keys should be avoided, see Schema docs above for details.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "scrap_yield",
+                "set"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "pattern",
+                  "value": "exact",
+                  "description": "Optional pattern type to use for matching:\n- `exact` for exact match\n- `contains` for the string to be contained in the query\n- `regex` to match based on a regular expression\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"raw_data\": \"<json>\",\n    \"id\": \"<uuid>\",\n    \"schema\": {\n      \"id\": \"<uuid>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"scrap_conversion_factor\": \"<double>\",\n      \"scrap_unit\": {\n        \"id\": \"<integer>\",\n        \"symbol\": \"<string>\",\n        \"name\": \"<string>\",\n        \"kind_of_quantity\": \"<string>\"\n      },\n      \"yield_conversion_factor\": \"<double>\",\n      \"yield_unit\": {\n        \"id\": \"<integer>\",\n        \"symbol\": \"<string>\",\n        \"name\": \"<string>\",\n        \"kind_of_quantity\": \"<string>\"\n      }\n    },\n    \"timestamp\": \"<dateTime>\",\n    \"match\": \"unique\"\n  },\n  \"interval\": {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      },\n      \"key_0\": \"string\",\n      \"key_1\": 1681,\n      \"key_2\": 5781.6139797869955,\n      \"key_3\": true\n    },\n    \"match\": \"unique\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "81504471-9144-44e9-93cc-1cea5f65c4b7",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7dbb6f29-2014-400f-8d81-e51cc5a21961",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1c80dc2d-ba2a-4032-a5c9-f72681e90848",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c85325c5-26da-433b-9783-e33f43632d80",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ed3168e-f89d-48dd-9671-b50de1ba9ecc",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e77baf44-6bac-45dd-a9e4-369a2522180b",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 1648,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5f7007b6-5bd4-4c71-9fe5-2fcbf9045cfe",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"c91590ad-b009-67f8-33eb-94dcf8a29937\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3aa6877e-b3dd-46de-8751-b0d11467a1ef",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "set"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "pattern",
+                      "value": "exact"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"raw_data\": {\n      \"scrap\": 100,\n      \"yield\": 50\n    },\n    \"timestamp\": \"2022-06-15T08:00:00Z\"\n  },\n  \"interval\": {\n    \"id\": \"178b9a1ec20\",\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    },\n    \"type\": {\n      \"name\": \"BATCH\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "368de367-b5f2-4e91-9d9f-a8c03b2324c0",
+          "name": "Delete a scrap/yield record",
+          "request": {
+            "name": "Delete a scrap/yield record",
+            "description": {
+              "content": "Deletes Scrap Yield record by ID and line\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "scrap_yield",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"interval\": {\n    \"type\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"match\": \"unique\"\n    },\n    \"line\": {\n      \"id\": \"<uuid>\",\n      \"name\": \"<string>\",\n      \"secondary_name\": \"<string>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"match\": \"unique\"\n    },\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"start_time\": \"<dateTime>\",\n    \"end_time\": \"<dateTime>\",\n    \"metadata\": {\n      \"run\": {\n        \"value\": \"<Circular reference to #/components/schemas/Interval detected>\"\n      },\n      \"key_0\": false,\n      \"key_1\": 372.8982816804227,\n      \"key_2\": \"string\",\n      \"key_3\": 9878.31101703459,\n      \"key_4\": 9184\n    },\n    \"match\": \"unique\"\n  },\n  \"data\": {\n    \"raw_data\": \"<json>\",\n    \"id\": \"<uuid>\",\n    \"schema\": {\n      \"id\": \"<uuid>\",\n      \"factory\": {\n        \"id\": \"<uuid>\",\n        \"name\": \"<string>\",\n        \"secondary_name\": \"<string>\",\n        \"timezone\": \"<string>\",\n        \"match\": \"unique\"\n      },\n      \"scrap_conversion_factor\": \"<double>\",\n      \"scrap_unit\": {\n        \"id\": \"<integer>\",\n        \"symbol\": \"<string>\",\n        \"name\": \"<string>\",\n        \"kind_of_quantity\": \"<string>\"\n      },\n      \"yield_conversion_factor\": \"<double>\",\n      \"yield_unit\": {\n        \"id\": \"<integer>\",\n        \"symbol\": \"<string>\",\n        \"name\": \"<string>\",\n        \"kind_of_quantity\": \"<string>\"\n      }\n    },\n    \"timestamp\": \"<dateTime>\",\n    \"match\": \"unique\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1e83145b-e593-4772-873d-dbeee7340118",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7411fdbb-d920-43a5-ac67-52391be4afa5",
+              "name": "An error occurred regarding one of the input parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"name\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15a90d12-199b-43b7-94d4-e5419d68b185",
+              "name": "User has provided either no credentials or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "367708fd-ebad-49f6-90b6-5b06c5d1406d",
+              "name": "User has provided valid credentials but is not authorized to access the entity\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e79a6068-a8d2-4922-86a1-e9d6814c422c",
+              "name": "Entity not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7a72e69-7df9-452d-a2d9-1db1c6c2af8e",
+              "name": "A {match: \"unique\"} was requested, but multiple entities matched the search parameters.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"entity_name\": \"string\",\n  \"num_matches\": 1648,\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f664d851-5d41-4ea9-9e37-d095670293af",
+              "name": "An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.\n",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false,\n  \"id\": \"c91590ad-b009-67f8-33eb-94dcf8a29937\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eed7ba35-5643-4990-94c6-fe3be1073813",
+              "name": "Endpoint is not yet implemented",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "scrap_yield",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"id\": \"16a8fa1f-ba0a-4040-81c9-ac4dd054bdbb\"\n  },\n  \"interval\": {\n    \"line\": {\n      \"name\": \"Line 01\",\n      \"factory\": {\n        \"name\": \"Factory A\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Implemented",
+              "code": 501,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"retryable\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.oden.app",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "deef1077-0719-42ec-9a50-af82598d7bc1",
+    "name": "Oden Dashboards Scrap/Yield Data API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Oden Private Partner API exposes RESTful API endpoints for clients to get, create and update data on the Oden Platform.\n\nThe API is based on the OpenAPI 3.0 specification.\n### Current Version\nThe URL, and host, for the current version is [https://api.oden.app/v2](https://api.oden.app/v2).\n\n### Oden's Data Model\n- **Organization**: This represents the Organization registered as an Oden customer. An organization has an associated collection of users, factories, lines, etc. This is the entity a specific authentication token is associated with.\n- **Asset** or **Machinegroup**: Assets, or machinegroups, are collections of machines, which may either be a **Factory** or a **Line**:\n  - **Factory**: Factories are collections of lines, representing a particular manufacturing location.\n    - **Line**: Lines are collections of machines, often representing a particular production line. Lines may also have **Products** mapped to them, indicating what is currently being manufactured by the specific line.\n      - **Machine**: Machines are the physical machines that make up a line\n- **Product**: Products capture what entities a manufacturer produces\n- **Interval**: An interval is a period of time that takes place on a manufacturing line and expresses some business concern. It's Oden's way of making metrics aggregatable, traceable, and relatable to a manufacturer.\n  - **Run**: A run is a production interval that labels a period of production as being work on some single product\n  - **Batch**: A batch is a production interval that represents a portion of a particular run\n  - **State**: A state is an interval that tracks the availability or utilization of a line\n    - **State Category**: A state category describes what state a line is in - such as ex. uptime, downtime, scrapping, etc.\n    - **State Reason**: A state reason describes why a line is in a particular state - such as \"maintenance\" being a reason for the category \"downtime\".\n  - **Custom**: A custom interval can track any other type of interval-based data a manufacturer might want to analyze. These are created on a per-factory basis.\n- **Target**: Targets specify values and upper/lower thresholds for metrics when specific products are running on specific lines\n- **Scrap/Yield**: Scrap/yield output specifies amount of produced product on a line during either a run or batch interval. Oden will categorize all output as either scrap or yield - as specified by the Scrap Yield Schema for a given factory. If you have other categories, like rework/blocked/off-grade, you must choose between categorizing those amounts as either good or bad production by specifying as scrap or yield. Clients may also add scrap codes (i.e., reasons) to a given Scrap Yield Data entry.\n  - **Scrap Code**: A scrap code is a code that explains the reason for a scrap/yield raw data input - such as \"Rework\"\n- **Quality Test**: Quality Tests are results of quality assurance tests done on site, and uploaded to Oden. They may be attached to a single Batch or Run.\n- **Metric**: Known in factories as \"tags\", metrics are the raw data that is collected by Oden from the machines and devices on the factory floor.\n- **Metric Group**: Metric groups are metrics that represent the same thing across different lines. They provide common display names for tags and allow labeling groups of tags as measuring key types of data like performance or production.\n- **Maintenance Work Order**: A maintenance work order can be used to track work orders maintained in MaintainX and associate them with an Oden line. \n\n### Best Practices\nUnder the current implementation, the Oden API does not rate limit requests from clients.\n\nHowever, rate limiting will be introduced in the near future and it is recommended that users design their API\nclients to not exceed a request rate of **one per second**.\n\n### Schema\nAll v2 API access is over HTTPS and accessed from https://api.oden.app/v2\nAll data is sent and received as JSON.\n\nAPI requests with duplicate keys will process only the data for the first key detected and ignore the rest, so it's not recommended. Batching multiple messages in this way is currently not possible.\n  - Example of duplicate key in JSON: {\"raw_data\":{\"scrap\":\"10\",\"scrap\":\"100\"}}\n\nAll timestamps are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format:\n\n  `YYYY-MM-DDTHH:MM:SSZ`\n\nAll durations are returned in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Times) format with the largest unit of time being the hour:\n\n   `PT[n]H[n]M[n]S`\n\nAll timestamps sent to the API in POST requests should be in ISO 8601 format.\n### HTTP Verbs\nThe ONLY HTTP call type (sometimes called *verb* or *method*) used within Oden's API is **POST**.\nThere are three actions supported via a **POST**; call, search, set, and delete, together supporting CRUD operations;\n  - **search** requests are used to search for and *read* objects in the Oden Platform\n      - All Oden Objects may be uniquely identified by some combination of, or a single, parameter.\n        - Ex a `line` my be identified by either:\n          - `id`\n          - `name` AND `factory`\n  - **set** requests are used to *create* or *update* objects\n  - **delete** requests are used to *delete* objects. If a delete endpoint is not yet implemented for a given object, users may choose to update the values of a specific entity to null or 0 values.\n\n### URI Components\nAll endpoints may be accessed with the URI pattern:\n`https://api.oden.app/v2/{object}/{action}`\n\nWhere:\n  - `object` is the name of the object being requested:\n       - `factory`, `quality_test`, `interval`, `line`, etc...\n  - `action` is the name of the action being requested\n    - `search` , `set` , `delete`\n\ne.g. `https://api.oden.app/v2/factory/search`\n\n# Authentication\nClients can authenticate through the v2 API using a Token provided by Oden. Tokens are opaque strings similar to\n[Bearer](https://swagger.io/docs/specification/authentication/bearer-authentication/) tokens that the client must\npass in the [HTTP Authorization request header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization) in every request.\nThe syntax is as follows:\n\n`Authorization: <type> <credentials>`\n\nWhere \\<type\\> is \"Token\" and \\<credentials\\> is the Token string. For example:\n\n`Authorization: Token tokenStringProvidedByOden`\n\nAuthenticating with an invalid Token will return `401 Unauthorized Error`.\n\nAuthenticating with a Token that is not authorized to read requested data will return `403 Forbidden Error`.\n\nSome endpoints may require requests to be broken out by machinegroup (i.e., line or factory) and the number of\nrequests would scale accordingly. This multiplicity should be taken into consideration when deciding on the\nfrequency the API client makes requests to the Oden endpoints.\n\nTo authenticate in this [UI](https://api.oden.app/v2/ui/), click the Lock icon, and copy/paste the token into the Authorize box.\n\n\nContact Support:\n Name: Oden Support\n Email: support@oden.io",
+      "type": "text/plain"
+    }
+  }
+}

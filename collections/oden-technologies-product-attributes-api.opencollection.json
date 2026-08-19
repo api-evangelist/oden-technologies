@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Product Attributes API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product Attributes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search product attributes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/product_attribute/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for Product Attributes\n\nProduct attributes may be searched by ID, product, or, display_name - in that order.\n\nIf an ID is supplied, it will be used to search for a Product Attribute, and display_name, product will be ignored.\n\nIf a product is supplied (and no ID), it will be used to search for a Product Attribute, and display_name will be ignored.\n"
+        },
+        {
+          "info": {
+            "name": "Create or update a product attribute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/product_attribute/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set a Product Attribute for a Product.\n\nIf the supplied Product Attribute doesn't exist, it will be created.\n\nIf the supplied Product Attribute Value doesn't exist, it will be created.\n\nIf the supplied Product Attribute Value is already set for the Product, it will be updated.\n\nIf the supplied Product Attribute Value is not set for the Product, it will be added.\n\nSupplied Product must exist already.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

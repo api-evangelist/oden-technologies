@@ -2,48 +2,122 @@ generated: '2026-07-20'
 method: derived
 status: candidate
 source: openapi/oden-technologies-openapi-original.yml
-note: >-
-  No official hosted/remote MCP server was found for Oden. This is a CANDIDATE
-  tool list derived one-to-one from the 35 operations of the Oden Private Partner
-  API v2 OpenAPI, to seed a future MCP server. Not an authoritative provider
-  offering; no MCPServer pointer is wired in apis.yml until a real server exists.
+note: No official hosted/remote MCP server was found for Oden. This is a CANDIDATE tool list derived one-to-one
+  from the 35 operations of the Oden Private Partner API v2 OpenAPI, to seed a future MCP server. Not
+  an authoritative provider offering; no MCPServer pointer is wired in apis.yml until a real server exists.
 server:
   name: oden
   transport: http
   url: null
 tools:
-  - {name: search_lines, description: Search production lines, source_operation: "openapi/oden-technologies-openapi-original.yml#search_lines"}
-  - {name: search_factories, description: Search factories, source_operation: "openapi/oden-technologies-openapi-original.yml#search_factories"}
-  - {name: search_metric_groups, description: Search metric groups, source_operation: "openapi/oden-technologies-openapi-original.yml#search_metric_groups"}
-  - {name: search_products, description: Search products, source_operation: "openapi/oden-technologies-openapi-original.yml#search_products"}
-  - {name: set_product, description: Create or update a product, source_operation: "openapi/oden-technologies-openapi-original.yml#set_product"}
-  - {name: delete_product, description: Delete a product, source_operation: "openapi/oden-technologies-openapi-original.yml#delete_product"}
-  - {name: search_product_mappings, description: Search product-to-line mappings, source_operation: "openapi/oden-technologies-openapi-original.yml#search_product_mappings"}
-  - {name: set_product_mapping, description: Map a product to a line, source_operation: "openapi/oden-technologies-openapi-original.yml#set_product_mapping"}
-  - {name: search_product_attributes, description: Search product attributes, source_operation: "openapi/oden-technologies-openapi-original.yml#search_product_attributes"}
-  - {name: set_product_attribute, description: Create or update a product attribute, source_operation: "openapi/oden-technologies-openapi-original.yml#set_product_attribute"}
-  - {name: search_targets, description: Search metric targets, source_operation: "openapi/oden-technologies-openapi-original.yml#search_targets"}
-  - {name: set_target, description: Create or update a metric target, source_operation: "openapi/oden-technologies-openapi-original.yml#set_target"}
-  - {name: search_intervals, description: Search intervals on a line, source_operation: "openapi/oden-technologies-openapi-original.yml#search_intervals"}
-  - {name: set_interval, description: Create or update an interval, source_operation: "openapi/oden-technologies-openapi-original.yml#set_interval"}
-  - {name: update_interval, description: Update an interval, source_operation: "openapi/oden-technologies-openapi-original.yml#update_interval"}
-  - {name: delete_interval, description: Delete an interval, source_operation: "openapi/oden-technologies-openapi-original.yml#delete_interval"}
-  - {name: bulk_set_intervals, description: Create a set of intervals, source_operation: "openapi/oden-technologies-openapi-original.yml#bulk_set_intervals"}
-  - {name: bulk_update_intervals, description: Update a set of intervals, source_operation: "openapi/oden-technologies-openapi-original.yml#bulk_update_intervals"}
-  - {name: bulk_delete_intervals, description: Delete intervals in a time range, source_operation: "openapi/oden-technologies-openapi-original.yml#bulk_delete_intervals"}
-  - {name: search_interval_types, description: Search interval types, source_operation: "openapi/oden-technologies-openapi-original.yml#search_interval_types"}
-  - {name: set_interval_type, description: Create or update a custom interval type, source_operation: "openapi/oden-technologies-openapi-original.yml#set_interval_type"}
-  - {name: delete_interval_type, description: Delete a custom interval type, source_operation: "openapi/oden-technologies-openapi-original.yml#delete_interval_type"}
-  - {name: search_scrap_yield, description: Search scrap/yield records, source_operation: "openapi/oden-technologies-openapi-original.yml#search_scrap_yield"}
-  - {name: set_scrap_yield, description: Create or update a scrap/yield record, source_operation: "openapi/oden-technologies-openapi-original.yml#set_scrap_yield"}
-  - {name: delete_scrap_yield, description: Delete a scrap/yield record, source_operation: "openapi/oden-technologies-openapi-original.yml#delete_scrap_yield"}
-  - {name: set_quality_test, description: Create or update a quality test result, source_operation: "openapi/oden-technologies-openapi-original.yml#set_quality_test"}
-  - {name: search_quality_tests, description: Search quality tests, source_operation: "openapi/oden-technologies-openapi-original.yml#search_quality_tests"}
-  - {name: delete_quality_test, description: Delete a quality test, source_operation: "openapi/oden-technologies-openapi-original.yml#delete_quality_test"}
-  - {name: bulk_delete_quality_tests, description: Delete multiple quality tests, source_operation: "openapi/oden-technologies-openapi-original.yml#bulk_delete_quality_tests"}
-  - {name: search_quality_schemas, description: Search quality schemas for a factory, source_operation: "openapi/oden-technologies-openapi-original.yml#search_quality_schemas"}
-  - {name: run_oql_query, description: Run an OQL query, source_operation: "openapi/oden-technologies-openapi-original.yml#run_oql_query"}
-  - {name: execute_dashboard, description: Execute a dashboard, source_operation: "openapi/oden-technologies-openapi-original.yml#execute_dashboard"}
-  - {name: search_maintenance_work_orders, description: Search maintenance work orders, source_operation: "openapi/oden-technologies-openapi-original.yml#search_maintenance_work_orders"}
-  - {name: set_maintenance_work_order, description: Create or update a maintenance work order, source_operation: "openapi/oden-technologies-openapi-original.yml#set_maintenance_work_order"}
-  - {name: delete_maintenance_work_order, description: Delete a maintenance work order, source_operation: "openapi/oden-technologies-openapi-original.yml#delete_maintenance_work_order"}
+- name: search_lines
+  description: Search production lines
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_lines
+- name: search_factories
+  description: Search factories
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_factories
+- name: search_metric_groups
+  description: Search metric groups
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_metric_groups
+- name: search_products
+  description: Search products
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_products
+- name: set_product
+  description: Create or update a product
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_product
+- name: delete_product
+  description: Delete a product
+  source_operation: openapi/oden-technologies-openapi-original.yml#delete_product
+- name: search_product_mappings
+  description: Search product-to-line mappings
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_product_mappings
+- name: set_product_mapping
+  description: Map a product to a line
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_product_mapping
+- name: search_product_attributes
+  description: Search product attributes
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_product_attributes
+- name: set_product_attribute
+  description: Create or update a product attribute
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_product_attribute
+- name: search_targets
+  description: Search metric targets
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_targets
+- name: set_target
+  description: Create or update a metric target
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_target
+- name: search_intervals
+  description: Search intervals on a line
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_intervals
+- name: set_interval
+  description: Create or update an interval
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_interval
+- name: update_interval
+  description: Update an interval
+  source_operation: openapi/oden-technologies-openapi-original.yml#update_interval
+- name: delete_interval
+  description: Delete an interval
+  source_operation: openapi/oden-technologies-openapi-original.yml#delete_interval
+- name: bulk_set_intervals
+  description: Create a set of intervals
+  source_operation: openapi/oden-technologies-openapi-original.yml#bulk_set_intervals
+- name: bulk_update_intervals
+  description: Update a set of intervals
+  source_operation: openapi/oden-technologies-openapi-original.yml#bulk_update_intervals
+- name: bulk_delete_intervals
+  description: Delete intervals in a time range
+  source_operation: openapi/oden-technologies-openapi-original.yml#bulk_delete_intervals
+- name: search_interval_types
+  description: Search interval types
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_interval_types
+- name: set_interval_type
+  description: Create or update a custom interval type
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_interval_type
+- name: delete_interval_type
+  description: Delete a custom interval type
+  source_operation: openapi/oden-technologies-openapi-original.yml#delete_interval_type
+- name: search_scrap_yield
+  description: Search scrap/yield records
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_scrap_yield
+- name: set_scrap_yield
+  description: Create or update a scrap/yield record
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_scrap_yield
+- name: delete_scrap_yield
+  description: Delete a scrap/yield record
+  source_operation: openapi/oden-technologies-openapi-original.yml#delete_scrap_yield
+- name: set_quality_test
+  description: Create or update a quality test result
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_quality_test
+- name: search_quality_tests
+  description: Search quality tests
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_quality_tests
+- name: delete_quality_test
+  description: Delete a quality test
+  source_operation: openapi/oden-technologies-openapi-original.yml#delete_quality_test
+- name: bulk_delete_quality_tests
+  description: Delete multiple quality tests
+  source_operation: openapi/oden-technologies-openapi-original.yml#bulk_delete_quality_tests
+- name: search_quality_schemas
+  description: Search quality schemas for a factory
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_quality_schemas
+- name: run_oql_query
+  description: Run an OQL query
+  source_operation: openapi/oden-technologies-openapi-original.yml#run_oql_query
+- name: execute_dashboard
+  description: Execute a dashboard
+  source_operation: openapi/oden-technologies-openapi-original.yml#execute_dashboard
+- name: search_maintenance_work_orders
+  description: Search maintenance work orders
+  source_operation: openapi/oden-technologies-openapi-original.yml#search_maintenance_work_orders
+- name: set_maintenance_work_order
+  description: Create or update a maintenance work order
+  source_operation: openapi/oden-technologies-openapi-original.yml#set_maintenance_work_order
+- name: delete_maintenance_work_order
+  description: Delete a maintenance work order
+  source_operation: openapi/oden-technologies-openapi-original.yml#delete_maintenance_work_order
+deployment:
+  mode: none
+  verified: derived
+  tools: 35
+  checked: '2026-08-12'
+  source: catalog MCP census

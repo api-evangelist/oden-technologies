@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Metric Groups API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Metric Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search metric groups",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/metric_group/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for a specific Metric Group:\n\n- `name`\n- `match: unique` or omit\n\nOR\n\n- `id`\n- `match: unique` or omit\n\nSearch for all Metric Groups:\n- `match: all`\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

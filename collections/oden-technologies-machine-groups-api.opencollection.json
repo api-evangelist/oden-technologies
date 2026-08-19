@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Machine Groups API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Machine Groups",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search production lines",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/line/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for specific Line by any Line identifier. Either:\n- `id`\n- `match: unique` or omit\n\nOR\n- `factory`\n  - `name` or `id`\n- line `name`\n- `match: unique` or omit\n\nSearch for all Lines for a given Factory:\n- `factory`\n  - `name` or `id`\n- `match: all`\n"
+        },
+        {
+          "info": {
+            "name": "Search factories",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/factory/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for a specific Factory by a unique indentifier:\n- `name`\n- `match: unique` or omit\n\nOR\n\n- `id`\n- `match: unique` or omit\n\nSearch for all factories:\n- `match: all`\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

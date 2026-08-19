@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Product Mappings API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Product Mappings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search product-to-line mappings",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/product_mapping/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for Product Mappings.\n\nMay be used to confirm a Product Mapping exists.\n\nMuch like `product/search`, may be used to get `name`s of line or product from `id`s,\nor `id`s from `name`s.\n"
+        },
+        {
+          "info": {
+            "name": "Map a product to a line",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/product_mapping/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Map a Product to a Line - implying this Line can produce, or is producing this Product.\n\nIf the supplied Product doesn't exist, it will be created.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

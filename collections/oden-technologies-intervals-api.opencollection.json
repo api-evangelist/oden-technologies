@@ -1,0 +1,176 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Oden Dashboards Intervals API",
+    "version": "2.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Intervals",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search intervals on a line",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/interval/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Searches for intervals by `type`, `line` and other optional parameters:\n\n- `id` (for a specific Interval)\n- `match: unique` or omit\n\nOR\n\n- `match : last` for the most recent Interval of the given type on the given line\n\nOR\n\n- `start_time` and `end_time` (for a range of Intervals over a period of time)\n- `match: all` for more than one result\n\nOR\n\n- match all intervals for all lines in a given factory\n\nAND/OR\n\n- `name` (only for Intervals with a matching name)\n"
+        },
+        {
+          "info": {
+            "name": "Create or update an interval",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/interval/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create or update an Interval.\n\nMust include `line` and `type`. `match` must be omitted, `unique` or `last`\n\n - If `id` is not supplied, a new Interval will be created.\n\n - If `id` is supplied, existing Interval will be updated. This interval's start time can be modified using `start_time` field.\n\nTo update a specific interval supply the `id` of that interval.\n\nIf the interval exists with all the same parameters nothing is done.\n\nTo update the most recent Interval of a given `type` on a `line` on"
+        },
+        {
+          "info": {
+            "name": "Update an interval",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/interval/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an existing Interval. This endpoint only updates intervals and will not create new ones.\n\nMust include `line`, `type`, and `id`. The `id` must reference an existing interval.\n\nThis interval's properties can be modified using the following fields:\n- `name`: Update the interval name\n- `start_time`: Modify the start time\n- `end_time`: Modify the end time\n- `metadata`: Update metadata (product, target, category, reason, etc.)\n\nIf the interval does not exist, a 404 error will be returned.\n\n**N"
+        },
+        {
+          "info": {
+            "name": "Delete an interval",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/interval/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete an interval by `type`, `line`, and `id`\n\n**Note:** The `id` must be obtained from either:\n- The response when creating an interval via `/v2/interval/set`\n- Searching for intervals via `/v2/interval/search`\n\nThe examples below use placeholder IDs - replace with actual IDs from your system.\n"
+        },
+        {
+          "info": {
+            "name": "Create a set of intervals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/intervals/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create (Does not update) a group of custom intervals, for the same `type` and `line`.\nLine and type do not need to be included in each individual interval, just once at the top level.\n\nLimitations:\n- Cannot excees 2500 intervals per request.\n- Will not write over other intervals\n- Does not support \"batch\", \"run\", or \"state\" interval types.\n"
+        },
+        {
+          "info": {
+            "name": "Update a set of intervals",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/intervals/update",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update multiple existing intervals. This endpoint only updates intervals and will not create new ones.\n\nEach interval in the `intervals` array must include an `id` that references an existing interval.\n\nUpdatable fields for each interval:\n- `name`: Update the interval name\n- `start_time`: Modify the start time\n- `end_time`: Modify the end time\n- `metadata`: Update metadata (product, target, category, reason, etc.)\n\nThe endpoint will attempt to update all intervals and return information about su"
+        },
+        {
+          "info": {
+            "name": "Delete intervals in a time range",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/intervals/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete a group of intervals by a single `type` and a single `line`, between `start_time` and `end_time`. Returns a list of intervals that were not deleted, and the number of intervals deleted.\n\nLimitations:\n- Cannot exceed 15,000 intervals per request, or 30 days worth of data.\n- Currently does not support \"batch\" or \"run\" interval types.\n"
+        },
+        {
+          "info": {
+            "name": "Search interval types",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/interval_type/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Search for Interval Types by `name`, `id`, or just `match: all` to return all Interval Types associated with the your organization.\nBasic Interval Types -- `RUN`, `BATCH`, and `STATE` -- are dedicated interval types that come out-of-the-box with Oden.\nCustom Interval Types may be created by users.\n"
+        },
+        {
+          "info": {
+            "name": "Create or update a custom interval type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/interval_type/set",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "**Create** (no `id` in the body): send `name` (required) and optional `metadata_schema` / `tags`.\n\n**Update** (with `id`): send the interval type’s `id` and optional `metadata_schema` / `tags` only. Do not send `name` for updates; including `name` returns 400. Renames are not supported.\n\n**Patch (update only)**: `metadata_schema` — if the key is missing, the existing value is kept; if present, it replaces. `tags` — if the key is missing, tags are unchanged; `null` leaves tags unchanged; `[]` cle"
+        },
+        {
+          "info": {
+            "name": "Delete a custom interval type",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.oden.app/v2/interval_type/delete",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete an existing custom Interval Type. `id` is required. Built-in types (RUN, BATCH, STATE) cannot be deleted.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -42,6 +42,14 @@ tags:
 - Artificial Intelligence
 - Factory
 - Manufacturing Analytics
+tags_raw:
+- Company
+- Manufacturing
+- Industrial IoT
+- Analytics
+- Artificial Intelligence
+- Factory
+- Manufacturing Analytics
 - API
 maintainers:
 - FN: Kin Lane
@@ -153,6 +161,8 @@ apis:
   humanURL: https://api.oden.app/v2/ui/#/
   baseURL: https://api.oden.app/v2
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI

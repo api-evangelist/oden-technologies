@@ -11,6 +11,18 @@ description: >-
   quality tests, metric groups, targets, dashboards, and the Oden Query Language
   (OQL). Oden is headquartered in New York with an office in Altrincham, UK, and
   is backed by EQT Ventures.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve

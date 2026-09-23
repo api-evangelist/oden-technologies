@@ -1,18 +1,7 @@
 {
   "provider": "oden-technologies",
   "sources": [
-    "oden-technologies-dashboards-api-openapi.yml",
-    "oden-technologies-intervals-api-openapi.yml",
-    "oden-technologies-machine-groups-api-openapi.yml",
-    "oden-technologies-maintenance-work-orders-api-openapi.yml",
-    "oden-technologies-metric-groups-api-openapi.yml",
-    "oden-technologies-oql-api-openapi.yml",
-    "oden-technologies-product-attributes-api-openapi.yml",
-    "oden-technologies-product-mappings-api-openapi.yml",
-    "oden-technologies-products-api-openapi.yml",
-    "oden-technologies-quality-test-api-openapi.yml",
-    "oden-technologies-scrap-yield-data-api-openapi.yml",
-    "oden-technologies-targets-api-openapi.yml"
+    "_original/oden-technologies-openapi-original.yml"
   ],
   "outputs": [
     "oden-technologies-dashboards-api-openapi.yml",
@@ -31,6 +20,35 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "oden-technologies-openapi-original.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "oden-technologies-openapi-original.yml: declared missing tag: Dashboards",
+    "oden-technologies-openapi-original.yml: declared missing tag: Intervals",
+    "oden-technologies-openapi-original.yml: declared missing tag: Machine Groups",
+    "oden-technologies-openapi-original.yml: declared missing tag: Maintenance Work Orders",
+    "oden-technologies-openapi-original.yml: declared missing tag: Metric Groups",
+    "oden-technologies-openapi-original.yml: declared missing tag: OQL",
+    "oden-technologies-openapi-original.yml: declared missing tag: Product Attributes",
+    "oden-technologies-openapi-original.yml: declared missing tag: Product Mappings",
+    "oden-technologies-openapi-original.yml: declared missing tag: Products",
+    "oden-technologies-openapi-original.yml: declared missing tag: Quality Test",
+    "oden-technologies-openapi-original.yml: declared missing tag: Scrap/Yield Data",
+    "oden-technologies-openapi-original.yml: declared missing tag: Targets",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "oden-technologies-dashboards-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-intervals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-machine-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-maintenance-work-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-metric-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-oql-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-product-attributes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-product-mappings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-quality-test-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-scrap-yield-data-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "oden-technologies-targets-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

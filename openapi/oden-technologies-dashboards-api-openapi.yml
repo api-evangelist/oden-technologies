@@ -72,112 +72,7 @@ paths:
         '501':
           $ref: '#/components/responses/UnimplementedError'
 components:
-  responses:
-    NotFoundError:
-      description: Entity not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ParameterError:
-      description: An error occurred regarding one of the input parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - name
-            - retryable
-            properties:
-              error:
-                type: string
-              name:
-                type: string
-              retryable:
-                type: boolean
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    TooManyRequestsError:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ForbiddenError:
-      description: 'User has provided valid credentials but is not authorized to access the entity
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    InternalError:
-      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - retryable
-            - id
-            properties:
-              error:
-                type: string
-              retryable:
-                type: boolean
-              id:
-                type: string
-                format: uuid
   schemas:
-    DashboardExecuteRequest:
-      type: object
-      description: 'Request envelope for executing every module in a dashboard.
-
-        '
-      required:
-      - dashboard
-      properties:
-        dashboard:
-          type: object
-          required:
-          - id
-          properties:
-            id:
-              type: string
-              format: uuid
-        range:
-          $ref: '#/components/schemas/DashboardExecuteRange'
-        filters:
-          $ref: '#/components/schemas/DashboardExecuteFilters'
-    DashboardColumnSpec:
-      type: object
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-        type:
-          type: string
-          enum:
-          - string
-          - number
-          - boolean
-          - datetime
     DashboardExecuteFilters:
       type: object
       description: 'Optional filter overrides applied to every module. Every field is optional; omitting one means "no override on that dimension".
@@ -253,37 +148,6 @@ components:
                 type: string
               value_contains:
                 type: string
-    DashboardExecuteRange:
-      type: object
-      description: 'Time window applied to every module. Either supply an absolute window (`start` and `end`) OR a relative window (`anchor` and `offset`, optionally with `timezone`), not both.
-
-        '
-      properties:
-        start:
-          type: string
-          format: date-time
-        end:
-          type: string
-          format: date-time
-        anchor:
-          type: string
-          description: Anchor expression for a relative range, e.g. `now`.
-        offset:
-          type: string
-          description: Offset expression for a relative range, e.g. `-7D`.
-        timezone:
-          type: string
-          description: IANA timezone identifier (defaults to UTC).
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
     DashboardExecuteResult:
       type: object
       description: Executed output of a single dashboard module.
@@ -346,6 +210,142 @@ components:
           description: 'Set to a short message when the module failed to parse or execute. Null on success.
 
             '
+    DashboardExecuteRange:
+      type: object
+      description: 'Time window applied to every module. Either supply an absolute window (`start` and `end`) OR a relative window (`anchor` and `offset`, optionally with `timezone`), not both.
+
+        '
+      properties:
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        anchor:
+          type: string
+          description: Anchor expression for a relative range, e.g. `now`.
+        offset:
+          type: string
+          description: Offset expression for a relative range, e.g. `-7D`.
+        timezone:
+          type: string
+          description: IANA timezone identifier (defaults to UTC).
+    DashboardColumnSpec:
+      type: object
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+          - string
+          - number
+          - boolean
+          - datetime
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
+    DashboardExecuteRequest:
+      type: object
+      description: 'Request envelope for executing every module in a dashboard.
+
+        '
+      required:
+      - dashboard
+      properties:
+        dashboard:
+          type: object
+          required:
+          - id
+          properties:
+            id:
+              type: string
+              format: uuid
+        range:
+          $ref: '#/components/schemas/DashboardExecuteRange'
+        filters:
+          $ref: '#/components/schemas/DashboardExecuteFilters'
+  responses:
+    TooManyRequestsError:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ParameterError:
+      description: An error occurred regarding one of the input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - name
+            - retryable
+            properties:
+              error:
+                type: string
+              name:
+                type: string
+              retryable:
+                type: boolean
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    InternalError:
+      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - retryable
+            - id
+            properties:
+              error:
+                type: string
+              retryable:
+                type: boolean
+              id:
+                type: string
+                format: uuid
   securitySchemes:
     APIKeyAuth:
       type: apiKey

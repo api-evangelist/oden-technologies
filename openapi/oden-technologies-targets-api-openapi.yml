@@ -136,92 +136,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFoundError'
 components:
-  responses:
-    NotFoundError:
-      description: Entity not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ParameterError:
-      description: An error occurred regarding one of the input parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - name
-            - retryable
-            properties:
-              error:
-                type: string
-              name:
-                type: string
-              retryable:
-                type: boolean
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ForbiddenError:
-      description: 'User has provided valid credentials but is not authorized to access the entity
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    NotUniqueError:
-      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - entity_name
-            - num_matches
-            - error
-            - retryable
-            properties:
-              entity_name:
-                type: string
-              num_matches:
-                type: integer
-              error:
-                type: string
-              retryable:
-                type: boolean
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    InternalError:
-      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - retryable
-            - id
-            properties:
-              error:
-                type: string
-              retryable:
-                type: boolean
-              id:
-                type: string
-                format: uuid
   schemas:
     Factory:
       type: object
@@ -237,6 +151,17 @@ components:
           - string
           - 'null'
         timezone:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    Product:
+      type: object
+      description: An entity representing a product
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
           type: string
         match:
           $ref: '#/components/schemas/Match'
@@ -274,17 +199,6 @@ components:
         usl:
           type: number
           format: double
-        match:
-          $ref: '#/components/schemas/Match'
-    Product:
-      type: object
-      description: An entity representing a product
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
         match:
           $ref: '#/components/schemas/Match'
     GenericError:
@@ -331,6 +245,92 @@ components:
           type: string
         match:
           $ref: '#/components/schemas/Match'
+  responses:
+    ParameterError:
+      description: An error occurred regarding one of the input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - name
+            - retryable
+            properties:
+              error:
+                type: string
+              name:
+                type: string
+              retryable:
+                type: boolean
+    NotUniqueError:
+      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - entity_name
+            - num_matches
+            - error
+            - retryable
+            properties:
+              entity_name:
+                type: string
+              num_matches:
+                type: integer
+              error:
+                type: string
+              retryable:
+                type: boolean
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    InternalError:
+      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - retryable
+            - id
+            properties:
+              error:
+                type: string
+              retryable:
+                type: boolean
+              id:
+                type: string
+                format: uuid
   securitySchemes:
     APIKeyAuth:
       type: apiKey

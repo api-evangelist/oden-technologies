@@ -886,31 +886,15 @@ paths:
           $ref: '#/components/responses/UnimplementedError'
 components:
   schemas:
-    IntervalBulkUpdate:
+    Product:
       type: object
-      description: A set of intervals to update
-      properties:
-        type:
-          $ref: '#/components/schemas/IntervalType'
-        line:
-          $ref: '#/components/schemas/Line'
-        intervals:
-          type: array
-          items:
-            $ref: '#/components/schemas/Interval'
-    Line:
-      type: object
-      description: An entity representing a single line of production.
+      description: An entity representing a product
       properties:
         id:
           type: string
           format: uuid
         name:
           type: string
-        secondary_name:
-          type: string
-        factory:
-          $ref: '#/components/schemas/Factory'
         match:
           $ref: '#/components/schemas/Match'
     Factory:
@@ -930,37 +914,21 @@ components:
           type: string
         match:
           $ref: '#/components/schemas/Match'
-    StateCategory:
+    Line:
       type: object
-      description: An entity representing a state category. During search, ID will take precedence over name.
+      description: An entity representing a single line of production.
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         name:
           type: string
-    IntervalBulkCreate:
-      type: object
-      description: A set of intervals to create
-      properties:
-        type:
-          $ref: '#/components/schemas/IntervalType'
-        line:
-          $ref: '#/components/schemas/Line'
-        intervals:
-          type: array
-          items:
-            $ref: '#/components/schemas/Interval'
-    CustomMetadata:
-      type: object
-      description: Metadata associated with a custom interval type
-      properties:
-        metadata_type:
+        secondary_name:
           type: string
-          enum:
-          - custom
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-      additionalProperties: true
+        factory:
+          $ref: '#/components/schemas/Factory'
+        match:
+          $ref: '#/components/schemas/Match'
     MetricGroup:
       type: object
       description: An object representing a metric group; a grouping of like metrics across lines, factories.
@@ -976,36 +944,44 @@ components:
           type: string
         match:
           $ref: '#/components/schemas/Match'
-    IntervalType:
+    IntervalBulkDelete:
       type: object
-      description: An object representing a interval type.
+      description: A range of intervals to delete
       properties:
-        id:
+        type:
+          $ref: '#/components/schemas/IntervalType'
+        line:
+          $ref: '#/components/schemas/Line'
+        start_time:
           type: string
-          format: uuid
-        name:
+          format: date-time
+        end_time:
           type: string
-        match:
-          $ref: '#/components/schemas/Match'
-    StateReason:
+          format: date-time
+        hard_delete:
+          type: boolean
+          default: true
+    GenericError:
       type: object
-      description: An entity representing a state reason. During search, ID will take precedence over name.
+      required:
+      - error
+      - retryable
       properties:
-        id:
-          type: integer
-        name:
+        error:
           type: string
-    Product:
+        retryable:
+          type: boolean
+    CustomMetadata:
       type: object
-      description: An entity representing a product
+      description: Metadata associated with a custom interval type
       properties:
-        id:
+        metadata_type:
           type: string
-          format: uuid
-        name:
-          type: string
-        match:
-          $ref: '#/components/schemas/Match'
+          enum:
+          - custom
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+      additionalProperties: true
     Match:
       type: string
       enum:
@@ -1025,6 +1001,68 @@ components:
         - `first`: will return the least recent object, where applicable
 
         '
+    BatchMetadata:
+      type: object
+      description: Metadata associated with a batch interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - batch
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        run:
+          $ref: '#/components/schemas/Interval'
+      additionalProperties: true
+    StateReason:
+      type: object
+      description: An entity representing a state reason. During search, ID will take precedence over name.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    IntervalBulkUpdate:
+      type: object
+      description: A set of intervals to update
+      properties:
+        type:
+          $ref: '#/components/schemas/IntervalType'
+        line:
+          $ref: '#/components/schemas/Line'
+        intervals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interval'
+    Target:
+      type: object
+      description: An object representing a performance target for a line, product, and metric group.
+      properties:
+        metric_group:
+          $ref: '#/components/schemas/MetricGroup'
+        product:
+          $ref: '#/components/schemas/Product'
+        line:
+          $ref: '#/components/schemas/Line'
+        target_value:
+          type: number
+          format: double
+        lsl:
+          type: number
+          format: double
+        usl:
+          type: number
+          format: double
+        match:
+          $ref: '#/components/schemas/Match'
+    StateCategory:
+      type: object
+      description: An entity representing a state category. During search, ID will take precedence over name.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     IntervalTypeSet:
       type: object
       description: 'Create or update a custom interval type. Omit `id` to create (requires `name`);
@@ -1046,38 +1084,6 @@ components:
           - 'null'
           items:
             type: string
-    RunMetadata:
-      type: object
-      description: Metadata associated with a run interval
-      properties:
-        metadata_type:
-          type: string
-          enum:
-          - run
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        product:
-          $ref: '#/components/schemas/Product'
-        target:
-          $ref: '#/components/schemas/Target'
-      additionalProperties: true
-    StateMetadata:
-      type: object
-      description: Metadata associated with a state interval
-      properties:
-        metadata_type:
-          type: string
-          enum:
-          - state
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        reason:
-          $ref: '#/components/schemas/StateReason'
-        comment:
-          type: string
-        category:
-          $ref: '#/components/schemas/StateCategory'
-      additionalProperties: true
     Interval:
       type: object
       description: An object representing an interval of time on a line and associated metadata.
@@ -1117,88 +1123,62 @@ components:
               custom: '#/components/schemas/CustomMetadata'
         match:
           $ref: '#/components/schemas/Match'
-    Target:
+    StateMetadata:
       type: object
-      description: An object representing a performance target for a line, product, and metric group.
-      properties:
-        metric_group:
-          $ref: '#/components/schemas/MetricGroup'
-        product:
-          $ref: '#/components/schemas/Product'
-        line:
-          $ref: '#/components/schemas/Line'
-        target_value:
-          type: number
-          format: double
-        lsl:
-          type: number
-          format: double
-        usl:
-          type: number
-          format: double
-        match:
-          $ref: '#/components/schemas/Match'
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
-    BatchMetadata:
-      type: object
-      description: Metadata associated with a batch interval
+      description: Metadata associated with a state interval
       properties:
         metadata_type:
           type: string
           enum:
-          - batch
+          - state
           readOnly: true
           x-go-type-skip-optional-pointer: true
-        run:
-          $ref: '#/components/schemas/Interval'
+        reason:
+          $ref: '#/components/schemas/StateReason'
+        comment:
+          type: string
+        category:
+          $ref: '#/components/schemas/StateCategory'
       additionalProperties: true
-    IntervalBulkDelete:
+    IntervalBulkCreate:
       type: object
-      description: A range of intervals to delete
+      description: A set of intervals to create
       properties:
         type:
           $ref: '#/components/schemas/IntervalType'
         line:
           $ref: '#/components/schemas/Line'
-        start_time:
+        intervals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interval'
+    IntervalType:
+      type: object
+      description: An object representing a interval type.
+      properties:
+        id:
           type: string
-          format: date-time
-        end_time:
+          format: uuid
+        name:
           type: string
-          format: date-time
-        hard_delete:
-          type: boolean
-          default: true
+        match:
+          $ref: '#/components/schemas/Match'
+    RunMetadata:
+      type: object
+      description: Metadata associated with a run interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - run
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        product:
+          $ref: '#/components/schemas/Product'
+        target:
+          $ref: '#/components/schemas/Target'
+      additionalProperties: true
   responses:
-    InternalError:
-      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - retryable
-            - id
-            properties:
-              error:
-                type: string
-              retryable:
-                type: boolean
-              id:
-                type: string
-                format: uuid
     ParameterError:
       description: An error occurred regarding one of the input parameters
       content:
@@ -1238,8 +1218,40 @@ components:
                 type: string
               retryable:
                 type: boolean
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
     UnauthorizedError:
       description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    InternalError:
+      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - retryable
+            - id
+            properties:
+              error:
+                type: string
+              retryable:
+                type: boolean
+              id:
+                type: string
+                format: uuid
+    NotFoundError:
+      description: Entity not found
       content:
         application/json:
           schema:
@@ -1248,18 +1260,6 @@ components:
       description: 'User has provided valid credentials but is not authorized to access the entity
 
         '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    NotFoundError:
-      description: Entity not found
       content:
         application/json:
           schema:

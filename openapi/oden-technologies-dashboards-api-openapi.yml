@@ -148,6 +148,36 @@ components:
                 type: string
               value_contains:
                 type: string
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
+    DashboardExecuteRequest:
+      type: object
+      description: 'Request envelope for executing every module in a dashboard.
+
+        '
+      required:
+      - dashboard
+      properties:
+        dashboard:
+          type: object
+          required:
+          - id
+          properties:
+            id:
+              type: string
+              format: uuid
+        range:
+          $ref: '#/components/schemas/DashboardExecuteRange'
+        filters:
+          $ref: '#/components/schemas/DashboardExecuteFilters'
     DashboardExecuteResult:
       type: object
       description: Executed output of a single dashboard module.
@@ -246,39 +276,55 @@ components:
           - number
           - boolean
           - datetime
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
-    DashboardExecuteRequest:
-      type: object
-      description: 'Request envelope for executing every module in a dashboard.
+  responses:
+    InternalError:
+      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
 
         '
-      required:
-      - dashboard
-      properties:
-        dashboard:
-          type: object
-          required:
-          - id
-          properties:
-            id:
-              type: string
-              format: uuid
-        range:
-          $ref: '#/components/schemas/DashboardExecuteRange'
-        filters:
-          $ref: '#/components/schemas/DashboardExecuteFilters'
-  responses:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - retryable
+            - id
+            properties:
+              error:
+                type: string
+              retryable:
+                type: boolean
+              id:
+                type: string
+                format: uuid
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
     TooManyRequestsError:
       description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
+
+        '
       content:
         application/json:
           schema:
@@ -300,52 +346,6 @@ components:
                 type: string
               retryable:
                 type: boolean
-    NotFoundError:
-      description: Entity not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ForbiddenError:
-      description: 'User has provided valid credentials but is not authorized to access the entity
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    InternalError:
-      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - retryable
-            - id
-            properties:
-              error:
-                type: string
-              retryable:
-                type: boolean
-              id:
-                type: string
-                format: uuid
   securitySchemes:
     APIKeyAuth:
       type: apiKey

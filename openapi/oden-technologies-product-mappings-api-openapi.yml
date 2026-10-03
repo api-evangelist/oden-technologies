@@ -128,6 +128,27 @@ paths:
           $ref: '#/components/responses/NotFoundError'
 components:
   schemas:
+    Product:
+      type: object
+      description: An entity representing a product
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
     Factory:
       type: object
       description: An entity representing a factory.
@@ -145,15 +166,16 @@ components:
           type: string
         match:
           $ref: '#/components/schemas/Match'
-    Product:
+    ProductMapping:
       type: object
-      description: An entity representing a product
+      description: 'An entity representing a product/line mapping. Mappings are simple 1:1 relationships, and as such cannot be modified, only created.
+
+        '
       properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
+        product:
+          $ref: '#/components/schemas/Product'
+        line:
+          $ref: '#/components/schemas/Line'
         match:
           $ref: '#/components/schemas/Match'
     Line:
@@ -171,16 +193,6 @@ components:
           $ref: '#/components/schemas/Factory'
         match:
           $ref: '#/components/schemas/Match'
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
     Match:
       type: string
       enum:
@@ -200,36 +212,7 @@ components:
         - `first`: will return the least recent object, where applicable
 
         '
-    ProductMapping:
-      type: object
-      description: 'An entity representing a product/line mapping. Mappings are simple 1:1 relationships, and as such cannot be modified, only created.
-
-        '
-      properties:
-        product:
-          $ref: '#/components/schemas/Product'
-        line:
-          $ref: '#/components/schemas/Line'
-        match:
-          $ref: '#/components/schemas/Match'
   responses:
-    ParameterError:
-      description: An error occurred regarding one of the input parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - name
-            - retryable
-            properties:
-              error:
-                type: string
-              name:
-                type: string
-              retryable:
-                type: boolean
     NotUniqueError:
       description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
 
@@ -252,24 +235,6 @@ components:
                 type: string
               retryable:
                 type: boolean
-    NotFoundError:
-      description: Entity not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
     InternalError:
       description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
 
@@ -290,6 +255,41 @@ components:
               id:
                 type: string
                 format: uuid
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ParameterError:
+      description: An error occurred regarding one of the input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - name
+            - retryable
+            properties:
+              error:
+                type: string
+              name:
+                type: string
+              retryable:
+                type: boolean
   securitySchemes:
     APIKeyAuth:
       type: apiKey

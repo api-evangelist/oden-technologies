@@ -56,45 +56,26 @@ paths:
         '501':
           $ref: '#/components/responses/UnimplementedError'
 components:
-  parameters:
-    FormatParam:
-      in: query
-      name: format
-      required: false
-      schema:
-        type: string
-        enum:
-        - json
-        - jsonextended
-        - csv
-        default: json
-      description: 'Format of the response. Can be `json`, `jsonextended` or `csv`. If unspecified, defaults to `jsonextended`.
-
-        '
+  schemas:
+    OQLQuery:
+      type: object
+      description: An object representing an OQL query.
+      required:
+      - query
+      properties:
+        query:
+          type: string
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
   responses:
-    TooManyRequestsError:
-      description: Too many requests
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ParameterError:
-      description: An error occurred regarding one of the input parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - name
-            - retryable
-            properties:
-              error:
-                type: string
-              name:
-                type: string
-              retryable:
-                type: boolean
     NotUniqueError:
       description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
 
@@ -117,32 +98,6 @@ components:
                 type: string
               retryable:
                 type: boolean
-    NotFoundError:
-      description: Entity not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ForbiddenError:
-      description: 'User has provided valid credentials but is not authorized to access the entity
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
     InternalError:
       description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
 
@@ -163,25 +118,70 @@ components:
               id:
                 type: string
                 format: uuid
-  schemas:
-    OQLQuery:
-      type: object
-      description: An object representing an OQL query.
-      required:
-      - query
-      properties:
-        query:
-          type: string
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ParameterError:
+      description: An error occurred regarding one of the input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - name
+            - retryable
+            properties:
+              error:
+                type: string
+              name:
+                type: string
+              retryable:
+                type: boolean
+    TooManyRequestsError:
+      description: Too many requests
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+  parameters:
+    FormatParam:
+      in: query
+      name: format
+      required: false
+      schema:
+        type: string
+        enum:
+        - json
+        - jsonextended
+        - csv
+        default: json
+      description: 'Format of the response. Can be `json`, `jsonextended` or `csv`. If unspecified, defaults to `jsonextended`.
+
+        '
   securitySchemes:
     APIKeyAuth:
       type: apiKey

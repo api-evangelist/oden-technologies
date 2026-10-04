@@ -137,6 +137,16 @@ paths:
           $ref: '#/components/responses/NotFoundError'
 components:
   schemas:
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
     Product:
       type: object
       description: An entity representing a product
@@ -148,16 +158,6 @@ components:
           type: string
         match:
           $ref: '#/components/schemas/Match'
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
     Factory:
       type: object
       description: An entity representing a factory.
@@ -188,6 +188,21 @@ components:
           type: string
         factory:
           $ref: '#/components/schemas/Factory'
+        match:
+          $ref: '#/components/schemas/Match'
+    MetricGroup:
+      type: object
+      description: An object representing a metric group; a grouping of like metrics across lines, factories.
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+          format: uuid
+        unit_kind_of_quantity:
+          type: string
         match:
           $ref: '#/components/schemas/Match'
     Target:
@@ -230,21 +245,6 @@ components:
         - `first`: will return the least recent object, where applicable
 
         '
-    MetricGroup:
-      type: object
-      description: An object representing a metric group; a grouping of like metrics across lines, factories.
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-          format: uuid
-        unit_kind_of_quantity:
-          type: string
-        match:
-          $ref: '#/components/schemas/Match'
   responses:
     NotUniqueError:
       description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
@@ -268,6 +268,18 @@ components:
                 type: string
               retryable:
                 type: boolean
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
     InternalError:
       description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
 
@@ -288,26 +300,6 @@ components:
               id:
                 type: string
                 format: uuid
-    NotFoundError:
-      description: Entity not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    ForbiddenError:
-      description: 'User has provided valid credentials but is not authorized to access the entity
-
-        '
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
     UnauthorizedError:
       description: User has provided either no credentials or invalid credentials
       content:
@@ -331,6 +323,14 @@ components:
                 type: string
               retryable:
                 type: boolean
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
+
+        '
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
   securitySchemes:
     APIKeyAuth:
       type: apiKey

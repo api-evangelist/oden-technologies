@@ -75,52 +75,33 @@ paths:
         '404':
           $ref: '#/components/responses/NotFoundError'
 components:
-  schemas:
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
-    MetricGroup:
-      type: object
-      description: An object representing a metric group; a grouping of like metrics across lines, factories.
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        id:
-          type: string
-          format: uuid
-        unit_kind_of_quantity:
-          type: string
-        match:
-          $ref: '#/components/schemas/Match'
-    Match:
-      type: string
-      enum:
-      - first
-      - last
-      - unique
-      - all
-      default: unique
-      description: 'Describes which item(s) to match when searching for an entity:
-
-        - `unique` (default): will return an error if the search object matches multiple entities
-
-        - `all`: will return every item that matches search entity
-
-        - `last`: will return the most recent object, where applicable
-
-        - `first`: will return the least recent object, where applicable
+  responses:
+    InternalError:
+      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
 
         '
-  responses:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - retryable
+            - id
+            properties:
+              error:
+                type: string
+              retryable:
+                type: boolean
+              id:
+                type: string
+                format: uuid
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
     NotUniqueError:
       description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
 
@@ -149,6 +130,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
     ParameterError:
       description: An error occurred regarding one of the input parameters
       content:
@@ -166,38 +153,6 @@ components:
                 type: string
               retryable:
                 type: boolean
-    InternalError:
-      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - retryable
-            - id
-            properties:
-              error:
-                type: string
-              retryable:
-                type: boolean
-              id:
-                type: string
-                format: uuid
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
     ForbiddenError:
       description: 'User has provided valid credentials but is not authorized to access the entity
 
@@ -206,6 +161,51 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
+  schemas:
+    MetricGroup:
+      type: object
+      description: An object representing a metric group; a grouping of like metrics across lines, factories.
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+          format: uuid
+        unit_kind_of_quantity:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
+    Match:
+      type: string
+      enum:
+      - first
+      - last
+      - unique
+      - all
+      default: unique
+      description: 'Describes which item(s) to match when searching for an entity:
+
+        - `unique` (default): will return an error if the search object matches multiple entities
+
+        - `all`: will return every item that matches search entity
+
+        - `last`: will return the most recent object, where applicable
+
+        - `first`: will return the least recent object, where applicable
+
+        '
   securitySchemes:
     APIKeyAuth:
       type: apiKey

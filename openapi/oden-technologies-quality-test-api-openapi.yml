@@ -269,17 +269,6 @@ paths:
           $ref: '#/components/responses/NotFoundError'
 components:
   schemas:
-    Product:
-      type: object
-      description: An entity representing a product
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
-          type: string
-        match:
-          $ref: '#/components/schemas/Match'
     QualitySchema:
       type: object
       description: 'A schema for quality tests. Note: the id is currently implemented as a string, but that string should be a stringified integer.
@@ -298,38 +287,48 @@ components:
           type: string
         match:
           $ref: '#/components/schemas/Match'
-    StateCategory:
+    Factory:
       type: object
-      description: An entity representing a state category. During search, ID will take precedence over name.
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-    BatchMetadata:
-      type: object
-      description: Metadata associated with a batch interval
-      properties:
-        metadata_type:
-          type: string
-          enum:
-          - batch
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        run:
-          $ref: '#/components/schemas/Interval'
-      additionalProperties: true
-    IntervalType:
-      type: object
-      description: An object representing a interval type.
+      description: An entity representing a factory.
       properties:
         id:
           type: string
           format: uuid
         name:
           type: string
+        secondary_name:
+          type:
+          - string
+          - 'null'
+        timezone:
+          type: string
         match:
           $ref: '#/components/schemas/Match'
+    MetricGroup:
+      type: object
+      description: An object representing a metric group; a grouping of like metrics across lines, factories.
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        id:
+          type: string
+          format: uuid
+        unit_kind_of_quantity:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
     Target:
       type: object
       description: An object representing a performance target for a line, product, and metric group.
@@ -351,21 +350,47 @@ components:
           format: double
         match:
           $ref: '#/components/schemas/Match'
-    Line:
+    BatchMetadata:
       type: object
-      description: An entity representing a single line of production.
+      description: Metadata associated with a batch interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - batch
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        run:
+          $ref: '#/components/schemas/Interval'
+      additionalProperties: true
+    QualityTest:
+      type: object
+      description: 'An object representing a QA test for a line for a particular run or batch interval.
+
+        '
       properties:
         id:
           type: string
           format: uuid
-        name:
+        raw_data:
+          type: object
+        timestamp:
           type: string
-        secondary_name:
-          type: string
-        factory:
-          $ref: '#/components/schemas/Factory'
+          format: date-time
+        interval:
+          $ref: '#/components/schemas/Interval'
+        quality_schema:
+          $ref: '#/components/schemas/QualitySchema'
         match:
           $ref: '#/components/schemas/Match'
+    StateReason:
+      type: object
+      description: An entity representing a state reason. During search, ID will take precedence over name.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     CustomMetadata:
       type: object
       description: Metadata associated with a custom interval type
@@ -377,21 +402,38 @@ components:
           readOnly: true
           x-go-type-skip-optional-pointer: true
       additionalProperties: true
-    MetricGroup:
+    RunMetadata:
       type: object
-      description: An object representing a metric group; a grouping of like metrics across lines, factories.
+      description: Metadata associated with a run interval
       properties:
-        name:
+        metadata_type:
           type: string
-        description:
+          enum:
+          - run
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        product:
+          $ref: '#/components/schemas/Product'
+        target:
+          $ref: '#/components/schemas/Target'
+      additionalProperties: true
+    StateMetadata:
+      type: object
+      description: Metadata associated with a state interval
+      properties:
+        metadata_type:
           type: string
-        id:
+          enum:
+          - state
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        reason:
+          $ref: '#/components/schemas/StateReason'
+        comment:
           type: string
-          format: uuid
-        unit_kind_of_quantity:
-          type: string
-        match:
-          $ref: '#/components/schemas/Match'
+        category:
+          $ref: '#/components/schemas/StateCategory'
+      additionalProperties: true
     Match:
       type: string
       enum:
@@ -411,20 +453,14 @@ components:
         - `first`: will return the least recent object, where applicable
 
         '
-    Factory:
+    Product:
       type: object
-      description: An entity representing a factory.
+      description: An entity representing a product
       properties:
         id:
           type: string
           format: uuid
         name:
-          type: string
-        secondary_name:
-          type:
-          - string
-          - 'null'
-        timezone:
           type: string
         match:
           $ref: '#/components/schemas/Match'
@@ -467,101 +503,45 @@ components:
               custom: '#/components/schemas/CustomMetadata'
         match:
           $ref: '#/components/schemas/Match'
-    QualityTest:
+    IntervalType:
       type: object
-      description: 'An object representing a QA test for a line for a particular run or batch interval.
-
-        '
+      description: An object representing a interval type.
       properties:
         id:
           type: string
           format: uuid
-        raw_data:
-          type: object
-        timestamp:
+        name:
           type: string
-          format: date-time
-        interval:
-          $ref: '#/components/schemas/Interval'
-        quality_schema:
-          $ref: '#/components/schemas/QualitySchema'
         match:
           $ref: '#/components/schemas/Match'
-    GenericError:
+    Line:
       type: object
-      required:
-      - error
-      - retryable
+      description: An entity representing a single line of production.
       properties:
-        error:
+        id:
           type: string
-        retryable:
-          type: boolean
-    RunMetadata:
-      type: object
-      description: Metadata associated with a run interval
-      properties:
-        metadata_type:
+          format: uuid
+        name:
           type: string
-          enum:
-          - run
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        product:
-          $ref: '#/components/schemas/Product'
-        target:
-          $ref: '#/components/schemas/Target'
-      additionalProperties: true
-    StateReason:
+        secondary_name:
+          type: string
+        factory:
+          $ref: '#/components/schemas/Factory'
+        match:
+          $ref: '#/components/schemas/Match'
+    StateCategory:
       type: object
-      description: An entity representing a state reason. During search, ID will take precedence over name.
+      description: An entity representing a state category. During search, ID will take precedence over name.
       properties:
         id:
           type: integer
         name:
           type: string
-    StateMetadata:
-      type: object
-      description: Metadata associated with a state interval
-      properties:
-        metadata_type:
-          type: string
-          enum:
-          - state
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        reason:
-          $ref: '#/components/schemas/StateReason'
-        comment:
-          type: string
-        category:
-          $ref: '#/components/schemas/StateCategory'
-      additionalProperties: true
   responses:
-    NotUniqueError:
-      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
 
         '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - entity_name
-            - num_matches
-            - error
-            - retryable
-            properties:
-              entity_name:
-                type: string
-              num_matches:
-                type: integer
-              error:
-                type: string
-              retryable:
-                type: boolean
-    NotFoundError:
-      description: Entity not found
       content:
         application/json:
           schema:
@@ -603,22 +583,42 @@ components:
               id:
                 type: string
                 format: uuid
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
+    UnimplementedError:
+      description: Endpoint is not yet implemented
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
-    ForbiddenError:
-      description: 'User has provided valid credentials but is not authorized to access the entity
+    NotUniqueError:
+      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
 
         '
       content:
         application/json:
           schema:
+            type: object
+            required:
+            - entity_name
+            - num_matches
+            - error
+            - retryable
+            properties:
+              entity_name:
+                type: string
+              num_matches:
+                type: integer
+              error:
+                type: string
+              retryable:
+                type: boolean
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
             $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
       content:
         application/json:
           schema:

@@ -212,70 +212,48 @@ paths:
           $ref: '#/components/responses/NotFoundError'
 components:
   schemas:
-    Product:
+    Factory:
       type: object
-      description: An entity representing a product
+      description: An entity representing a factory.
       properties:
         id:
           type: string
           format: uuid
         name:
+          type: string
+        secondary_name:
+          type:
+          - string
+          - 'null'
+        timezone:
           type: string
         match:
           $ref: '#/components/schemas/Match'
-    ScrapYieldSchema:
+    MetricGroup:
       type: object
-      description: 'Scrap yield schema represents a factory''s scrap/yield data ingestion configuration.
-
-        '
+      description: An object representing a metric group; a grouping of like metrics across lines, factories.
       properties:
+        name:
+          type: string
+        description:
+          type: string
         id:
           type: string
           format: uuid
-        factory:
-          $ref: '#/components/schemas/Factory'
-        scrap_conversion_factor:
-          type: number
-          format: double
-        scrap_unit:
-          $ref: '#/components/schemas/Unit'
-        yield_conversion_factor:
-          type: number
-          format: double
-        yield_unit:
-          $ref: '#/components/schemas/Unit'
-    StateCategory:
-      type: object
-      description: An entity representing a state category. During search, ID will take precedence over name.
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-    BatchMetadata:
-      type: object
-      description: Metadata associated with a batch interval
-      properties:
-        metadata_type:
-          type: string
-          enum:
-          - batch
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        run:
-          $ref: '#/components/schemas/Interval'
-      additionalProperties: true
-    IntervalType:
-      type: object
-      description: An object representing a interval type.
-      properties:
-        id:
-          type: string
-          format: uuid
-        name:
+        unit_kind_of_quantity:
           type: string
         match:
           $ref: '#/components/schemas/Match'
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
     Target:
       type: object
       description: An object representing a performance target for a line, product, and metric group.
@@ -297,21 +275,27 @@ components:
           format: double
         match:
           $ref: '#/components/schemas/Match'
-    Line:
+    BatchMetadata:
       type: object
-      description: An entity representing a single line of production.
+      description: Metadata associated with a batch interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - batch
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        run:
+          $ref: '#/components/schemas/Interval'
+      additionalProperties: true
+    StateReason:
+      type: object
+      description: An entity representing a state reason. During search, ID will take precedence over name.
       properties:
         id:
-          type: string
-          format: uuid
+          type: integer
         name:
           type: string
-        secondary_name:
-          type: string
-        factory:
-          $ref: '#/components/schemas/Factory'
-        match:
-          $ref: '#/components/schemas/Match'
     CustomMetadata:
       type: object
       description: Metadata associated with a custom interval type
@@ -323,35 +307,59 @@ components:
           readOnly: true
           x-go-type-skip-optional-pointer: true
       additionalProperties: true
-    MetricGroup:
+    StateMetadata:
       type: object
-      description: An object representing a metric group; a grouping of like metrics across lines, factories.
+      description: Metadata associated with a state interval
       properties:
-        name:
+        metadata_type:
           type: string
-        description:
+          enum:
+          - state
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        reason:
+          $ref: '#/components/schemas/StateReason'
+        comment:
           type: string
-        id:
-          type: string
-          format: uuid
-        unit_kind_of_quantity:
-          type: string
-        match:
-          $ref: '#/components/schemas/Match'
-    Unit:
+        category:
+          $ref: '#/components/schemas/StateCategory'
+      additionalProperties: true
+    RunMetadata:
       type: object
-      description: 'A Unit describes a unit of measurement.
+      description: Metadata associated with a run interval
+      properties:
+        metadata_type:
+          type: string
+          enum:
+          - run
+          readOnly: true
+          x-go-type-skip-optional-pointer: true
+        product:
+          $ref: '#/components/schemas/Product'
+        target:
+          $ref: '#/components/schemas/Target'
+      additionalProperties: true
+    ScrapYieldData:
+      type: object
+      description: 'An object representing scrap and yield data for a line for a particular run or batch interval. Data can be sent unstructured in the `raw_data` field as long as we have a scrap/yield schema for the factory.
 
         '
       properties:
+        raw_data:
+          type: string
+          format: json
         id:
-          type: integer
-        symbol:
           type: string
-        name:
-          type: string
-        kind_of_quantity:
-          type: string
+          format: uuid
+        schema:
+          $ref: '#/components/schemas/ScrapYieldSchema'
+        timestamp:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        match:
+          $ref: '#/components/schemas/Match'
     Match:
       type: string
       enum:
@@ -371,23 +379,31 @@ components:
         - `first`: will return the least recent object, where applicable
 
         '
-    Factory:
+    Product:
       type: object
-      description: An entity representing a factory.
+      description: An entity representing a product
       properties:
         id:
           type: string
           format: uuid
         name:
           type: string
-        secondary_name:
-          type:
-          - string
-          - 'null'
-        timezone:
-          type: string
         match:
           $ref: '#/components/schemas/Match'
+    Unit:
+      type: object
+      description: 'A Unit describes a unit of measurement.
+
+        '
+      properties:
+        id:
+          type: integer
+        symbol:
+          type: string
+        name:
+          type: string
+        kind_of_quantity:
+          type: string
     Interval:
       type: object
       description: An object representing an interval of time on a line and associated metadata.
@@ -427,102 +443,66 @@ components:
               custom: '#/components/schemas/CustomMetadata'
         match:
           $ref: '#/components/schemas/Match'
-    GenericError:
+    IntervalType:
       type: object
-      required:
-      - error
-      - retryable
+      description: An object representing a interval type.
       properties:
-        error:
+        id:
           type: string
-        retryable:
-          type: boolean
-    RunMetadata:
+          format: uuid
+        name:
+          type: string
+        match:
+          $ref: '#/components/schemas/Match'
+    Line:
       type: object
-      description: Metadata associated with a run interval
+      description: An entity representing a single line of production.
       properties:
-        metadata_type:
+        id:
           type: string
-          enum:
-          - run
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        product:
-          $ref: '#/components/schemas/Product'
-        target:
-          $ref: '#/components/schemas/Target'
-      additionalProperties: true
-    StateReason:
+          format: uuid
+        name:
+          type: string
+        secondary_name:
+          type: string
+        factory:
+          $ref: '#/components/schemas/Factory'
+        match:
+          $ref: '#/components/schemas/Match'
+    ScrapYieldSchema:
       type: object
-      description: An entity representing a state reason. During search, ID will take precedence over name.
+      description: 'Scrap yield schema represents a factory''s scrap/yield data ingestion configuration.
+
+        '
+      properties:
+        id:
+          type: string
+          format: uuid
+        factory:
+          $ref: '#/components/schemas/Factory'
+        scrap_conversion_factor:
+          type: number
+          format: double
+        scrap_unit:
+          $ref: '#/components/schemas/Unit'
+        yield_conversion_factor:
+          type: number
+          format: double
+        yield_unit:
+          $ref: '#/components/schemas/Unit'
+    StateCategory:
+      type: object
+      description: An entity representing a state category. During search, ID will take precedence over name.
       properties:
         id:
           type: integer
         name:
           type: string
-    ScrapYieldData:
-      type: object
-      description: 'An object representing scrap and yield data for a line for a particular run or batch interval. Data can be sent unstructured in the `raw_data` field as long as we have a scrap/yield schema for the factory.
-
-        '
-      properties:
-        raw_data:
-          type: string
-          format: json
-        id:
-          type: string
-          format: uuid
-        schema:
-          $ref: '#/components/schemas/ScrapYieldSchema'
-        timestamp:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        match:
-          $ref: '#/components/schemas/Match'
-    StateMetadata:
-      type: object
-      description: Metadata associated with a state interval
-      properties:
-        metadata_type:
-          type: string
-          enum:
-          - state
-          readOnly: true
-          x-go-type-skip-optional-pointer: true
-        reason:
-          $ref: '#/components/schemas/StateReason'
-        comment:
-          type: string
-        category:
-          $ref: '#/components/schemas/StateCategory'
-      additionalProperties: true
   responses:
-    NotUniqueError:
-      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
+    ForbiddenError:
+      description: 'User has provided valid credentials but is not authorized to access the entity
 
         '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - entity_name
-            - num_matches
-            - error
-            - retryable
-            properties:
-              entity_name:
-                type: string
-              num_matches:
-                type: integer
-              error:
-                type: string
-              retryable:
-                type: boolean
-    NotFoundError:
-      description: Entity not found
       content:
         application/json:
           schema:
@@ -564,22 +544,42 @@ components:
               id:
                 type: string
                 format: uuid
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
+    UnimplementedError:
+      description: Endpoint is not yet implemented
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/GenericError'
-    ForbiddenError:
-      description: 'User has provided valid credentials but is not authorized to access the entity
+    NotUniqueError:
+      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
 
         '
       content:
         application/json:
           schema:
+            type: object
+            required:
+            - entity_name
+            - num_matches
+            - error
+            - retryable
+            properties:
+              entity_name:
+                type: string
+              num_matches:
+                type: integer
+              error:
+                type: string
+              retryable:
+                type: boolean
+    NotFoundError:
+      description: Entity not found
+      content:
+        application/json:
+          schema:
             $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
       content:
         application/json:
           schema:

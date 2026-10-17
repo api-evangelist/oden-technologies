@@ -131,17 +131,79 @@ paths:
         '400':
           $ref: '#/components/responses/ParameterError'
 components:
+  responses:
+    InternalError:
+      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - retryable
+            - id
+            properties:
+              error:
+                type: string
+              retryable:
+                type: boolean
+              id:
+                type: string
+                format: uuid
+    UnimplementedError:
+      description: Endpoint is not yet implemented
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    NotUniqueError:
+      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
+
+        '
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - entity_name
+            - num_matches
+            - error
+            - retryable
+            properties:
+              entity_name:
+                type: string
+              num_matches:
+                type: integer
+              error:
+                type: string
+              retryable:
+                type: boolean
+    UnauthorizedError:
+      description: User has provided either no credentials or invalid credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericError'
+    ParameterError:
+      description: An error occurred regarding one of the input parameters
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+            - error
+            - name
+            - retryable
+            properties:
+              error:
+                type: string
+              name:
+                type: string
+              retryable:
+                type: boolean
   schemas:
-    GenericError:
-      type: object
-      required:
-      - error
-      - retryable
-      properties:
-        error:
-          type: string
-        retryable:
-          type: boolean
     Product:
       type: object
       description: An entity representing a product
@@ -153,6 +215,16 @@ components:
           type: string
         match:
           $ref: '#/components/schemas/Match'
+    GenericError:
+      type: object
+      required:
+      - error
+      - retryable
+      properties:
+        error:
+          type: string
+        retryable:
+          type: boolean
     ProductAttribute:
       type: object
       description: 'An entity representing an attribute of a product such as a color or material
@@ -193,78 +265,6 @@ components:
         - `first`: will return the least recent object, where applicable
 
         '
-  responses:
-    NotUniqueError:
-      description: 'A {match: "unique"} was requested, but multiple entities matched the search parameters.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - entity_name
-            - num_matches
-            - error
-            - retryable
-            properties:
-              entity_name:
-                type: string
-              num_matches:
-                type: integer
-              error:
-                type: string
-              retryable:
-                type: boolean
-    ParameterError:
-      description: An error occurred regarding one of the input parameters
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - name
-            - retryable
-            properties:
-              error:
-                type: string
-              name:
-                type: string
-              retryable:
-                type: boolean
-    InternalError:
-      description: 'An internal server error has occurred. If reporting the error to Oden, include the ID returned in this response to aid in debugging.
-
-        '
-      content:
-        application/json:
-          schema:
-            type: object
-            required:
-            - error
-            - retryable
-            - id
-            properties:
-              error:
-                type: string
-              retryable:
-                type: boolean
-              id:
-                type: string
-                format: uuid
-    UnauthorizedError:
-      description: User has provided either no credentials or invalid credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
-    UnimplementedError:
-      description: Endpoint is not yet implemented
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/GenericError'
   securitySchemes:
     APIKeyAuth:
       type: apiKey
